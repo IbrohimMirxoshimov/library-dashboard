@@ -56,7 +56,9 @@ function StockSelect({
 				option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
 			}
 			showSearch
-			{...props}
+			defaultValue={props.value}
+			onChange={props.onChange}
+			disabled={props.disabled}
 		>
 			{items.map((item, i) => {
 				return (
