@@ -1,0 +1,67 @@
+.center-element {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* .ant-btn.green-hover:hover,
+.ant-btn:focus {
+	color: #31eb50;
+	background: #fff;
+	border-color: #31eb50;
+} */
+
+.ant-btn.red-hover:hover,
+.ant-btn:focus {
+	color: #fd2f6d;
+	background: #fff;
+	border-color: #fd2f6d;
+}
+
+.markets-row .ant-btn {
+	margin-right: 2px;
+	margin-bottom: 2px;
+	padding: 2px 5px 0px 5px;
+}
+.markets-row .ant-btn div .small {
+	font-size: 10px;
+	margin-top: -5px;
+}
+
+.markets-row .ant-btn {
+	margin-right: 2px;
+}
+
+.markets-row {
+	overflow-x: auto; /* Hide horizontal scrollbar */
+	overflow-y: hidden; /* Add vertical scrollbar */
+}
+
+/* width */
+::-webkit-scrollbar {
+	width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+.ant-drawer-content-wrapper {
+	width: 40% !important;
+}
+
+@media only screen and (max-width: 600px) {
+	.ant-drawer-content-wrapper {
+		width: 100% !important;
+	}
+}
