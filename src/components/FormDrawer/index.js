@@ -49,6 +49,7 @@ function FormDrawer() {
 	}
 
 	function onFinish(values) {
+		console.log(values);
 		fetch(values)
 			.then((res) => {
 				message.success("Success");
@@ -60,7 +61,11 @@ function FormDrawer() {
 			})
 			.catch((err) => {
 				setLoading(false);
-				message.error(err.response?.data?.message || err.message);
+				message.error(
+					err.response?.data?.message ||
+						err.response?.data?.errors.message ||
+						err.message
+				);
 			});
 	}
 
@@ -99,6 +104,7 @@ function FormDrawer() {
 				}
 			>
 				<Form
+					autoComplete="false"
 					form={form}
 					key={data?.id || "f"}
 					layout="vertical"

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { message, Select, Spin } from "antd";
-import { addNeeds } from "redux/actions/resource";
+import { addNeeds, addNews } from "redux/actions/resource";
 import { debounce } from "utils/debounce";
 import FetchResource from "api/crud";
 import { useResource } from "hooks/useResource";
+import store from "redux/store";
 const { Option } = Select;
-
+const dispatch = store.dispatch;
 function SelectFetch({
 	resource,
 	column = "name",
@@ -16,26 +17,24 @@ function SelectFetch({
 	const [loading, setLoading] = useState(false);
 	const items = useResource(
 		resource,
-		props.value,
-		!fetchable && (fetchSize || 20),
-		null,
-		fetchable
+		[props.value]
+		// !fetchable && (fetchSize || 20),
+		// null,
+		// !fetchable
 	);
+	console.log(items);
 
 	function fetch(name) {
-		if (!fetchable) return;
+		// if (!fetchable) return;
 		if (!name) return;
 
 		debounce(
 			() => {
-				setLoading(true);
-				FetchResource.getList(resource, { q: name, s: column })
+				// setLoading(true);
+				FetchResource.getList(resource, { q: name, s: column, search: true })
 					.then((page) => {
-						addNeeds(
-							resource,
-							page.items.map((item) => item.id)
-						);
-						setLoading(false);
+						dispatch(addNews(resource, page.items));
+						// setLoading(false);
 					})
 					.catch((e) => {
 						message.error(e.message);
@@ -57,7 +56,9 @@ function SelectFetch({
 				option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
 			}
 			showSearch
-			{...props}
+			defaultValue={props.value}
+			onChange={props.onChange}
+			disabled={props.disabled}
 		>
 			{items.map((item, i) => {
 				return (

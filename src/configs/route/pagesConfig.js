@@ -50,10 +50,9 @@ const pagesConfig = {
 				rules: [
 					{
 						required: true,
-						type: "number",
 					},
 				],
-				fieldProp: { prefix: "+998" },
+				field: "phoneNumber",
 			},
 			{
 				name: "locationId",

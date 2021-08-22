@@ -1,9 +1,14 @@
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
-
+import { SIGNOUT } from "redux/constants/Auth";
+import store from "redux/store/index";
+const getMessageState = () => store.getState().message;
 const messagesSession = {};
-
+function clear(componentId) {
+	delete messagesSession[componentId];
+}
 function useMessage(componentId) {
-	return useSelector(
+	let m = useSelector(
 		(state) => {
 			if (state.message.componentId === componentId) {
 				messagesSession[componentId] = state.message;
@@ -16,6 +21,17 @@ function useMessage(componentId) {
 			left.componentId === right.componentId &&
 			left.messageId === right.messageId
 	);
+
+	useEffect(() => {
+		return () => {
+			if (getMessageState().componentId === componentId) {
+				store.dispatch({ type: "CLEAN_UP" });
+			}
+			clear(componentId);
+		};
+	}, []);
+
+	return m;
 }
 
 export default useMessage;

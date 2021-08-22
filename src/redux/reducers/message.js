@@ -1,4 +1,3 @@
-import { SIGNOUT } from "redux/constants/Auth";
 import { SEND_MESSAGE } from "../constants/message";
 
 const initialState = {
@@ -16,7 +15,7 @@ const messageReduser = (state = initialState, action) => {
 				componentId: action.componentId,
 				messageId: action.messageId,
 			};
-		case SIGNOUT:
+		case "CLEAN_UP":
 			return initialState;
 		default:
 			return state;

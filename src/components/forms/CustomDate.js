@@ -5,7 +5,7 @@ import moment from "moment";
 function CustomDate({ onChange, value }) {
 	return (
 		<DatePicker
-			value={moment(value)}
+			value={value && moment(value)}
 			onChange={(value) => {
 				value && onChange(value.toISOString());
 			}}

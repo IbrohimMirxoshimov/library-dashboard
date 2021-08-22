@@ -61,7 +61,7 @@ function StockSelect({
 			{items.map((item, i) => {
 				return (
 					<Option key={i} value={item.id}>
-						{item[column] || ""}
+						{`${item.id} - ${item.book.name}`}
 					</Option>
 				);
 			})}
