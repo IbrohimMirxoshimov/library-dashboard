@@ -3,7 +3,7 @@ import { resources } from "api/resources";
 import { roles } from "configs/NavigationConfig";
 import { ONE_DAY_IN_MS } from "constants/time";
 import { getDayLaterDate } from "utils/date";
-import { CheckCircleTwoTone } from "@ant-design/icons";
+import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
 const pagesConfig = {
 	users: {
 		columns: [
@@ -94,16 +94,37 @@ const pagesConfig = {
 	stocks: {
 		columns: [
 			{
-				title: "ID",
+				title: "Kitob raqami",
 				key: "id",
 				dataIndex: "id",
 				cellRenderer: "editOpener",
 			},
 			{
-				title: "book",
+				title: "Kitob",
 				key: "book",
 				dataIndex: "bookId",
 				resource: resources.books,
+			},
+			{
+				title: "Bandlik",
+				key: "busy",
+				dataIndex: "busy",
+				render: (value) =>
+					value ? (
+						<CloseCircleTwoTone twoToneColor="#d9505c" className="pl-2" />
+					) : (
+						<CheckCircleTwoTone twoToneColor="#52c41a" className="pl-2" />
+					),
+				filters: [
+					{
+						text: "Band",
+						value: "busy",
+					},
+					{
+						text: "Bo'sh",
+						value: "free",
+					},
+				],
 			},
 		],
 		form: [
@@ -411,6 +432,7 @@ const pagesConfig = {
 				key: "userId",
 				dataIndex: "userId",
 				cellRenderer: "userFullName",
+				resource: resources.users,
 				sorter: false,
 			},
 			{
@@ -418,7 +440,7 @@ const pagesConfig = {
 				key: "stockId",
 				dataIndex: "stockId",
 				resource: resources.stocks,
-				render: (stock) => stock.book.name,
+				valueGetter: (stock) => `#${stock.id} - ${stock?.book?.name}`,
 				sorter: false,
 			},
 		],

@@ -5,8 +5,9 @@ import { useSelector } from "react-redux";
 
 function UserFullName({ record }) {
 	const user = useSelector((state) =>
-		state[resources.users].items.find((item) => item.id === record.id)
+		state[resources.users].items.find((item) => item.id === record.userId)
 	);
+
 	if (!user) {
 		return "";
 	}

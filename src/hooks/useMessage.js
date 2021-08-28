@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { SIGNOUT } from "redux/constants/Auth";
 import store from "redux/store/index";
 const getMessageState = () => store.getState().message;
 const messagesSession = {};
@@ -29,6 +28,7 @@ function useMessage(componentId) {
 			}
 			clear(componentId);
 		};
+		// eslint-disable-next-line
 	}, []);
 
 	return m;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { message, Select, Spin } from "antd";
-import { addNeeds, addNews } from "redux/actions/resource";
+import { addNews } from "redux/actions/resource";
 import { debounce } from "utils/debounce";
 import FetchResource from "api/crud";
 import { useResource } from "hooks/useResource";
@@ -14,7 +14,7 @@ function SelectFetch({
 	fetchSize,
 	...props
 }) {
-	const [loading, setLoading] = useState(false);
+	const [loading] = useState(false);
 	const items = useResource(
 		resource,
 		[props.value]

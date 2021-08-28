@@ -25,15 +25,27 @@ function hideOwner(page) {
 	return page;
 }
 
-function ResourceRender({ id, resourceKey = "name", resource }) {
+function ResourceRender({ id, resourceKey = "name", resource, valueGetter }) {
 	const item = useSelector((state) =>
 		state[resource].items.find((item) => item.id === id)
 	);
-	return (item && item[resourceKey]) || "";
+
+	if (item) {
+		if (valueGetter) {
+			return valueGetter(item);
+		}
+
+		let value = item[resourceKey];
+		if (value) {
+			return value;
+		}
+	}
+
+	return id;
 }
 
 function customizeColumns(columns, resource) {
-	console.log(resource);
+	// console.log(resource);
 
 	return columns.map((column) => {
 		if (column.sorter === undefined) {
@@ -45,13 +57,13 @@ function customizeColumns(columns, resource) {
 			column.render = (text, record) => (
 				<Component record={record} value={text} resource={resource} />
 			);
-		}
-		if (column.resource) {
+		} else if (column.resource) {
 			column.render = (value) => (
 				<ResourceRender
 					resource={column.resource}
 					id={value}
 					resourceKey={column.resourceKey}
+					valueGetter={column.valueGetter}
 				/>
 			);
 		}
@@ -103,6 +115,14 @@ const List = ({ resource, columns }) => {
 				...q,
 				filters: {
 					returned: filter.returned.includes("returned"),
+				},
+			};
+		}
+		if (filter.busy && filter.busy.length !== 2) {
+			q = {
+				...q,
+				filters: {
+					busy: filter.busy.includes("busy"),
 				},
 			};
 		}
