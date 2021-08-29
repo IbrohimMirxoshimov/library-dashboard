@@ -3,6 +3,7 @@ import CustomDate from "./CustomDate";
 import PhoneNumber from "./PhoneNumber";
 import SelectFetch from "./SelectFetch";
 import StockSelect from "./StockSelect";
+import UserAutoComplate from "./UserAutoComplate";
 
 const FieldComponents = {
 	input: Input,
@@ -13,6 +14,7 @@ const FieldComponents = {
 	selectFetch: SelectFetch,
 	stockSelect: StockSelect,
 	phoneNumber: PhoneNumber,
+	userAutoComplate: UserAutoComplate,
 };
 
 export default FieldComponents;

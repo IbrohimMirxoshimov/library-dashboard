@@ -47,7 +47,12 @@ const pagesConfig = {
 			},
 		],
 		form: [
-			{ name: "firstName", rules: [{ required: true }] },
+			{
+				name: "firstName",
+				rules: [{ required: true }],
+				// field: "userAutoComplate",
+				// fieldProp: { resource: resources.users },
+			},
 			{ name: "lastName", rules: [{ required: true }] },
 			{ name: "username", role: roles.owner },
 			{

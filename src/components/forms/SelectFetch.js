@@ -23,7 +23,7 @@ function SelectFetch({
 		// null,
 		// !fetchable
 	);
-	console.log(items);
+	// console.log(items);
 
 	function fetch(name) {
 		// if (!fetchable) return;
