@@ -97,7 +97,6 @@ const pagesConfig = {
 		],
 	},
 	stocks: {
-		
 		columns: [
 			{
 				title: "Kitob raqami",
@@ -467,6 +466,8 @@ const pagesConfig = {
 					query: {
 						busy: false,
 					},
+					render: (item) =>
+						item && `${item.id} - ${item.firstName} ${item.lastName}`,
 				},
 			},
 			{

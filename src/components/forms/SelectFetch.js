@@ -64,7 +64,7 @@ function SelectFetch({
 			{items.map((item, i) => {
 				return (
 					<Option key={i} value={item.id}>
-						{item[column] || ""}
+						{(render && render(item)) || item[column] || ""}
 					</Option>
 				);
 			})}
