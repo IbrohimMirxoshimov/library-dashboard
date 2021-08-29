@@ -1,7 +1,7 @@
 import { DatePicker } from "antd";
 import React from "react";
 import moment from "moment";
-
+const dateFormat = "DD.MM.YY";
 function CustomDate({ onChange, value }) {
 	return (
 		<DatePicker
@@ -9,7 +9,7 @@ function CustomDate({ onChange, value }) {
 			onChange={(value) => {
 				value && onChange(value.toISOString());
 			}}
-			format="DD.MM.YY"
+			format={dateFormat}
 		/>
 	);
 }

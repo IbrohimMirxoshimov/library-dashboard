@@ -67,7 +67,7 @@ const pagesConfig = {
 				fieldProp: { resource: resources.regions },
 			},
 			{ name: "password", role: roles.owner },
-			{ name: "birthDay", field: "date" },
+			{ name: "birthDate", field: "date" },
 			{
 				name: "moderator",
 				field: "switch",

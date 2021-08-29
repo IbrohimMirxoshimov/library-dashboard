@@ -1,10 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useMemo } from "react";
-import { Card, Table, Button, message } from "antd";
+import { Card, Table, Button, message, Input } from "antd";
 import { PlusOutlined, ReloadOutlined } from "@ant-design/icons";
 import Flex from "components/shared-components/Flex";
 import Title from "antd/lib/typography/Title";
-import SearchCrud from "components/SearchCrud";
 import FetchResource from "api/crud";
 import { sendMessage } from "hooks/useSendMessage";
 import { unstable_batchedUpdates } from "react-dom";
@@ -12,11 +11,14 @@ import { ListViewContext } from "../utils/context";
 import { cells } from "../cells";
 import { useSelector } from "react-redux";
 import { addNeeds } from "redux/actions/resource";
+import { debounce } from "utils/debounce";
 // import { resources } from "api/resources";
+const { Search } = Input;
 
 const initialQuery = {
 	size: 20,
 	page: 1,
+	s: "firstName",
 	// sort: "updatedAt",
 };
 
@@ -90,13 +92,14 @@ const List = ({ resource, columns }) => {
 		totalCount: 0,
 		page: 1,
 	});
+	const [filter, setFilter] = useState(initialQuery);
 
 	const tableColumns = useMemo(() => {
 		return customizeColumns(columns, resource.endpoint);
 		// eslint-disable-next-line
 	}, []);
 
-	function handleTableChange(pagination, filter, sort) {
+	function handleTableChange(pagination, _filter, sort) {
 		let q = {
 			size: pagination.pageSize,
 			page: pagination.current,
@@ -110,22 +113,24 @@ const List = ({ resource, columns }) => {
 			};
 		}
 
-		if (filter.returned && filter.returned.length !== 2) {
+		if (_filter.returned && _filter.returned.length !== 2) {
 			q = {
 				...q,
-				filters: {
-					returned: filter.returned.includes("returned"),
+				_filters: {
+					returned: _filter.returned.includes("returned"),
 				},
 			};
 		}
-		if (filter.busy && filter.busy.length !== 2) {
+		if (_filter.busy && _filter.busy.length !== 2) {
 			q = {
 				...q,
-				filters: {
-					busy: filter.busy.includes("busy"),
+				_filters: {
+					busy: _filter.busy.includes("busy"),
 				},
 			};
 		}
+		q = { ...filter, ...q };
+		setFilter(q);
 		fetch(q);
 	}
 
@@ -159,6 +164,20 @@ const List = ({ resource, columns }) => {
 		fetch(initialQuery);
 	};
 
+	const onSearch = (v) => {
+		debounce(
+			() => {
+				let query = { ...filter, page: 1, q: v };
+				setFilter(query);
+				fetch(query);
+			},
+			"srch",
+			300
+		);
+	};
+
+	// console.log(list);
+
 	return (
 		<Card>
 			<ListViewContext.Provider value={{ resource: resource }}>
@@ -168,7 +187,14 @@ const List = ({ resource, columns }) => {
 							{resource.name}
 						</Title>
 					</div>
-					<SearchCrud initialQuery={initialQuery} fetch={fetch} />
+					<div>
+						<Search
+							placeholder="Qidiruv..."
+							onSearch={onSearch}
+							style={{ width: "100%", marginBottom: 3 }}
+							enterButton
+						/>
+					</div>
 					<div className="d-flex">
 						<Button
 							className="mr-1 px-2"
@@ -195,8 +221,9 @@ const List = ({ resource, columns }) => {
 						rowKey={(record) => record.id}
 						pagination={{
 							total: list.totalCount,
-							pageSize: initialQuery.size,
+							pageSize: filter.size,
 							current: list.page,
+							showTotal: (total) => "Umumiy: " + total,
 						}}
 						showSorterTooltip
 						dataSource={list.items}

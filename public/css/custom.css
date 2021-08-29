@@ -3,7 +3,9 @@
 	justify-content: center;
 	align-items: center;
 }
-
+.ant-pagination.ant-table-pagination {
+	align-items: center;
+}
 /* .ant-btn.green-hover:hover,
 .ant-btn:focus {
 	color: #31eb50;
