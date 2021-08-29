@@ -504,10 +504,22 @@ const pagesConfig = {
 			},
 			{
 				name: "customId",
-				rules: [{ required: true }],
+				// rules: [{ required: true }],
+				// disabledOnEdit: true,
 				fieldProp: {
 					type: "number",
 				},
+			},
+			{
+				name: "comment",
+				sub: [
+					{
+						name: ["comment", "text"],
+						fieldProp: {
+							type: "textarea",
+						},
+					},
+				],
 			},
 		],
 	},

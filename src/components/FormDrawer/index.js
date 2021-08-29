@@ -16,6 +16,36 @@ function getInitilaFormData(config, record = {}) {
 	return record;
 }
 
+function generateFields(fields, user, data) {
+	return fields
+		.filter((field) => !field.role || user[field.role])
+		.map((field, i) => {
+			let Component = FieldComponents[field.field || "input"];
+			return (
+				<Col span={12} key={i}>
+					<Form.Item
+						key={field.name + (data?.id || "f")}
+						name={!field.sub && field.name}
+						valuePropName={field.propName || "value"}
+						label={field.name}
+						hidden={!data.edit && field.hidden}
+						rules={field.rules}
+					>
+						{field.sub ? (
+							generateFields(field.sub, user, data)
+						) : (
+							<Component
+								key={field.name + (data?.id || "f")}
+								disabled={field.disabledOnEdit && data.id ? true : false}
+								{...field.fieldProp}
+							/>
+						)}
+					</Form.Item>
+				</Col>
+			);
+		});
+}
+
 function FormDrawer() {
 	const user = useSelector((state) => state.auth.user);
 
@@ -112,35 +142,7 @@ function FormDrawer() {
 					id="myform"
 					onFinish={onFinish}
 				>
-					<Row gutter={6}>
-						{config.form
-							.filter((field) => !field.role || user[field.role])
-							.map((field, i) => {
-								let Component = FieldComponents[field.field || "input"];
-								return (
-									<Col span={12} key={i}>
-										<Form.Item
-											key={field.name + (data?.id || "f")}
-											name={field.name}
-											valuePropName={field.propName || "value"}
-											label={field.name}
-											hidden={!data.edit && field.hidden}
-											rules={field.rules}
-										>
-											{
-												<Component
-													key={field.name + (data?.id || "f")}
-													{...field.fieldProp}
-													disabled={
-														field.disabledOnEdit && data.id ? true : false
-													}
-												/>
-											}
-										</Form.Item>
-									</Col>
-								);
-							})}
-					</Row>
+					<Row gutter={6}>{generateFields(config.form, user, data)}</Row>
 				</Form>
 			</Drawer>
 		</div>

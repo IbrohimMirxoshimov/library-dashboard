@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { AutoComplete, message } from "antd";
 import { addNews } from "redux/actions/resource";
 import { debounce } from "utils/debounce";

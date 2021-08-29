@@ -160,7 +160,7 @@ const ListView = ({ resource, columns, search }) => {
 	};
 
 	const onRefresh = () => {
-		fetch(initialQuery);
+		fetch(filter);
 	};
 
 	const onSearch = (v) => {

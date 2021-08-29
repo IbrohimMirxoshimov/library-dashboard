@@ -15,7 +15,6 @@ export const AppViews = () => {
 				<Route path={`${APP_PREFIX_PATH}/dashboard`} component={Dashboard} />
 				{navigationConfig[0].submenu.map((config, key) => {
 					let lv_config = pagesConfig[config.key];
-					console.log(config.key, lv_config);
 					return (
 						<Route key={key} path={config.path}>
 							<ListView
