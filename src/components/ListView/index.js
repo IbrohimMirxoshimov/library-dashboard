@@ -1,8 +1,7 @@
-import React from "react";
 import List from "./crud/list";
 
-function ListView({ resource, columns }) {
-	return <List resource={resource} columns={columns} />;
+function ListView() {
+	return List;
 }
 
 export default ListView;

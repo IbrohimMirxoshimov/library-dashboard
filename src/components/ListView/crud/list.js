@@ -18,8 +18,8 @@ const { Search } = Input;
 const initialQuery = {
 	size: 20,
 	page: 1,
-	s: "firstName",
-	// sort: "updatedAt",
+	s: "name",
+	// sort: "updatedAt
 };
 
 function hideOwner(page) {
@@ -85,15 +85,14 @@ function columnsResourcesAddNeeds(columns, page) {
 	});
 }
 
-const List = ({ resource, columns }) => {
+const ListView = ({ resource, columns, search }) => {
 	const [loading, setLoading] = useState(false);
 	const [list, setList] = useState({
 		items: [],
 		totalCount: 0,
 		page: 1,
 	});
-	const [filter, setFilter] = useState(initialQuery);
-
+	const [filter, setFilter] = useState({ ...initialQuery, s: search?.key });
 	const tableColumns = useMemo(() => {
 		return customizeColumns(columns, resource.endpoint);
 		// eslint-disable-next-line
@@ -236,4 +235,4 @@ const List = ({ resource, columns }) => {
 	);
 };
 
-export default List;
+export default ListView;

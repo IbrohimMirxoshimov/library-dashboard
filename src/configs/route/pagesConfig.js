@@ -6,6 +6,11 @@ import { getDayLaterDate } from "utils/date";
 import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
 const pagesConfig = {
 	users: {
+		listView: {
+			search: {
+				key: "fullName",
+			},
+		},
 		columns: [
 			{
 				title: "ID",
@@ -92,6 +97,7 @@ const pagesConfig = {
 		],
 	},
 	stocks: {
+		
 		columns: [
 			{
 				title: "Kitob raqami",
@@ -457,7 +463,7 @@ const pagesConfig = {
 				fieldProp: {
 					resource: resources.users,
 					fetchable: true,
-					column: "firstName",
+					column: "fullName",
 					query: {
 						busy: false,
 					},

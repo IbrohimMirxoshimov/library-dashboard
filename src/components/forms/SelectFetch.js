@@ -12,6 +12,7 @@ function SelectFetch({
 	column = "name",
 	fetchable,
 	fetchSize,
+	render,
 	...props
 }) {
 	const [loading] = useState(false);
