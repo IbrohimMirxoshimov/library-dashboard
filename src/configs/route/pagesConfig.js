@@ -385,6 +385,12 @@ const pagesConfig = {
 				cellRenderer: "editOpener",
 			},
 			{
+				title: "CustomID",
+				key: "customId",
+				dataIndex: "customId",
+				cellRenderer: "editOpener",
+			},
+			{
 				dataIndex: "leasedAt",
 				key: "leasedAt",
 				title: "leasedAt",
@@ -495,6 +501,13 @@ const pagesConfig = {
 				name: "returningDate",
 				rules: [{ required: true }],
 				field: "date",
+			},
+			{
+				name: "customId",
+				rules: [{ required: true }],
+				fieldProp: {
+					type: "number",
+				},
 			},
 		],
 	},
