@@ -116,7 +116,7 @@ const List = ({ resource, columns }) => {
 		if (_filter.returned && _filter.returned.length !== 2) {
 			q = {
 				...q,
-				_filters: {
+				filters: {
 					returned: _filter.returned.includes("returned"),
 				},
 			};
@@ -124,7 +124,7 @@ const List = ({ resource, columns }) => {
 		if (_filter.busy && _filter.busy.length !== 2) {
 			q = {
 				...q,
-				_filters: {
+				filters: {
 					busy: _filter.busy.includes("busy"),
 				},
 			};
