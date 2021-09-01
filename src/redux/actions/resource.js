@@ -8,6 +8,7 @@ import {
 import { ADD_NEEDS, ADD_NEWS } from "../constants/resource";
 import store from "redux/store";
 import FetchResource from "api/crud";
+import { debounce } from "utils/debounce";
 
 export const addNews = (resource, items) => {
 	return {
@@ -57,3 +58,17 @@ export const addNeeds = async (resource, ids, sizeNeedItems) => {
 		items: fetchedResource.items,
 	});
 };
+
+let debauncedTasksData = {};
+export function addNeedsWithDebounce(resource, ids) {
+	let data = debauncedTasksData[resource];
+	if (data) {
+		data = [...data, ...ids];
+	} else {
+		data = ids;
+	}
+	debauncedTasksData[resource] = data;
+	debounce(() => {
+		addNeeds(resource, data);
+	}, "an-" + resource);
+}
