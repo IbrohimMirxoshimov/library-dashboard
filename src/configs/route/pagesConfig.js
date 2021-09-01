@@ -56,11 +56,11 @@ const pagesConfig = {
 			{ name: "username", role: roles.owner },
 			{
 				name: "phone",
-				rules: [
-					{
-						required: true,
-					},
-				],
+				// rules: [
+				// 	{
+				// 		required: true,
+				// 	},
+				// ],
 				field: "phoneNumber",
 			},
 			{
