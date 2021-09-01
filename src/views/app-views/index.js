@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Loading from "components/shared-components/Loading";
 import { APP_PREFIX_PATH } from "configs/AppConfig";
 import navigationConfig from "configs/NavigationConfig";
-import ListView from "components/ListView/crud/list";
+import ListView from "components/ListView";
 import FormDrawer from "components/FormDrawer";
 import pagesConfig from "configs/route/pagesConfig";
 import Dashboard from "./dashboard";

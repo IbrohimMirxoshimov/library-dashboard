@@ -23,7 +23,7 @@ function Comments({ resourceId, resourceFilterName }) {
 					setLoading(false);
 					message.error("Xatolik");
 				});
-	}, []);
+	}, [resourceId, resourceFilterName]);
 	return (
 		<div>
 			<h3>Izohlar</h3>
