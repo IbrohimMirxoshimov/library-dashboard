@@ -1,8 +1,8 @@
 import { Tag } from "antd";
 import { resources } from "api/resources";
-import { ONE_DAY_IN_MS } from "constants/time";
 import { getDayLaterDate } from "utils/date";
 import { CheckCircleTwoTone } from "@ant-design/icons";
+import { getRamainedDays } from "./utils";
 
 export const rents = {
 	columns: [
@@ -38,8 +38,7 @@ export const rents = {
 			sorter: false,
 			render: (v, record) => {
 				if (!record.returned) {
-					let remain = new Date(record.returningDate) - new Date();
-					let remainDays = Math.floor(remain / ONE_DAY_IN_MS);
+					let remainDays = getRamainedDays(record);
 
 					if (remainDays > 20) {
 						return <Tag color="green">{remainDays}</Tag>;
