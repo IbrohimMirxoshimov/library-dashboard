@@ -75,11 +75,13 @@ function UserFullName({ record }) {
 				style={{ marginLeft: "4px" }}
 				color="green"
 			/>
-			<textarea
-				style={{ width: "20px", height: "20px", opacity: 0 }}
-				id={"t_" + record.id}
-				defaultValue={getText(book, record, record.user)}
-			/>
+			{book && (
+				<textarea
+					style={{ width: "20px", height: "20px", opacity: 0 }}
+					id={"t_" + record.id}
+					defaultValue={getText(book, record, record.user)}
+				/>
+			)}
 		</div>
 	);
 }

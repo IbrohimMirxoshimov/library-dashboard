@@ -1,6 +1,13 @@
 import { DatePicker } from "antd";
 import React from "react";
 import moment from "moment";
+
+moment.locale("en", {
+	week: {
+		dow: 1,
+	},
+});
+
 const dateFormat = "DD.MM.YY";
 function CustomDate({ onChange, value }) {
 	return (

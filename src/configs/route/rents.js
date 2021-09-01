@@ -23,14 +23,12 @@ export const rents = {
 			dataIndex: "leasedAt",
 			key: "leasedAt",
 			title: "leasedAt",
-			fieldProp: { type: "date" },
 			render: (value) => new Date(value).toLocaleDateString("ru"),
 		},
 		{
 			dataIndex: "returningDate",
 			key: "returningDate",
 			title: "returningDate",
-			fieldProp: { type: "date" },
 			render: (value) => new Date(value).toLocaleDateString("ru"),
 		},
 		{
@@ -86,6 +84,18 @@ export const rents = {
 			resource: resources.stocks,
 			valueGetter: (stock) => `#${stock.id} - ${stock?.book?.name}`,
 			sorter: false,
+		},
+		{
+			dataIndex: "createdAt",
+			key: "createdAt",
+			title: "createdAt",
+			render: (value) => new Date(value).toLocaleDateString("ru"),
+		},
+		{
+			dataIndex: "updatedAt",
+			key: "updatedAt",
+			title: "updatedAt",
+			render: (value) => new Date(value).toLocaleDateString("ru"),
 		},
 	],
 	formInitial: {
