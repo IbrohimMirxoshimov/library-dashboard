@@ -105,6 +105,7 @@ function FormDrawer() {
 
 	let config = pagesConfig[data.form];
 	// console.log("data", data);
+	let Custom = config.view?.Custom;
 
 	return (
 		<div>
@@ -143,6 +144,7 @@ function FormDrawer() {
 					onFinish={onFinish}
 				>
 					<Row gutter={6}>{generateFields(config.form, user, data)}</Row>
+					{Custom && <Custom {...data} />}
 				</Form>
 			</Drawer>
 		</div>

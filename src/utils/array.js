@@ -140,13 +140,13 @@ export function arrayToKeyValueObjectById(array, object = {}) {
 }
 
 export function mergeArraysToUniqueList(baseArray, newArray) {
-	let object = arrayToKeyValueObjectById(baseArray);
-	let onlyNews = newArray.reduce((pv, cv) => {
+	let object = arrayToKeyValueObjectById(newArray);
+	let onlyNews = baseArray.reduce((pv, cv) => {
 		if (!object[cv.id]) return [...pv, cv];
 
 		return pv;
 	}, []);
-	return [...baseArray, ...onlyNews];
+	return [...newArray, ...onlyNews];
 }
 
 export function searchItem(query, items, nameGetter) {

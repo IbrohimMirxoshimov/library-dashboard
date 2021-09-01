@@ -3,6 +3,7 @@ import { resources } from "api/resources";
 import { getDayLaterDate } from "utils/date";
 import { CheckCircleTwoTone } from "@ant-design/icons";
 import { getRamainedDays } from "./utils";
+import Comments from "./components/Comments";
 
 export const rents = {
 	columns: [
@@ -91,6 +92,11 @@ export const rents = {
 		leasedAt: new Date().toISOString(),
 		returningDate: getDayLaterDate(30),
 	},
+	view: {
+		Custom(props) {
+			return <Comments resourceId={props.id} resourceFilterName="rentId" />;
+		},
+	},
 	form: [
 		{
 			name: "userId",
@@ -137,16 +143,16 @@ export const rents = {
 				type: "number",
 			},
 		},
-		{
-			name: "comment",
-			sub: [
-				{
-					name: ["comment", "text"],
-					fieldProp: {
-						type: "textarea",
-					},
-				},
-			],
-		},
+		// {
+		// 	name: "comment",
+		// 	sub: [
+		// 		{
+		// 			name: ["comment", "text"],
+		// 			fieldProp: {
+		// 				type: "textarea",
+		// 			},
+		// 		},
+		// 	],
+		// },
 	],
 };
