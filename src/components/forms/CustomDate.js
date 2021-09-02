@@ -21,7 +21,7 @@ function CustomDate({ onChange, value, saveStorage, getDefaultValue }) {
 			value={(value && moment(value)) || (dv && moment(dv))}
 			onChange={(value) => {
 				if (value) {
-					saveStorage(value);
+					saveStorage && saveStorage(value);
 					onChange(value.toISOString());
 				}
 			}}

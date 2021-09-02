@@ -83,7 +83,7 @@ const pagesConfig = {
 					],
 				},
 			},
-			{ name: "passportId" },
+			{ name: "passportId", field: "passport" },
 			{ name: "passportImage" },
 			{
 				name: "locationId",
