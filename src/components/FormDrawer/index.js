@@ -22,7 +22,7 @@ function generateFields(fields, user, data) {
 		.map((field, i) => {
 			let Component = FieldComponents[field.field || "input"];
 			return (
-				<Col span={12} key={i}>
+				<Col span={field.colSpan || 12} key={i}>
 					<Form.Item
 						key={field.name + (data?.id || "f")}
 						name={!field.sub && field.name}

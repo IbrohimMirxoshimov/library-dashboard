@@ -2,6 +2,7 @@ import { resources } from "api/resources";
 import { roles } from "configs/NavigationConfig";
 import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
 import { rents } from "./rents";
+import { getDateString } from "./utils";
 
 const pagesConfig = {
 	users: {
@@ -43,6 +44,12 @@ const pagesConfig = {
 				dataIndex: "locationId",
 				resource: resources.locations,
 				resourceKey: "name",
+			},
+			{
+				title: "Tug'ilgan",
+				key: "birthDate",
+				dataIndex: "birthDate",
+				render: getDateString,
 			},
 		],
 		form: [
@@ -216,6 +223,11 @@ const pagesConfig = {
 	regions: {
 		columns: [
 			{
+				title: "ID",
+				key: "id",
+				dataIndex: "id",
+			},
+			{
 				title: "name",
 				key: "name",
 				dataIndex: "name",
@@ -230,6 +242,11 @@ const pagesConfig = {
 	},
 	books: {
 		columns: [
+			{
+				title: "ID",
+				key: "id",
+				dataIndex: "id",
+			},
 			{
 				title: "name",
 				key: "name",

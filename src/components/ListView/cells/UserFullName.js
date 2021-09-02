@@ -1,6 +1,6 @@
 import { resources } from "api/resources";
 import { sendMessage } from "hooks/useSendMessage";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { addNeedsWithDebounce } from "redux/actions/resource";
 import { message } from "antd";
@@ -35,6 +35,7 @@ function UserFullName({ record }) {
 	const book = useSelector((state) =>
 		state[resources.books].items.find((item) => item.id === record.stock.bookId)
 	);
+	const [copy, setCopy] = useState(false);
 
 	useEffect(() => {
 		record.stock.bookId &&
@@ -60,22 +61,25 @@ function UserFullName({ record }) {
 						"f_d"
 					);
 				}}
-			>{`${user.firstName} ${user.lastName}`}</a>
+			>{`${user.id}. ${user.firstName} ${user.lastName}`}</a>
 			<CopyTwoTone
 				onClick={() => {
-					let el = document.getElementById("t_" + record.id);
-					el?.select();
-					let res = document.execCommand("copy");
-					if (res) {
-						message.success("Ko'chirildi. " + record.name, 5);
-					} else {
-						message.error("Xatolik");
-					}
+					setCopy(true);
+					setTimeout(() => {
+						let el = document.getElementById("t_" + record.id);
+						el?.select();
+						let res = document.execCommand("copy");
+						if (res) {
+							message.success("Ko'chirildi. " + record.name, 5);
+						} else {
+							message.error("Xatolik");
+						}
+					}, 200);
 				}}
 				style={{ marginLeft: "4px" }}
 				color="green"
 			/>
-			{book && (
+			{book && copy && (
 				<textarea
 					style={{ width: "20px", height: "20px", opacity: 0 }}
 					id={"t_" + record.id}

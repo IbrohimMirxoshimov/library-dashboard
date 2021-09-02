@@ -6,3 +6,5 @@ export const getRamainedDays = (rent) => {
 
 	return remainDays;
 };
+
+export const getDateString = (iso) => new Date(iso).toLocaleDateString("ru");

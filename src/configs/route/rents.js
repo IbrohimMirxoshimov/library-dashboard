@@ -14,7 +14,7 @@ export const rents = {
 			cellRenderer: "editOpener",
 		},
 		{
-			title: "CustomID",
+			title: "KvID",
 			key: "customId",
 			dataIndex: "customId",
 			cellRenderer: "editOpener",
@@ -22,18 +22,19 @@ export const rents = {
 		{
 			dataIndex: "leasedAt",
 			key: "leasedAt",
-			title: "leasedAt",
+			title: "Topshirilgan",
 			render: (value) => new Date(value).toLocaleDateString("ru"),
 		},
 		{
 			dataIndex: "returningDate",
 			key: "returningDate",
-			title: "returningDate",
+			title: "Qaytadi",
 			render: (value) => new Date(value).toLocaleDateString("ru"),
 		},
 		{
 			key: "remain",
-			title: "remain",
+			title: "Qoldi",
+			width: 40,
 			sorter: false,
 			render: (v, record) => {
 				if (!record.returned) {
@@ -56,7 +57,7 @@ export const rents = {
 		{
 			dataIndex: "returned",
 			key: "returned",
-			title: "returned",
+			title: "Qaytgan",
 			cellRenderer: "returnedChangeStatus",
 			filters: [
 				{
@@ -70,15 +71,16 @@ export const rents = {
 			],
 		},
 		{
-			title: "userId",
+			title: "Kitobxon",
 			key: "userId",
 			dataIndex: "userId",
 			cellRenderer: "userFullName",
 			resource: resources.users,
 			sorter: false,
+			// width: 180,
 		},
 		{
-			title: "stockId",
+			title: "Zaxira",
 			key: "stockId",
 			dataIndex: "stockId",
 			resource: resources.stocks,
@@ -88,13 +90,13 @@ export const rents = {
 		{
 			dataIndex: "createdAt",
 			key: "createdAt",
-			title: "createdAt",
+			title: "Yasalgan",
 			render: (value) => new Date(value).toLocaleDateString("ru"),
 		},
 		{
 			dataIndex: "updatedAt",
 			key: "updatedAt",
-			title: "updatedAt",
+			title: "Yangilangan",
 			render: (value) => new Date(value).toLocaleDateString("ru"),
 		},
 	],
@@ -121,8 +123,10 @@ export const rents = {
 					busy: false,
 				},
 				render: (item) =>
-					item && `${item.id} - ${item.firstName} ${item.lastName}`,
+					item &&
+					`${item.id} - ${item.firstName} ${item.lastName} -  ${item.phone}`,
 			},
+			colSpan: 24,
 		},
 		{
 			name: "stockId",
@@ -134,6 +138,7 @@ export const rents = {
 				fetchable: true,
 				column: "name",
 			},
+			colSpan: 24,
 		},
 		{
 			name: "leasedAt",
