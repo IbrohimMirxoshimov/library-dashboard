@@ -15,7 +15,7 @@ function SelectFetch({
 	render,
 	...props
 }) {
-	const [loading] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const items = useResource(
 		resource,
 		[props.value]
@@ -31,15 +31,16 @@ function SelectFetch({
 
 		debounce(
 			() => {
-				// setLoading(true);
+				setLoading(true);
 				FetchResource.getList(resource, { q: name, s: column, search: true })
 					.then((page) => {
 						dispatch(addNews(resource, page.items));
-						// setLoading(false);
+						setLoading(false);
 					})
 					.catch((e) => {
 						message.error(e.message);
 						console.error(e);
+						setLoading(false);
 					});
 			},
 			"multiple-select-form-item",
