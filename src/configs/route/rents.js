@@ -98,10 +98,10 @@ export const rents = {
 			render: (value) => new Date(value).toLocaleDateString("ru"),
 		},
 	],
-	formInitial: {
-		leasedAt: new Date().toISOString(),
-		returningDate: getDayLaterDate(30),
-	},
+	// formInitial: {
+	// 	leasedAt: localStorage.getItem("ld"),
+	// 	returningDate: localStorage.getItem("rd"),
+	// },
 	view: {
 		Custom(props) {
 			return <Comments resourceId={props.id} resourceFilterName="rentId" />;
@@ -139,11 +139,23 @@ export const rents = {
 			name: "leasedAt",
 			rules: [{ required: true }],
 			field: "date",
+			fieldProp: {
+				saveStorage(value) {
+					localStorage.setItem("ld", value.toISOString());
+				},
+				getDefaultValue: () => localStorage.getItem("ld"),
+			},
 		},
 		{
 			name: "returningDate",
 			rules: [{ required: true }],
 			field: "date",
+			fieldProp: {
+				saveStorage(value) {
+					localStorage.setItem("rd", value.toISOString());
+				},
+				getDefaultValue: () => localStorage.getItem("rd"),
+			},
 		},
 		{
 			name: "customId",

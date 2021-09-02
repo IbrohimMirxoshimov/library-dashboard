@@ -53,37 +53,59 @@ const pagesConfig = {
 				// fieldProp: { resource: resources.users },
 			},
 			{ name: "lastName", rules: [{ required: true }] },
-			{ name: "username", role: roles.owner },
 			{
 				name: "phone",
-				// rules: [
-				// 	{
-				// 		required: true,
-				// 	},
-				// ],
+				rules: [
+					{
+						required: true,
+					},
+				],
 				field: "phoneNumber",
 			},
+			{
+				name: "extraPhone",
+				field: "phoneNumber",
+			},
+			{ name: "birthDate", field: "date" },
+			{
+				name: "gender",
+				field: "choice",
+				fieldProp: {
+					choices: [
+						{
+							name: "Erkak",
+							value: "male",
+						},
+						{
+							name: "Ayol",
+							value: "female",
+						},
+					],
+				},
+			},
+			{ name: "passportId" },
+			{ name: "passportImage" },
 			{
 				name: "locationId",
 				field: "selectFetch",
 				role: roles.owner,
 				fieldProp: { resource: resources.locations },
 			},
+
 			{
 				name: "regionId",
 				field: "selectFetch",
 				role: roles.owner,
 				fieldProp: { resource: resources.regions },
 			},
+			{ name: "username", role: roles.owner },
 			{ name: "password", role: roles.owner },
-			{ name: "birthDate", field: "date" },
 			{
 				name: "moderator",
 				field: "switch",
 				propName: "checked",
 				role: roles.owner,
 			},
-
 			{
 				name: "librarian",
 				field: "switch",
@@ -95,8 +117,7 @@ const pagesConfig = {
 				field: "switch",
 				propName: "checked",
 			},
-			{ name: "passportId" },
-			{ name: "passportImage" },
+
 			{ name: "extra" },
 		],
 	},

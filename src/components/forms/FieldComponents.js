@@ -1,4 +1,5 @@
 import { Switch, Checkbox, Input } from "antd";
+import Choice from "./Choice";
 import CustomDate from "./CustomDate";
 import PhoneNumber from "./PhoneNumber";
 import SelectFetch from "./SelectFetch";
@@ -10,6 +11,7 @@ const FieldComponents = {
 	imageUpload: Input,
 	checkbox: Checkbox,
 	switch: Switch,
+	choice: Choice,
 	date: CustomDate,
 	selectFetch: SelectFetch,
 	stockSelect: StockSelect,

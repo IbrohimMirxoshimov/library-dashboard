@@ -135,7 +135,6 @@ function FormDrawer() {
 				}
 			>
 				<Form
-					autoComplete="false"
 					form={form}
 					key={data?.id || "f"}
 					layout="vertical"
@@ -144,8 +143,8 @@ function FormDrawer() {
 					onFinish={onFinish}
 				>
 					<Row gutter={6}>{generateFields(config.form, user, data)}</Row>
-					{Custom && <Custom {...data} />}
 				</Form>
+				{Custom && <Custom {...data} />}
 			</Drawer>
 		</div>
 	);

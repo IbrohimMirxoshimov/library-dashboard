@@ -9,12 +9,21 @@ moment.locale("en", {
 });
 
 const dateFormat = "DD.MM.YY";
-function CustomDate({ onChange, value }) {
+function CustomDate({ onChange, value, saveStorage, getDefaultValue }) {
+	let dv;
+	if (getDefaultValue) {
+		dv = getDefaultValue();
+		onChange(dv);
+	}
 	return (
 		<DatePicker
-			value={value && moment(value)}
+			style={{ width: "100%" }}
+			value={(value && moment(value)) || (dv && moment(dv))}
 			onChange={(value) => {
-				value && onChange(value.toISOString());
+				if (value) {
+					saveStorage(value);
+					onChange(value.toISOString());
+				}
 			}}
 			format={dateFormat}
 		/>
