@@ -27,7 +27,7 @@ function generateFields(fields, user, data) {
 						key={field.name + (data?.id || "f")}
 						name={!field.sub && field.name}
 						valuePropName={field.propName || "value"}
-						label={field.name}
+						label={field.label || field.name}
 						hidden={!data.edit && field.hidden}
 						rules={field.rules}
 					>
@@ -53,6 +53,7 @@ function FormDrawer() {
 	const { messageId, data = {} } = useMessage("f_d");
 	const [loading, setLoading] = useState(false);
 	const endpoint = data.form;
+	const resource = data.resource;
 	const [form] = useForm();
 
 	useEffect(() => {
@@ -108,7 +109,7 @@ function FormDrawer() {
 		<div>
 			<Drawer
 				key={messageId}
-				title={endpoint}
+				title={resource.nameOne}
 				placement="right"
 				onClose={onClose}
 				visible={visible}

@@ -3,14 +3,12 @@ import { roles } from "configs/NavigationConfig";
 import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
 import { rents } from "./rents";
 import { getDateString } from "./utils";
+import { tl } from "i18n";
 
 const pagesConfig = {
 	users: {
-		listView: {
-			search: {
-				key: "fullName",
-			},
-		},
+		name: tl("users"),
+		nameOne: tl("user"),
 		columns: [
 			{
 				title: "ID",
@@ -44,6 +42,7 @@ const pagesConfig = {
 				dataIndex: "locationId",
 				resource: resources.locations,
 				resourceKey: "name",
+				role: roles.owner,
 			},
 			{
 				title: "Tug'ilgan",
@@ -56,10 +55,11 @@ const pagesConfig = {
 			{
 				name: "firstName",
 				rules: [{ required: true }],
+				label: tl("firstName"),
 				// field: "userAutoComplate",
 				// fieldProp: { resource: resources.users },
 			},
-			{ name: "lastName", rules: [{ required: true }] },
+			{ name: "lastName", label: tl("lastName"), rules: [{ required: true }] },
 			{
 				name: "phone",
 				rules: [
@@ -67,16 +67,19 @@ const pagesConfig = {
 						required: true,
 					},
 				],
+				label: tl("phone"),
 				field: "phoneNumber",
 			},
 			{
 				name: "extraPhone",
+				label: tl("extraPhone"),
 				field: "phoneNumber",
 			},
-			{ name: "birthDate", field: "date" },
+			{ name: "birthDate", label: tl("birthDate"), field: "date" },
 			{
 				name: "gender",
 				field: "choice",
+				label: tl("gender"),
 				fieldProp: {
 					choices: [
 						{
@@ -90,12 +93,13 @@ const pagesConfig = {
 					],
 				},
 			},
-			{ name: "passportId", field: "passport" },
-			{ name: "passportImage" },
+			{ name: "passportId", label: tl("passportId"), field: "passport" },
+			{ name: "passportImage", label: tl("passportImage") },
 			{
 				name: "locationId",
 				field: "selectFetch",
 				role: roles.owner,
+				label: tl("locationId"),
 				fieldProp: { resource: resources.locations },
 			},
 
@@ -125,10 +129,12 @@ const pagesConfig = {
 				propName: "checked",
 			},
 
-			{ name: "extra" },
+			{ name: "extra", label: tl("extra") },
 		],
 	},
 	stocks: {
+		name: tl("stocks"),
+		nameOne: tl("stock"),
 		columns: [
 			{
 				title: "Kitob raqami",
@@ -168,10 +174,12 @@ const pagesConfig = {
 			{
 				name: "bookId",
 				field: "selectFetch",
+				label: tl("book"),
 				fieldProp: { resource: resources.books, fetchable: true },
 			},
 			{
 				name: "locationId",
+				label: tl("location"),
 				field: "selectFetch",
 				role: roles.owner,
 				fieldProp: { resource: resources.locations, fetchSize: 30 },
@@ -179,6 +187,8 @@ const pagesConfig = {
 		],
 	},
 	locations: {
+		name: tl("locations"),
+		nameOne: tl("location"),
 		columns: [
 			{
 				title: "name",
@@ -221,6 +231,8 @@ const pagesConfig = {
 		],
 	},
 	regions: {
+		name: tl("regions"),
+		nameOne: tl("region"),
 		columns: [
 			{
 				title: "ID",
@@ -241,6 +253,8 @@ const pagesConfig = {
 		],
 	},
 	books: {
+		name: tl("books"),
+		nameOne: tl("book"),
 		columns: [
 			{
 				title: "ID",
@@ -311,6 +325,8 @@ const pagesConfig = {
 		],
 	},
 	booksgroups: {
+		name: tl("booksgroups"),
+		nameOne: tl("booksgroup"),
 		columns: [
 			{
 				title: "ID",
@@ -345,6 +361,8 @@ const pagesConfig = {
 		],
 	},
 	collections: {
+		name: tl("collections"),
+		nameOne: tl("collection"),
 		columns: [
 			{
 				title: "ID",
@@ -374,6 +392,8 @@ const pagesConfig = {
 		],
 	},
 	authors: {
+		name: tl("authors"),
+		nameOne: tl("author"),
 		columns: [
 			{
 				title: "ID",
@@ -394,6 +414,8 @@ const pagesConfig = {
 		],
 	},
 	publishings: {
+		name: tl("publishings"),
+		nameOne: tl("publishing"),
 		columns: [
 			{
 				title: "ID",

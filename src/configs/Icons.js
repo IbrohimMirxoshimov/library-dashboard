@@ -1,21 +1,25 @@
 import {
-	SearchOutlined,
+	FolderOpenOutlined,
 	EnvironmentOutlined,
-	ExperimentOutlined,
-	CopyrightOutlined,
+	ContainerOutlined,
+	PrinterOutlined,
 	EditOutlined,
-	PlusCircleOutlined,
+	BookOutlined,
 	UserOutlined,
+	FileDoneOutlined,
+	BankOutlined,
 } from "@ant-design/icons";
 
 const Icons = {
-	SearchOutlined,
+	FolderOpenOutlined,
 	EnvironmentOutlined,
-	ExperimentOutlined,
-	CopyrightOutlined,
+	ContainerOutlined,
+	PrinterOutlined,
 	EditOutlined,
-	PlusCircleOutlined,
+	BookOutlined,
 	UserOutlined,
+	BankOutlined,
+	FileDoneOutlined,
 };
 
 export default Icons;

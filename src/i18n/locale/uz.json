@@ -1,0 +1,15 @@
+{
+	"book": "Kitob",
+	"books": "Kitoblar",
+	"stock": "Zahira",
+	"stocks": "Zahiralar",
+	"user": "Foydalanuvchi",
+	"users": "Foydalanuvchilar",
+	"name": "Nomi",
+	"firstName": "Ism",
+	"lastName": "Familiya",
+	"phone": "Telefon raqam",
+	"bookId": "Kitob raqami",
+	"rents": "Ijaralar",
+	"rent": "Ijara"
+}

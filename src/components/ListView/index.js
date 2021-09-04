@@ -12,6 +12,7 @@ import { cells } from "./cells";
 import { useSelector } from "react-redux";
 import { addNeeds } from "redux/actions/resource";
 import { debounce } from "utils/debounce";
+
 // import { resources } from "api/resources";
 const { Search } = Input;
 
@@ -46,32 +47,34 @@ function ResourceRender({ id, resourceKey = "name", resource, valueGetter }) {
 	return id;
 }
 
-function customizeColumns(columns, resource) {
+function customizeColumns(columns, resource, user) {
 	// console.log(resource);
 
-	return columns.map((column) => {
-		if (column.sorter === undefined) {
-			column.sorter = true;
-		}
+	return columns
+		.filter((column) => !column.role || user[column.role])
+		.map((column) => {
+			if (column.sorter === undefined) {
+				column.sorter = true;
+			}
 
-		if (column.cellRenderer) {
-			let Component = cells[column.cellRenderer];
-			column.render = (text, record) => (
-				<Component record={record} value={text} resource={resource} />
-			);
-		} else if (column.resource) {
-			column.render = (value) => (
-				<ResourceRender
-					resource={column.resource}
-					id={value}
-					resourceKey={column.resourceKey}
-					valueGetter={column.valueGetter}
-				/>
-			);
-		}
+			if (column.cellRenderer) {
+				let Component = cells[column.cellRenderer];
+				column.render = (text, record) => (
+					<Component record={record} value={text} resource={resource} />
+				);
+			} else if (column.resource) {
+				column.render = (value) => (
+					<ResourceRender
+						resource={column.resource}
+						id={value}
+						resourceKey={column.resourceKey}
+						valueGetter={column.valueGetter}
+					/>
+				);
+			}
 
-		return column;
-	});
+			return column;
+		});
 }
 
 function columnsResourcesAddNeeds(columns, page) {
@@ -93,11 +96,11 @@ const ListView = ({ resource, columns, search }) => {
 		page: 1,
 	});
 	const [filter, setFilter] = useState({ ...initialQuery, s: search?.key });
+	const user = useSelector((state) => state.auth.user);
 	const tableColumns = useMemo(() => {
-		return customizeColumns(columns, resource.endpoint);
+		return customizeColumns(columns, resource.endpoint, user);
 		// eslint-disable-next-line
 	}, []);
-
 	function handleTableChange(pagination, _filter, sort) {
 		let q = {
 			size: pagination.pageSize,

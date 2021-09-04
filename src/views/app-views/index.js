@@ -18,20 +18,12 @@ export const AppViews = () => {
 					return (
 						<Route key={key} path={config.path}>
 							<ListView
-								columns={
-									lv_config?.columns || [
-										{
-											title: "id",
-											key: "id",
-											dataIndex: "id",
-										},
-									]
-								}
 								resource={{
-									name: config.title,
+									name: lv_config.name,
+									nameOne: lv_config.nameOne,
 									endpoint: config.key,
 								}}
-								{...lv_config?.listView}
+								{...lv_config}
 							/>
 						</Route>
 					);

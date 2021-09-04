@@ -4,8 +4,11 @@ import { resources } from "api/resources";
 import { CheckCircleTwoTone } from "@ant-design/icons";
 import { getRamainedDays } from "./utils";
 import Comments from "./components/Comments";
+import { tl } from "i18n";
 
 export const rents = {
+	name: tl("rents"),
+	nameOne: tl("rent"),
 	columns: [
 		{
 			title: "ID",
@@ -77,15 +80,15 @@ export const rents = {
 			cellRenderer: "userFullName",
 			resource: resources.users,
 			sorter: false,
-			// width: 180,
 		},
 		{
 			title: "Zaxira",
 			key: "stockId",
 			dataIndex: "stockId",
 			resource: resources.stocks,
-			valueGetter: (stock) => `#${stock.id} - ${stock?.book?.name}`,
 			sorter: false,
+			valueGetter: (stock) =>
+				`${stock.id}/${stock?.book?.id} - ${stock?.book?.name}`,
 		},
 		{
 			dataIndex: "createdAt",
@@ -115,6 +118,7 @@ export const rents = {
 			field: "selectFetch",
 			rules: [{ required: true }],
 			disabledOnEdit: true,
+			label: "Kitobxon",
 			fieldProp: {
 				resource: resources.users,
 				fetchable: true,
@@ -131,6 +135,7 @@ export const rents = {
 		{
 			name: "stockId",
 			field: "stockSelect",
+			label: "Kitob zaxirasi",
 			rules: [{ required: true }],
 			disabledOnEdit: true,
 			fieldProp: {
@@ -144,6 +149,7 @@ export const rents = {
 			name: "leasedAt",
 			rules: [{ required: true }],
 			field: "date",
+			label: "Topshirilgan sana",
 			fieldProp: {
 				saveStorage(value) {
 					localStorage.setItem("ld", value.toISOString());
@@ -155,6 +161,7 @@ export const rents = {
 			name: "returningDate",
 			rules: [{ required: true }],
 			field: "date",
+			label: "Qaytarilgan sana",
 			fieldProp: {
 				saveStorage(value) {
 					localStorage.setItem("rd", value.toISOString());
@@ -164,22 +171,10 @@ export const rents = {
 		},
 		{
 			name: "customId",
-			// rules: [{ required: true }],
-			// disabledOnEdit: true,
+			label: "Maxsus raqami",
 			fieldProp: {
 				type: "number",
 			},
 		},
-		// {
-		// 	name: "comment",
-		// 	sub: [
-		// 		{
-		// 			name: ["comment", "text"],
-		// 			fieldProp: {
-		// 				type: "textarea",
-		// 			},
-		// 		},
-		// 	],
-		// },
 	],
 };
