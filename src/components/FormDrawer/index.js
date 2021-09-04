@@ -64,10 +64,8 @@ function FormDrawer() {
 	}, [messageId]);
 
 	function onClose() {
-		unstable_batchedUpdates(() => {
-			setVisible(false);
-			form.resetFields();
-		});
+		form.resetFields();
+		setVisible(false);
 	}
 
 	function fetch(values) {
@@ -79,15 +77,14 @@ function FormDrawer() {
 	}
 
 	function onFinish(values) {
-		console.log(values);
+		setLoading(true);
 		fetch(values)
 			.then((res) => {
 				message.success("Success");
 				unstable_batchedUpdates(() => {
 					setLoading(false);
-					setVisible(false);
+					onClose();
 				});
-				form.resetFields();
 			})
 			.catch((err) => {
 				setLoading(false);
@@ -110,6 +107,7 @@ function FormDrawer() {
 	return (
 		<div>
 			<Drawer
+				key={messageId}
 				title={endpoint}
 				placement="right"
 				onClose={onClose}
@@ -120,11 +118,16 @@ function FormDrawer() {
 							textAlign: "right",
 						}}
 					>
-						<Button onClick={onClose} style={{ marginRight: 8 }}>
+						<Button
+							disabled={loading}
+							onClick={onClose}
+							style={{ marginRight: 8 }}
+						>
 							Bekor qilish
 						</Button>
 						<Button
 							loading={loading}
+							disabled={loading}
 							htmlType="submit"
 							form="myform"
 							type="primary"
@@ -136,7 +139,7 @@ function FormDrawer() {
 			>
 				<Form
 					form={form}
-					key={data?.id || "f"}
+					// key={data?.id || "f"}
 					layout="vertical"
 					initialValues={getInitilaFormData(config, data.record)}
 					id="myform"
