@@ -7,4 +7,13 @@ export const getRamainedDays = (rent) => {
 	return remainDays;
 };
 
+export const deleteColumn = {
+	title: "A",
+	key: "id",
+	dataIndex: "id",
+	cellRenderer: "actions",
+	width: 20,
+	sorter: false,
+};
+
 export const getDateString = (iso) => new Date(iso).toLocaleDateString("ru");

@@ -7,6 +7,7 @@ import pagesConfig from "configs/route/pagesConfig";
 import { useSelector } from "react-redux";
 import FieldComponents from "components/forms/FieldComponents";
 import { useForm } from "antd/lib/form/Form";
+import DeleteButton from "components/forms/DeleteButton";
 
 function getInitilaFormData(config, record = {}) {
 	if (config?.formInitial) {
@@ -65,8 +66,8 @@ function FormDrawer() {
 	}, [messageId]);
 
 	function onClose() {
-		form.resetFields();
 		setVisible(false);
+		form.resetFields();
 	}
 
 	function fetch(values) {
@@ -104,7 +105,7 @@ function FormDrawer() {
 	let config = pagesConfig[data.form];
 	// console.log("data", data);
 	let Custom = config.view?.Custom;
-
+	console.log(config.view);
 	return (
 		<div>
 			<Drawer
@@ -114,11 +115,7 @@ function FormDrawer() {
 				onClose={onClose}
 				visible={visible}
 				footer={
-					<div
-						style={{
-							textAlign: "right",
-						}}
-					>
+					<div key={messageId} className="d-flex justify-content-between">
 						<Button
 							disabled={loading}
 							onClick={onClose}
@@ -126,6 +123,18 @@ function FormDrawer() {
 						>
 							Bekor qilish
 						</Button>
+						{data.id &&
+						config.view?.canDelete &&
+						config.view.canDelete(data.record) ? (
+							<DeleteButton
+								{...data}
+								onClose={onClose}
+								setLoading={setLoading}
+								loading={loading}
+							/>
+						) : (
+							""
+						)}
 						<Button
 							loading={loading}
 							disabled={loading}
@@ -148,7 +157,9 @@ function FormDrawer() {
 				>
 					<Row gutter={6}>{generateFields(config.form, user, data)}</Row>
 				</Form>
-				{Custom && <Custom {...data} />}
+				{data.id && Custom && (
+					<Custom {...data} onClose={onClose} user={user} />
+				)}
 			</Drawer>
 		</div>
 	);

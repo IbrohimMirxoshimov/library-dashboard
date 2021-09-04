@@ -5,6 +5,7 @@ import { CheckCircleTwoTone } from "@ant-design/icons";
 import { getRamainedDays } from "./utils";
 import Comments from "./components/Comments";
 import { tl } from "i18n";
+import RejectRent from "components/forms/RejectRent";
 
 export const rents = {
 	name: tl("rents"),
@@ -109,7 +110,12 @@ export const rents = {
 	// },
 	view: {
 		Custom(props) {
-			return <Comments resourceId={props.id} resourceFilterName="rentId" />;
+			return (
+				<div>
+					<Comments resourceId={props.id} resourceFilterName="rentId" />
+					{props.user.owner ? <RejectRent {...props} /> : ""}
+				</div>
+			);
 		},
 	},
 	form: [
@@ -161,7 +167,7 @@ export const rents = {
 			name: "returningDate",
 			rules: [{ required: true }],
 			field: "date",
-			label: "Qaytarilgan sana",
+			label: "Qaytarililishi kerak bo'lgan sana",
 			fieldProp: {
 				saveStorage(value) {
 					localStorage.setItem("rd", value.toISOString());

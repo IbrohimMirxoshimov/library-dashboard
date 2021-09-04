@@ -7,4 +7,9 @@ export default class Rents {
 			returned,
 		});
 	}
+	static reject(id, deleteStock) {
+		return mainCaller(`/rents/${id}/reject`, "PUT", {
+			deleteStock,
+		});
+	}
 }

@@ -50,6 +50,7 @@ const pagesConfig = {
 				dataIndex: "birthDate",
 				render: getDateString,
 			},
+			// deleteColumn,
 		],
 		form: [
 			{
@@ -126,6 +127,7 @@ const pagesConfig = {
 			{
 				name: "verified",
 				field: "switch",
+				label: tl("verified"),
 				propName: "checked",
 			},
 
@@ -135,6 +137,7 @@ const pagesConfig = {
 	stocks: {
 		name: tl("stocks"),
 		nameOne: tl("stock"),
+		view: { canDelete: (record) => !record.busy },
 		columns: [
 			{
 				title: "Kitob raqami",
@@ -147,6 +150,7 @@ const pagesConfig = {
 				key: "book",
 				dataIndex: "bookId",
 				resource: resources.books,
+				valueGetter: (item) => `${item.id}. ${item.name}`,
 			},
 			{
 				title: "Bandlik",
@@ -169,6 +173,18 @@ const pagesConfig = {
 					},
 				],
 			},
+			{
+				dataIndex: "createdAt",
+				key: "createdAt",
+				title: "Yasalgan",
+				render: (value) => new Date(value).toLocaleDateString("ru"),
+			},
+			{
+				dataIndex: "updatedAt",
+				key: "updatedAt",
+				title: "Yangilangan",
+				render: (value) => new Date(value).toLocaleDateString("ru"),
+			},
 		],
 		form: [
 			{
@@ -189,6 +205,7 @@ const pagesConfig = {
 	locations: {
 		name: tl("locations"),
 		nameOne: tl("location"),
+		view: { canDelete: (record) => true },
 		columns: [
 			{
 				title: "name",
@@ -217,10 +234,9 @@ const pagesConfig = {
 				rules: [
 					{
 						required: true,
-						type: "number",
 					},
 				],
-				fieldProp: { prefix: "+998" },
+				field: "phoneNumber",
 			},
 			{
 				name: "regionId",
@@ -233,6 +249,7 @@ const pagesConfig = {
 	regions: {
 		name: tl("regions"),
 		nameOne: tl("region"),
+		view: { canDelete: (record) => true },
 		columns: [
 			{
 				title: "ID",
@@ -255,6 +272,7 @@ const pagesConfig = {
 	books: {
 		name: tl("books"),
 		nameOne: tl("book"),
+		view: { canDelete: (record) => true },
 		columns: [
 			{
 				title: "ID",
@@ -327,6 +345,7 @@ const pagesConfig = {
 	booksgroups: {
 		name: tl("booksgroups"),
 		nameOne: tl("booksgroup"),
+		view: { canDelete: (record) => true },
 		columns: [
 			{
 				title: "ID",
@@ -363,6 +382,7 @@ const pagesConfig = {
 	collections: {
 		name: tl("collections"),
 		nameOne: tl("collection"),
+		view: { canDelete: (record) => true },
 		columns: [
 			{
 				title: "ID",
@@ -394,6 +414,7 @@ const pagesConfig = {
 	authors: {
 		name: tl("authors"),
 		nameOne: tl("author"),
+		view: { canDelete: (record) => true },
 		columns: [
 			{
 				title: "ID",
@@ -416,6 +437,7 @@ const pagesConfig = {
 	publishings: {
 		name: tl("publishings"),
 		nameOne: tl("publishing"),
+		view: { canDelete: (record) => true },
 		columns: [
 			{
 				title: "ID",

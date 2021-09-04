@@ -1,3 +1,4 @@
+import ActionsColumn from "./ActionsColumn";
 import ChangeStatus from "./ChangeStatus";
 import UserFullName from "./UserFullName";
 
@@ -7,4 +8,5 @@ export const cells = {
 	editOpener: EditOpener,
 	returnedChangeStatus: ChangeStatus,
 	userFullName: UserFullName,
+	actions: ActionsColumn,
 };

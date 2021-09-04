@@ -9,6 +9,13 @@
 	"firstName": "Ism",
 	"lastName": "Familiya",
 	"phone": "Telefon raqam",
+	"extraPhone": "Qo'shimcha telefon raqam",
+	"birthDate": "Tug'ilgan kun",
+	"gender": "Jinsi",
+	"passportId": "Passport seriyasi",
+	"passportImage": "Passport surati",
+	"verified": "Tasdiqlangan kitobxon",
+	"extra": "Qo'shimcha ma'lumot",
 	"bookId": "Kitob raqami",
 	"rents": "Ijaralar",
 	"rent": "Ijara"

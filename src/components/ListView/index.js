@@ -49,7 +49,6 @@ function ResourceRender({ id, resourceKey = "name", resource, valueGetter }) {
 
 function customizeColumns(columns, resource, user) {
 	// console.log(resource);
-
 	return columns
 		.filter((column) => !column.role || user[column.role])
 		.map((column) => {
@@ -154,6 +153,8 @@ const ListView = ({ resource, columns, search }) => {
 	}
 
 	useEffect(() => {
+		let title = document.querySelector("title");
+		title.innerText = resource.name;
 		fetch(initialQuery);
 		// eslint-disable-next-line
 	}, []);

@@ -58,6 +58,6 @@ export default class FetchResource {
 	}
 
 	static destroy(endpoint, id) {
-		return mainCaller(`/${endpoint}/`, "DELETE");
+		return mainCaller(`/${endpoint}/` + id, "DELETE");
 	}
 }
