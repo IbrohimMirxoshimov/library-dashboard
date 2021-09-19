@@ -70,7 +70,7 @@ function UserFullName({ record }) {
 						el?.select();
 						let res = document.execCommand("copy");
 						if (res) {
-							message.success("Ko'chirildi. " + record.name, 5);
+							message.success("Ko'chirildi");
 						} else {
 							message.error("Xatolik");
 						}

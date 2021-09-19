@@ -133,6 +133,7 @@ const pagesConfig = {
 
 			{ name: "extra", label: tl("extra") },
 		],
+		view: { canDelete: (user) => user?.passportId?.startsWith("ZZ") },
 	},
 	stocks: {
 		name: tl("stocks"),

@@ -4,23 +4,32 @@ import React, { useState } from "react";
 
 function ChangeStatus({ record, value }) {
 	const [loading, setLoading] = useState(false);
+	const [checked, setChecked] = useState(!!value);
 	return (
 		<Switch
 			loading={loading}
-			defaultChecked={value}
+			checked={checked}
 			onChange={(ch) => {
-				setLoading(true);
-				Rents.return(record.id, { returned: ch, stockId: record.stockId })
-					.then((r) => {
-						setLoading(false);
-						message.success("Success");
-					})
-					.catch((err) => {
-						console.error(err);
-						setLoading(false);
+				if (ch) {
+					setLoading(true);
+					Rents.return(record.id, { stockId: record.stockId })
+						.then((r) => {
+							setLoading(false);
+							message.success("Success");
+							setChecked(true);
+						})
+						.catch((err) => {
+							console.error(err);
+							setLoading(false);
 
-						message.error(err.message);
-					});
+							message.error(err.message);
+						});
+				} else {
+					message.warning(
+						"Berilgan kitobni orqaga qaytarish mumkin emas. Ijarani qayti tashkil qilishingiz mumkin.",
+						5
+					);
+				}
 			}}
 		/>
 	);

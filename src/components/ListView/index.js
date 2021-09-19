@@ -54,6 +54,7 @@ function customizeColumns(columns, resource, user) {
 		.map((column) => {
 			if (column.sorter === undefined) {
 				column.sorter = true;
+				column.showSorterTooltip = false;
 			}
 
 			if (column.cellRenderer) {
@@ -105,7 +106,6 @@ const ListView = ({ resource, columns, search }) => {
 			size: pagination.pageSize,
 			page: pagination.current,
 		};
-
 		if (sort.column) {
 			q = {
 				...q,
@@ -113,15 +113,17 @@ const ListView = ({ resource, columns, search }) => {
 				order: sort.order === "ascend" ? "ASC" : "DESC",
 			};
 		}
-
-		if (_filter.returned && _filter.returned.length !== 2) {
+		if (_filter.returnedAt) {
 			q = {
 				...q,
 				filters: {
-					returned: _filter.returned.includes("returned"),
+					returnedAt: 0,
 				},
 			};
+		} else if ("returnedAt" in _filter) {
+			delete filter.filters?.returnedAt;
 		}
+
 		if (_filter.busy && _filter.busy.length !== 2) {
 			q = {
 				...q,
@@ -129,6 +131,8 @@ const ListView = ({ resource, columns, search }) => {
 					busy: _filter.busy.includes("busy"),
 				},
 			};
+		} else if ("busy" in _filter) {
+			delete filter.filters?.busy;
 		}
 		q = { ...filter, ...q };
 		setFilter(q);

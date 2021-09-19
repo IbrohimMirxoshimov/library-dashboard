@@ -67,7 +67,7 @@ const LoginForm = ({ history }) => {
 					htmlType="submit"
 					className="login-form-button"
 				>
-					Log in
+					Kirish
 				</Button>
 			</Form.Item>
 		</Form>

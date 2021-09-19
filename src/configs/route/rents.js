@@ -41,7 +41,7 @@ export const rents = {
 			width: 40,
 			sorter: false,
 			render: (v, record) => {
-				if (!record.returned) {
+				if (!record.returnedAt) {
 					let remainDays = getRamainedDays(record);
 
 					if (remainDays > 20) {
@@ -59,18 +59,14 @@ export const rents = {
 			},
 		},
 		{
-			dataIndex: "returned",
-			key: "returned",
+			dataIndex: "returnedAt",
+			key: "returnedAt",
 			title: "Qaytgan",
 			cellRenderer: "returnedChangeStatus",
 			filters: [
 				{
-					text: "Qaytarilgan",
-					value: "returned",
-				},
-				{
 					text: "Qaytarilmagan",
-					value: "n",
+					value: "returnedAt",
 				},
 			],
 		},

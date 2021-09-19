@@ -4,7 +4,7 @@ import FetchResource from "api/crud";
 import { Button, message, Popconfirm } from "antd";
 
 function DeleteButton({ id, resource, setLoading, loading, onClose }) {
-	console.log(id, resource);
+	// console.log(id, resource);
 	return (
 		<Popconfirm
 			title="Ishonchingiz komilmi"

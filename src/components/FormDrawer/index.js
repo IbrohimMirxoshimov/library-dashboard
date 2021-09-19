@@ -105,7 +105,7 @@ function FormDrawer() {
 	let config = pagesConfig[data.form];
 	// console.log("data", data);
 	let Custom = config.view?.Custom;
-	console.log(config.view);
+	// console.log(config.view);
 	return (
 		<div>
 			<Drawer
