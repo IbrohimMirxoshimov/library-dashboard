@@ -20,6 +20,7 @@ import {
 	DIR_LTR,
 } from "constants/ThemeConstant";
 import utils from "utils";
+import MobileNavBottom from "components/layout-components/MobileNavBottom";
 
 const { Content } = Layout;
 const { useBreakpoint } = Grid;
@@ -72,6 +73,7 @@ export const AppLayout = ({ navCollapsed, navType, location, direction }) => {
 				</Layout>
 			</Layout>
 			{isMobile && <MobileNav />}
+			{isMobile && <MobileNavBottom />}
 		</Layout>
 	);
 };
