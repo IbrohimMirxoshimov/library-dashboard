@@ -62,6 +62,7 @@ function UserFullName({ record }) {
 					);
 				}}
 			>{`${user.id}. ${user.firstName} ${user.lastName}`}</a>
+			<a href={"tel:" + user.phone}> tel</a>
 			<CopyTwoTone
 				onClick={() => {
 					setCopy(true);
@@ -79,6 +80,7 @@ function UserFullName({ record }) {
 				style={{ marginLeft: "4px" }}
 				color="green"
 			/>
+
 			{book && copy && (
 				<textarea
 					style={{ width: "20px", height: "20px", opacity: 0 }}
