@@ -2,7 +2,7 @@ import { resources } from "api/resources";
 import { roles } from "configs/NavigationConfig";
 import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
 import { rents } from "./rents";
-import { getDateString } from "./utils";
+import { createdAtAndUpdatedAtColumns, getDateString } from "./utils";
 import { tl } from "i18n";
 
 const pagesConfig = {
@@ -50,7 +50,7 @@ const pagesConfig = {
 				dataIndex: "birthDate",
 				render: getDateString,
 			},
-			// deleteColumn,
+			...createdAtAndUpdatedAtColumns,
 		],
 		form: [
 			{
@@ -174,18 +174,7 @@ const pagesConfig = {
 					},
 				],
 			},
-			{
-				dataIndex: "createdAt",
-				key: "createdAt",
-				title: "Yasalgan",
-				render: (value) => new Date(value).toLocaleDateString("ru"),
-			},
-			{
-				dataIndex: "updatedAt",
-				key: "updatedAt",
-				title: "Yangilangan",
-				render: (value) => new Date(value).toLocaleDateString("ru"),
-			},
+			...createdAtAndUpdatedAtColumns,
 		],
 		form: [
 			{
@@ -225,6 +214,7 @@ const pagesConfig = {
 				key: "phone",
 				dataIndex: "phone",
 			},
+			...createdAtAndUpdatedAtColumns,
 		],
 		form: [
 			{
@@ -263,6 +253,7 @@ const pagesConfig = {
 				dataIndex: "name",
 				cellRenderer: "editOpener",
 			},
+			...createdAtAndUpdatedAtColumns,
 		],
 		form: [
 			{
@@ -298,6 +289,7 @@ const pagesConfig = {
 				dataIndex: "authorId",
 				resource: resources.authors,
 			},
+			...createdAtAndUpdatedAtColumns,
 		],
 		form: [
 			{
@@ -365,6 +357,7 @@ const pagesConfig = {
 				dataIndex: "collectionId",
 				resource: resources.collections,
 			},
+			...createdAtAndUpdatedAtColumns,
 		],
 		form: [
 			{
@@ -401,6 +394,7 @@ const pagesConfig = {
 				key: "sort",
 				dataIndex: "sort",
 			},
+			...createdAtAndUpdatedAtColumns,
 		],
 		form: [
 			{
@@ -428,6 +422,7 @@ const pagesConfig = {
 				key: "name",
 				dataIndex: "name",
 			},
+			...createdAtAndUpdatedAtColumns,
 		],
 		form: [
 			{
@@ -451,6 +446,7 @@ const pagesConfig = {
 				key: "name",
 				dataIndex: "name",
 			},
+			...createdAtAndUpdatedAtColumns,
 		],
 		form: [
 			{

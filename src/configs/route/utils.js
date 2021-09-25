@@ -17,3 +17,18 @@ export const deleteColumn = {
 };
 
 export const getDateString = (iso) => new Date(iso).toLocaleDateString("ru");
+
+export const createdAtAndUpdatedAtColumns = [
+	{
+		dataIndex: "createdAt",
+		key: "createdAt",
+		title: "Yasalgan",
+		render: getDateString,
+	},
+	{
+		dataIndex: "updatedAt",
+		key: "updatedAt",
+		title: "Yangilangan",
+		render: getDateString,
+	},
+];
