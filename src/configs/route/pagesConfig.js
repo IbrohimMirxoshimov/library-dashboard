@@ -61,6 +61,8 @@ const pagesConfig = {
 				// fieldProp: { resource: resources.users },
 			},
 			{ name: "lastName", label: tl("lastName"), rules: [{ required: true }] },
+			{ name: "birthDate", label: tl("birthDate"), field: "date" },
+			{ name: "passportId", label: tl("passportId"), field: "passport" },
 			{
 				name: "phone",
 				rules: [
@@ -71,12 +73,6 @@ const pagesConfig = {
 				label: tl("phone"),
 				field: "phoneNumber",
 			},
-			{
-				name: "extraPhone",
-				label: tl("extraPhone"),
-				field: "phoneNumber",
-			},
-			{ name: "birthDate", label: tl("birthDate"), field: "date" },
 			{
 				name: "gender",
 				field: "choice",
@@ -94,7 +90,11 @@ const pagesConfig = {
 					],
 				},
 			},
-			{ name: "passportId", label: tl("passportId"), field: "passport" },
+			{
+				name: "extraPhone",
+				label: tl("extraPhone"),
+				field: "phoneNumber",
+			},
 			{ name: "passportImage", label: tl("passportImage") },
 			{
 				name: "locationId",
