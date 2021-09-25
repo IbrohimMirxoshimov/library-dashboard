@@ -55,3 +55,9 @@
 .nav_bottom_menu .menu-item .anticon {
 	font-size: 22px;
 }
+
+.ant-table-filter-trigger {
+	position: absolute !important;
+	width: 0px !important;
+	right: 14px !important;
+}

@@ -1,8 +1,7 @@
-import { Tag } from "antd";
+import { message, Tag } from "antd";
 import { resources } from "api/resources";
-// import { getDayLaterDate } from "utils/date";
 import { CheckCircleTwoTone } from "@ant-design/icons";
-import { getRamainedDays } from "./utils";
+import { getDateString, getRamainedDays } from "./utils";
 import Comments from "./components/Comments";
 import { tl } from "i18n";
 import RejectRent from "components/forms/RejectRent";
@@ -26,7 +25,7 @@ export const rents = {
 		{
 			dataIndex: "leasedAt",
 			key: "leasedAt",
-			title: "Topshirilgan",
+			title: "Berildi",
 			render: (value) => new Date(value).toLocaleDateString("ru"),
 		},
 		{
@@ -55,7 +54,19 @@ export const rents = {
 					}
 				}
 
-				return <CheckCircleTwoTone twoToneColor="#52c41a" className="pl-2" />;
+				return (
+					<CheckCircleTwoTone
+						twoToneColor="#52c41a"
+						className="pl-2"
+						style={{ cursor: "pointer" }}
+						onClick={() =>
+							message.info(
+								"Qaytarilgan: " + getDateString(record.returnedAt),
+								3
+							)
+						}
+					/>
+				);
 			},
 		},
 		{

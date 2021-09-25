@@ -1,5 +1,6 @@
 import { message, Switch } from "antd";
 import Rents from "api/routes/rents";
+import { getDateString } from "configs/route/utils";
 import React, { useState } from "react";
 
 function ChangeStatus({ record, value }) {
@@ -7,6 +8,7 @@ function ChangeStatus({ record, value }) {
 	const [checked, setChecked] = useState(!!value);
 	return (
 		<Switch
+			title={getDateString(record.returnedAt)}
 			loading={loading}
 			checked={checked}
 			onChange={(ch) => {
@@ -25,10 +27,7 @@ function ChangeStatus({ record, value }) {
 							message.error(err.message);
 						});
 				} else {
-					message.warning(
-						"Berilgan kitobni orqaga qaytarish mumkin emas. Ijarani qayti tashkil qilishingiz mumkin.",
-						5
-					);
+					message.warning("Berilgan kitobni orqaga qaytarish mumkin emas", 1);
 				}
 			}}
 		/>
