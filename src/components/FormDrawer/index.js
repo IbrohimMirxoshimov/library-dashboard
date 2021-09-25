@@ -98,6 +98,22 @@ function FormDrawer() {
 			});
 	}
 
+	useEffect(() => {
+		function hotKeys(e) {
+			if (e.shiftKey && e.key === "S") {
+				form.submit();
+			}
+		}
+
+		if (visible) {
+			window.addEventListener("keyup", hotKeys);
+		}
+
+		return () => {
+			window.removeEventListener("keyup", hotKeys);
+		};
+	}, [visible]);
+
 	if (!data.form) {
 		return "";
 	}
