@@ -156,13 +156,6 @@ const ListView = ({ resource, columns, search }) => {
 			});
 	}
 
-	useEffect(() => {
-		let title = document.querySelector("title");
-		title.innerText = resource.name;
-		fetch(initialQuery);
-		// eslint-disable-next-line
-	}, []);
-
 	const openAddDrawer = () => {
 		sendMessage({ form: resource.endpoint, resource: resource }, "f_d");
 	};
@@ -183,6 +176,35 @@ const ListView = ({ resource, columns, search }) => {
 		);
 	};
 
+	useEffect(() => {
+		fetch(initialQuery);
+		document.querySelector("title").innerText = resource.name;
+
+		function hotKeys(e) {
+			if (e.shiftKey)
+				switch (e.key) {
+					case "R":
+						onRefresh();
+						break;
+					case "F":
+						document.getElementById("main-search")?.focus();
+						break;
+					case "C":
+						openAddDrawer();
+						break;
+
+					default:
+						break;
+				}
+		}
+
+		window.addEventListener("keyup", hotKeys);
+
+		return () => {
+			window.removeEventListener("keyup", hotKeys);
+		};
+		// eslint-disable-next-line
+	}, []);
 	// console.log(list);
 
 	return (
@@ -198,6 +220,7 @@ const ListView = ({ resource, columns, search }) => {
 						<Search
 							placeholder="Qidiruv..."
 							onSearch={onSearch}
+							id="main-search"
 							style={{ width: "100%", marginBottom: 3 }}
 							enterButton
 						/>
