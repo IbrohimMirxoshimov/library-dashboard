@@ -48,10 +48,15 @@ function generateFields(fields, user, data) {
 }
 
 function FormDrawer() {
+	const { messageId, data = {} } = useMessage("f_d");
+
+	return <FormDrawerMicro messageId={messageId} data={data} />;
+}
+
+export function FormDrawerMicro({ messageId, data }) {
 	const user = useSelector((state) => state.auth.user);
 
 	const [visible, setVisible] = useState(false);
-	const { messageId, data = {} } = useMessage("f_d");
 	const [loading, setLoading] = useState(false);
 	const endpoint = data.form;
 	const resource = data.resource;
@@ -112,6 +117,7 @@ function FormDrawer() {
 		return () => {
 			window.removeEventListener("keyup", hotKeys);
 		};
+		// eslint-disable-next-line
 	}, [visible]);
 
 	if (!data.form) {
@@ -131,13 +137,13 @@ function FormDrawer() {
 				onClose={onClose}
 				visible={visible}
 				footer={
-					<div key={messageId} className="d-flex justify-content-between">
+					<div key={messageId} className="d-flex justify-content-between overflow-auto">
 						<Button
 							disabled={loading}
 							onClick={onClose}
 							style={{ marginRight: 8 }}
 						>
-							Bekor qilish
+							Orqaga
 						</Button>
 						{data.id &&
 						config.view?.canDelete &&
@@ -151,11 +157,12 @@ function FormDrawer() {
 						) : (
 							""
 						)}
+						{config.footer && config.footer(data)}
 						<Button
 							loading={loading}
 							disabled={loading}
 							htmlType="submit"
-							form="myform"
+							form={"mf-" + endpoint}
 							type="primary"
 						>
 							Saqlash
@@ -168,7 +175,7 @@ function FormDrawer() {
 					// key={data?.id || "f"}
 					layout="vertical"
 					initialValues={getInitilaFormData(config, data.record)}
-					id="myform"
+					id={"mf-" + endpoint}
 					onFinish={onFinish}
 				>
 					<Row gutter={6}>{generateFields(config.form, user, data)}</Row>

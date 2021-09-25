@@ -5,6 +5,7 @@ import { getDateString, getRamainedDays } from "./utils";
 import Comments from "./components/Comments";
 import { tl } from "i18n";
 import RejectRent from "components/forms/RejectRent";
+import SubForm from "./components/SubForm";
 
 export const rents = {
 	name: tl("rents"),
@@ -124,6 +125,16 @@ export const rents = {
 				</div>
 			);
 		},
+	},
+	footer: () => {
+		return (
+			<SubForm
+				data={{
+					form: "users",
+					resource: { endpoint: "users", name: "Foydalanuvchi" },
+				}}
+			/>
+		);
 	},
 	form: [
 		{
