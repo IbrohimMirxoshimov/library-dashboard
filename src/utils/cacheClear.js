@@ -11,7 +11,7 @@ function cacheClear() {
 					if (i === 3) {
 						localStorage.clear();
 						window.location.reload();
-						console.log("cache cleared");
+						// console.log("cache cleared");
 					} else {
 						i = 0;
 					}

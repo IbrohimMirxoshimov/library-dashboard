@@ -102,8 +102,6 @@ export const permissions = {
 };
 
 export function generateNavigationConfig(roles) {
-	console.log("roles", roles);
-
 	if (roles.owner) return [dashBoardNavTree];
 
 	return [

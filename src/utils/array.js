@@ -151,7 +151,7 @@ export function mergeArraysToUniqueList(baseArray, newArray) {
 
 export function searchItem(query, items, nameGetter) {
 	query = query.toLowerCase();
-	console.log(query);
+	// console.log(query);
 
 	if (query.length === 0) {
 		return items.map((item) => {
@@ -162,7 +162,7 @@ export function searchItem(query, items, nameGetter) {
 	} else {
 		return items
 			.map((item) => {
-				console.log(nameGetter(item).toLowerCase().indexOf(query));
+				// console.log(nameGetter(item).toLowerCase().indexOf(query));
 				return {
 					...item,
 					searchIndex: nameGetter(item).toLowerCase().indexOf(query),
