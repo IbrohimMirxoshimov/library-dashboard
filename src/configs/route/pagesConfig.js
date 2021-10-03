@@ -97,10 +97,10 @@ const pagesConfig = {
 			},
 			{ name: "passportImage", label: tl("passportImage") },
 			{
-				name: "locationId",
+				name: "libraryId",
 				field: "selectFetch",
 				role: roles.owner,
-				label: tl("locationId"),
+				label: tl("libraryId"),
 				fieldProp: { resource: resources.locations },
 			},
 

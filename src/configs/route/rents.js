@@ -91,7 +91,7 @@ export const rents = {
 			sorter: false,
 		},
 		{
-			title: "Zaxira",
+			title: tl("stock"),
 			key: "stockId",
 			dataIndex: "stockId",
 			resource: resources.stocks,

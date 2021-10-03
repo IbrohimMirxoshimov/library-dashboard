@@ -1,4 +1,5 @@
 import { APP_PREFIX_PATH } from "configs/AppConfig";
+import { tl } from "i18n";
 
 export const roles = {
 	moderator: "moderator",
@@ -24,7 +25,7 @@ const dashBoardNavTree = {
 		{
 			key: "users",
 			path: `${APP_PREFIX_PATH}/users`,
-			title: "Foydalanuvchilar",
+			title: "Kitobxonlar",
 			icon: "UserOutlined",
 			role: roles.librarian,
 			submenu: [],
@@ -32,7 +33,7 @@ const dashBoardNavTree = {
 		{
 			key: "stocks",
 			path: `${APP_PREFIX_PATH}/stocks`,
-			title: "Zaxira",
+			title: tl("stocks"),
 			icon: "BookOutlined",
 			role: roles.librarian,
 			submenu: [],

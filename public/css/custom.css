@@ -67,3 +67,26 @@
 		width: 100% !important;
 	}
 }
+
+.app-content {
+	padding: 0px !important;
+}
+
+.expanded {
+	border: 0px !important;
+	border-radius: 0px !important;
+}
+
+.expanded .ant-card-body {
+	padding: 0px !important;
+}
+
+.table-responsive {
+	margin-bottom: 80px;
+}
+
+@media only screen and (max-width: 576px) {
+	.ant-pagination-options {
+		display: block !important;
+	}
+}

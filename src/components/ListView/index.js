@@ -208,9 +208,9 @@ const ListView = ({ resource, columns, search }) => {
 	// console.log(list);
 
 	return (
-		<Card>
+		<Card className="expanded">
 			<ListViewContext.Provider value={{ resource: resource }}>
-				<Flex alignItems="center" justifyContent="between" mobileFlex={false}>
+				<Flex alignItems="center" className="m-3" justifyContent="between" mobileFlex={false}>
 					<div>
 						<Title level={3} style={{ marginBottom: "15px" }}>
 							{resource.name}
