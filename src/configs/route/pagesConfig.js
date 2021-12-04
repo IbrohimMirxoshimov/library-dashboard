@@ -4,6 +4,7 @@ import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
 import { rents } from "./rents";
 import { createdAtAndUpdatedAtColumns, getDateString } from "./utils";
 import { tl } from "i18n";
+import ActiveControllerCell from "./components/ActiveControllerCell";
 
 const pagesConfig = {
 	users: {
@@ -208,6 +209,12 @@ const pagesConfig = {
 				key: "region",
 				dataIndex: "regionId",
 				resource: resources.regions,
+			},
+			{
+				title: "active",
+				key: "active",
+				dataIndex: "active",
+				render: ActiveControllerCell,
 			},
 			{
 				title: "phone",
