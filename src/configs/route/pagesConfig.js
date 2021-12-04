@@ -217,37 +217,55 @@ const pagesConfig = {
 				render: ActiveControllerCell,
 			},
 			{
-				title: "phone",
-				key: "phone",
-				dataIndex: "phone",
+				title: "link",
+				key: "link",
+				dataIndex: "link",
 			},
 			...createdAtAndUpdatedAtColumns,
 		],
 		form: [
 			{
 				name: "name",
-			},
-			{
-				name: "phone",
 				rules: [
 					{
 						required: true,
 					},
 				],
-				field: "phoneNumber",
 			},
 			{
 				name: "regionId",
 				field: "selectFetch",
-				role: roles.moderator,
+				rules: [
+					{
+						required: true,
+					},
+				],
 				fieldProp: { resource: resources.regions, fetchable: true },
+			},
+			{
+				name: "link",
+				rules: [
+					{
+						required: true,
+					},
+				],
+			},
+			{
+				name: "active",
+				field: "switch",
+				propName: "checked",
+			},
+			{
+				name: "description",
+				field: "input",
+				fieldProp: { type: "text" },
 			},
 		],
 	},
 	regions: {
 		name: tl("regions"),
 		nameOne: tl("region"),
-		view: { canDelete: (record) => true },
+		view: { canDelete: () => true },
 		columns: [
 			{
 				title: "ID",
