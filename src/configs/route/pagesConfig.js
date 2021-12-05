@@ -182,6 +182,11 @@ const pagesConfig = {
 				name: "bookId",
 				field: "selectFetch",
 				label: tl("book"),
+				rules: [
+					{
+						required: true,
+					},
+				],
 				fieldProp: { resource: resources.books, fetchable: true },
 			},
 			{
