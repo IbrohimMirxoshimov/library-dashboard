@@ -21,7 +21,8 @@ function generateFields(fields, user, data) {
 	return fields
 		.filter((field) => !field.role || user[field.role])
 		.map((field, i) => {
-			let Component = FieldComponents[field.field || "input"];
+			let Component =
+				field.component || FieldComponents[field.field || "input"];
 			return (
 				<Col span={field.colSpan || 12} key={i}>
 					<Form.Item
@@ -137,7 +138,10 @@ export function FormDrawerMicro({ messageId, data }) {
 				onClose={onClose}
 				visible={visible}
 				footer={
-					<div key={messageId} className="d-flex justify-content-between overflow-auto">
+					<div
+						key={messageId}
+						className="d-flex justify-content-between overflow-auto"
+					>
 						<Button
 							disabled={loading}
 							onClick={onClose}

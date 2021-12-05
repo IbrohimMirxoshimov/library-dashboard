@@ -5,6 +5,7 @@ import { rents } from "./rents";
 import { createdAtAndUpdatedAtColumns, getDateString } from "./utils";
 import { tl } from "i18n";
 import ActiveControllerCell from "./components/ActiveControllerCell";
+import { Radio } from "antd";
 
 const pagesConfig = {
 	users: {
@@ -78,18 +79,21 @@ const pagesConfig = {
 				name: "gender",
 				field: "choice",
 				label: tl("gender"),
+				rules: [{ required: true }],
 				fieldProp: {
-					choices: [
+					options: [
 						{
-							name: "Erkak",
+							label: "Erkak",
 							value: "male",
 						},
 						{
-							name: "Ayol",
+							label: "Ayol",
 							value: "female",
 						},
 					],
+					optionType: "button",
 				},
+				component: Radio.Group,
 			},
 			{
 				name: "extraPhone",
@@ -324,6 +328,11 @@ const pagesConfig = {
 		form: [
 			{
 				name: "name",
+				rules: [
+					{
+						required: true,
+					},
+				],
 			},
 			{
 				name: "description",
@@ -334,6 +343,11 @@ const pagesConfig = {
 			},
 			{
 				name: "rentDuration",
+				rules: [
+					{
+						required: true,
+					},
+				],
 				fieldProp: { defaultValue: 30, type: "number" },
 			},
 			{
@@ -392,6 +406,11 @@ const pagesConfig = {
 		form: [
 			{
 				name: "name",
+				rules: [
+					{
+						required: true,
+					},
+				],
 			},
 			{
 				name: "description",
@@ -429,6 +448,11 @@ const pagesConfig = {
 		form: [
 			{
 				name: "name",
+				rules: [
+					{
+						required: true,
+					},
+				],
 			},
 			{
 				name: "sort",
@@ -457,6 +481,11 @@ const pagesConfig = {
 		form: [
 			{
 				name: "name",
+				rules: [
+					{
+						required: true,
+					},
+				],
 			},
 		],
 	},
@@ -481,6 +510,11 @@ const pagesConfig = {
 		form: [
 			{
 				name: "name",
+				rules: [
+					{
+						required: true,
+					},
+				],
 			},
 		],
 	},
