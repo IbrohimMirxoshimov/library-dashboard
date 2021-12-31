@@ -4,8 +4,9 @@ import { CheckCircleTwoTone } from "@ant-design/icons";
 import { getDateString, getRamainedDays } from "./utils";
 import Comments from "./components/Comments";
 import { tl } from "i18n";
-import RejectRent from "components/forms/RejectRent";
+import RejectRent from "components/shared-components/RejectRent";
 import SubForm from "./components/SubForm";
+import ScanBarcode from "components/shared-components/ScanBarcode";
 
 export const rents = {
 	name: tl("rents"),
@@ -121,20 +122,21 @@ export const rents = {
 			return (
 				<div>
 					<Comments resourceId={props.id} resourceFilterName="rentId" />
-					{props.user.owner ? <RejectRent {...props} /> : ""}
+					{<RejectRent {...props} />}
 				</div>
 			);
 		},
 	},
-	footer: () => {
-		return (
+	footer: (data, form) => {
+		return [
 			<SubForm
 				data={{
 					form: "users",
 					resource: { endpoint: "users", name: "Foydalanuvchi" },
 				}}
-			/>
-		);
+			/>,
+			// <ScanBarcode data={data} form={form} />,
+		];
 	},
 	form: [
 		{
@@ -147,12 +149,9 @@ export const rents = {
 				resource: resources.users,
 				fetchable: true,
 				column: "fullName",
-				query: {
-					busy: false,
-				},
 				render: (item) =>
 					item &&
-					`${item.id} - ${item.firstName} ${item.lastName} -  ${item.phone}`,
+					`${item.firstName} ${item.lastName} - ${item.phone} - ${item.passportId}`,
 			},
 			colSpan: 24,
 		},

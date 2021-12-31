@@ -12,6 +12,7 @@ function StockSelect({
 	column = "name",
 	fetchable,
 	fetchSize,
+	value,
 	...props
 }) {
 	const [loading, setLoading] = useState(false);
@@ -45,29 +46,73 @@ function StockSelect({
 			500
 		);
 	}
+
+	function searchById(id) {
+		if (!id || parseInt(id) === NaN) return;
+
+		debounce(
+			() => {
+				setLoading(true);
+				FetchResource.getList(resource, { id: [parseInt(id)] })
+					.then((page) => {
+						setLoading(false);
+					})
+					.catch((e) => {
+						message.error(e.message);
+						console.error(e);
+						setLoading(false);
+					});
+			},
+			"multiple-select-form-item",
+			500
+		);
+	}
+
 	return (
-		<Select
-			placeholder={props.placeholder}
-			loading={loading}
-			optionFilterProp="children"
-			notFoundContent={loading && <Spin size="small" />}
-			onSearch={fetch}
-			filterOption={(input, option) =>
-				option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-			}
-			showSearch
-			defaultValue={props.value}
-			onChange={props.onChange}
-			disabled={props.disabled}
-		>
-			{items.map((item, i) => {
-				return (
-					<Option key={i} value={item.id}>
-						{`${item.id} - ${item.book.name}`}
-					</Option>
-				);
-			})}
-		</Select>
+		<div className="d-flex">
+			<Select
+				style={{ width: "70%" }}
+				placeholder={props.placeholder}
+				loading={loading}
+				optionFilterProp="children"
+				notFoundContent={loading && <Spin size="small" />}
+				onSearch={fetch}
+				filterOption={(input, option) =>
+					option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+				}
+				showSearch
+				defaultValue={props.value}
+				onChange={props.onChange}
+				disabled={props.disabled}
+				value={value}
+			>
+				{items.map((item, i) => {
+					return (
+						<Option key={i} value={item.id}>
+							{item.book.name}
+						</Option>
+					);
+				})}
+			</Select>
+			<Select
+				style={{ width: "30%", minWidth: "30%", marginLeft: 3 }}
+				loading={loading}
+				notFoundContent={loading && <Spin size="small" />}
+				onSearch={searchById}
+				onChange={props.onChange}
+				showSearch
+				value={value}
+				placeholder={"ID"}
+			>
+				{items.map((item, i) => {
+					return (
+						<Option key={i} value={item.id}>
+							{item.id}
+						</Option>
+					);
+				})}
+			</Select>
+		</div>
 	);
 }
 export default StockSelect;

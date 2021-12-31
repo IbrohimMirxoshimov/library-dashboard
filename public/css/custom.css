@@ -89,4 +89,7 @@
 	.ant-pagination-options {
 		display: block !important;
 	}
+	.ant-drawer-body {
+		padding: 10px !important;
+	}
 }

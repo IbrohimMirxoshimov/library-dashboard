@@ -24,7 +24,7 @@ function generateFields(fields, user, data) {
 			let Component =
 				field.component || FieldComponents[field.field || "input"];
 			return (
-				<Col span={field.colSpan || 12} key={i}>
+				<Col xs={24} xl={field.colSpan || 12} key={i}>
 					<Form.Item
 						key={field.name + (data?.id || "f")}
 						name={!field.sub && field.name}
@@ -161,7 +161,7 @@ export function FormDrawerMicro({ messageId, data }) {
 						) : (
 							""
 						)}
-						{config.footer && config.footer(data)}
+						{config.footer && config.footer(data, form)}
 						<Button
 							loading={loading}
 							disabled={loading}
@@ -185,7 +185,7 @@ export function FormDrawerMicro({ messageId, data }) {
 					<Row gutter={6}>{generateFields(config.form, user, data)}</Row>
 				</Form>
 				{data.id && Custom && (
-					<Custom {...data} onClose={onClose} user={user} />
+					<Custom {...data} onClose={onClose} form={form} user={user} />
 				)}
 			</Drawer>
 		</div>
