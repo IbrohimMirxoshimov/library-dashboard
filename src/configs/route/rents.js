@@ -135,13 +135,13 @@ export const rents = {
 					resource: { endpoint: "users", name: "Foydalanuvchi" },
 				}}
 			/>,
-			<ScanBarcode
-				onScan={(barcode) => {
-					console.log(barcode);
-				}}
-				data={data}
-				form={form}
-			/>,
+// 			<ScanBarcode
+// 				onScan={(barcode) => {
+// 					console.log(barcode);
+// 				}}
+// 				data={data}
+// 				form={form}
+// 			/>,
 		];
 	},
 	form: [
