@@ -49,7 +49,7 @@ function SelectFetch({
 		);
 	}
 	function searchById(id) {
-		if (!id || parseInt(id) === NaN) return;
+		if (!id || isNaN(parseInt(id))) return;
 
 		debounce(
 			() => {
