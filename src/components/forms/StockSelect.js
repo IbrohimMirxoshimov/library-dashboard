@@ -16,13 +16,7 @@ function StockSelect({
 	...props
 }) {
 	const [loading, setLoading] = useState(false);
-	const item = useSelector((state) =>
-		state[resource].items.find((i) => i.id === props.value)
-	);
-	const [items, setItems] = useState(item ? [item] : []);
-	useEffect(() => {
-		addNeeds(resource, [props.value]);
-	});
+	const [items, setItems] = useState([]);
 
 	function fetch(name) {
 		if (!fetchable) return;
@@ -48,13 +42,14 @@ function StockSelect({
 	}
 
 	function searchById(id) {
-		if (!id || parseInt(id) === NaN) return;
+		if (!id || isNaN(parseInt(id))) return;
 
 		debounce(
 			() => {
 				setLoading(true);
 				FetchResource.getList(resource, { id: [parseInt(id)] })
 					.then((page) => {
+						setItems(page.items);
 						setLoading(false);
 					})
 					.catch((e) => {

@@ -17,14 +17,7 @@ function SelectFetch({
 	...props
 }) {
 	const [loading, setLoading] = useState(false);
-	const items = useResource(
-		resource,
-		[props.value]
-		// !fetchable && (fetchSize || 20),
-		// null,
-		// !fetchable
-	);
-	// console.log(items);
+	const items = useResource(resource, [props.value]);
 
 	function fetch(name) {
 		// if (!fetchable) return;
@@ -49,7 +42,7 @@ function SelectFetch({
 		);
 	}
 	function searchById(id) {
-		if (!id || parseInt(id) === NaN) return;
+		if (!id || isNaN(parseInt(id))) return;
 
 		debounce(
 			() => {

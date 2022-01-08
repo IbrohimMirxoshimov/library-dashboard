@@ -6,7 +6,7 @@ import Comments from "./components/Comments";
 import { tl } from "i18n";
 import RejectRent from "components/shared-components/RejectRent";
 import SubForm from "./components/SubForm";
-import ScanBarcode from "components/shared-components/ScanBarcode";
+// import ScanBarcode from "components/shared-components/ScanBarcode";
 
 export const rents = {
 	name: tl("rents"),
