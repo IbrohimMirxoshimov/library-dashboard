@@ -199,7 +199,11 @@ const ListView = ({ resource, columns, search }) => {
 		}
 
 		window.addEventListener("keyup", hotKeys);
-
+		window.refreshList = (resource_refresh) => {
+			if (resource_refresh === resource.endpoint) {
+				fetch(filter);
+			}
+		};
 		return () => {
 			window.removeEventListener("keyup", hotKeys);
 		};
@@ -210,7 +214,12 @@ const ListView = ({ resource, columns, search }) => {
 	return (
 		<Card className="expanded">
 			<ListViewContext.Provider value={{ resource: resource }}>
-				<Flex alignItems="center" className="m-3" justifyContent="between" mobileFlex={false}>
+				<Flex
+					alignItems="center"
+					className="m-3"
+					justifyContent="between"
+					mobileFlex={false}
+				>
 					<div>
 						<Title level={3} style={{ marginBottom: "15px" }}>
 							{resource.name}

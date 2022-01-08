@@ -93,6 +93,8 @@ export function FormDrawerMicro({ messageId, data }) {
 					setLoading(false);
 					onClose();
 				});
+
+				window.refreshList && window.refreshList(endpoint);
 			})
 			.catch((err) => {
 				setLoading(false);

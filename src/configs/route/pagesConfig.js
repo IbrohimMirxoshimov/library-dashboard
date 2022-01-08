@@ -312,6 +312,19 @@ const pagesConfig = {
 				cellRenderer: "editOpener",
 			},
 			{
+				title: "image",
+				key: "image",
+				dataIndex: "image",
+				render: (image) =>
+					image ? (
+						<a href={image} target={"_blank"}>
+							Ochish
+						</a>
+					) : (
+						"-"
+					),
+			},
+			{
 				title: "To'plam",
 				key: "booksgroup",
 				dataIndex: "booksGroupId",
