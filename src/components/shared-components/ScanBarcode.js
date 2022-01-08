@@ -1,10 +1,29 @@
-import { Button } from "antd";
-import React from "react";
-
-function ScanBarcode() {
+import { Button, Modal } from "antd";
+import React, { useState } from "react";
+import Scanner from "./Scanner";
+function ScanBarcode({ onScan }) {
+	const [open, setOpen] = useState(false);
 	return (
 		<div>
-			<Button type="primary">Barcode</Button>
+			{open && (
+				<Modal
+					onCancel={() => setOpen(false)}
+					footer={<></>}
+					visible={open}
+					title={"Barcode scanner"}
+				>
+					<Scanner setOpen={setOpen} onScan={onScan} />
+				</Modal>
+			)}
+			<Button
+				onClick={() => {
+					setOpen((prev) => !prev);
+					// scanBarcode();
+				}}
+				type="primary"
+			>
+				Barcode
+			</Button>
 		</div>
 	);
 }
