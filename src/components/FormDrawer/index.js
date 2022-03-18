@@ -17,12 +17,22 @@ function getInitilaFormData(config, record = {}) {
 	return record;
 }
 
-function generateFields(fields, user, data) {
+function generateFields(fields, user, data, form) {
 	return fields
 		.filter((field) => !field.role || user[field.role])
 		.map((field, i) => {
-			let Component =
-				field.component || FieldComponents[field.field || "input"];
+			let Component = field.Component;
+			let FieldComponent =
+				field.fieldComponent || FieldComponents[field.field || "input"];
+
+			if (Component) {
+				return (
+					<Col xs={24} xl={field.colSpan || 12} key={i}>
+						<Component form={form} user={user} data={data} />
+					</Col>
+				);
+			}
+
 			return (
 				<Col xs={24} xl={field.colSpan || 12} key={i}>
 					<Form.Item
@@ -34,9 +44,9 @@ function generateFields(fields, user, data) {
 						rules={field.rules}
 					>
 						{field.sub ? (
-							generateFields(field.sub, user, data)
+							generateFields(field.sub, user, data, form)
 						) : (
-							<Component
+							<FieldComponent
 								key={field.name + (data?.id || "f")}
 								disabled={field.disabledOnEdit && data.id ? true : false}
 								{...field.fieldProp}
@@ -184,7 +194,7 @@ export function FormDrawerMicro({ messageId, data }) {
 					id={"mf-" + endpoint}
 					onFinish={onFinish}
 				>
-					<Row gutter={6}>{generateFields(config.form, user, data)}</Row>
+					<Row gutter={6}>{generateFields(config.form, user, data, form)}</Row>
 				</Form>
 				{data.id && Custom && (
 					<Custom {...data} onClose={onClose} form={form} user={user} />

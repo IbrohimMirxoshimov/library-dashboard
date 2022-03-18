@@ -132,16 +132,17 @@ export const rents = {
 			<SubForm
 				data={{
 					form: "users",
-					resource: { endpoint: "users", name: "Foydalanuvchi" },
+					resource: { endpoint: "users", nameOne: "Foydalanuvchi" },
 				}}
+				buttonText={"Foydalanuvchi +"}
 			/>,
-// 			<ScanBarcode
-// 				onScan={(barcode) => {
-// 					console.log(barcode);
-// 				}}
-// 				data={data}
-// 				form={form}
-// 			/>,
+			// 			<ScanBarcode
+			// 				onScan={(barcode) => {
+			// 					console.log(barcode);
+			// 				}}
+			// 				data={data}
+			// 				form={form}
+			// 			/>,
 		];
 	},
 	form: [
