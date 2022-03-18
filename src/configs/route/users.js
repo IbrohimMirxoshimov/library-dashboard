@@ -30,7 +30,7 @@ function getInfoFromPassportSerial(text) {
 }
 
 function parseDate(text) {
-	if (text.length > 7) {
+	if (text.length > 7 && text.length < 13) {
 		let match = text.match(/\d+/g)?.join("");
 		if (match.length === 8) {
 			return new Date(
