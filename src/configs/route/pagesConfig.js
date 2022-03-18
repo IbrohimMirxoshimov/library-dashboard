@@ -199,7 +199,7 @@ const pagesConfig = {
 				dataIndex: "image",
 				render: (image) =>
 					image ? (
-						<a href={image} target={"_blank"}>
+						<a href={image} rel="noreferrer" target={"_blank"}>
 							Ochish
 						</a>
 					) : (

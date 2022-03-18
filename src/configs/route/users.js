@@ -13,17 +13,29 @@ function getInfoFromPassportSerial(text) {
 		F: "female",
 		M: "male",
 	};
+
+	function parseDate(data_str) {
+		let match = data_str
+			.match(/(\d{2})(\d{2})(\d{2})/)
+			.slice(1, 4)
+			.reverse();
+		let year = parseInt(match[0]);
+
+		// this works until 2040 year))
+		if (year > 40) {
+			match[0] = "19" + match[0];
+		} else {
+			match[0] = "20" + match[0];
+		}
+
+		return new Date(match.join("-")).toISOString();
+	}
+
 	if (match) {
 		return {
 			passportId: match[1],
 			gender: genders[match[2]],
-			birthDate: new Date(
-				match[3]
-					.match(/(\d{2})(\d{2})(\d{2})/)
-					.slice(1, 4)
-					.reverse()
-					.join("/")
-			).toISOString(),
+			birthDate: parseDate(match[3]),
 			pinfl: match[3] + match[4],
 		};
 	}
@@ -32,7 +44,7 @@ function getInfoFromPassportSerial(text) {
 function parseDate(text) {
 	if (text.length > 7 && text.length < 13) {
 		let match = text.match(/\d+/g)?.join("");
-		if (match.length === 8) {
+		if (match?.length === 8) {
 			return new Date(
 				match
 					.match(/(\d{2})(\d{2})(\d{4})/)
@@ -52,6 +64,7 @@ function Tokenization({ form }) {
 			onChange={(e) => {
 				if (e.target.value) {
 					let birthDate = parseDate(e.target.value);
+					console.log(birthDate);
 					if (birthDate) {
 						form.setFieldsValue({
 							birthDate: birthDate,

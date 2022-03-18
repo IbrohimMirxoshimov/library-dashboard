@@ -8,7 +8,7 @@ moment.locale("en", {
 	},
 });
 
-const dateFormat = "DD.MM.YY";
+const dateFormat = "DD.MM.YYYY";
 function CustomDate({ onChange, value, saveStorage, getDefaultValue }) {
 	let dv;
 	if (!value && getDefaultValue) {

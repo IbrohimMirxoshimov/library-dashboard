@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { message, Select, Spin } from "antd";
-import { addNeeds } from "redux/actions/resource";
 import { debounce } from "utils/debounce";
 import FetchResource from "api/crud";
-import { useSelector } from "react-redux";
 
 const { Option } = Select;
 
