@@ -93,3 +93,6 @@
 		padding: 10px !important;
 	}
 }
+iframe {
+	display: none;
+}

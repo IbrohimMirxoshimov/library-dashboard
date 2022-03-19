@@ -90,6 +90,7 @@ function StockSelect({
 				})}
 			</Select>
 			<Select
+				id="stockInputRef"
 				style={{ width: "30%", minWidth: "30%", marginLeft: 3 }}
 				loading={loading}
 				notFoundContent={loading && <Spin size="small" />}

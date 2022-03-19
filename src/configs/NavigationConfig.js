@@ -23,6 +23,15 @@ const dashBoardNavTree = {
 			submenu: [],
 		},
 		{
+			key: "create_rent",
+			path: `${APP_PREFIX_PATH}/create-rent`,
+			title: "Ijara qo'shish",
+			icon: "FileDoneOutlined",
+			role: roles.librarian,
+			submenu: [],
+			other: true,
+		},
+		{
 			key: "users",
 			path: `${APP_PREFIX_PATH}/users`,
 			title: "Kitobxonlar",
