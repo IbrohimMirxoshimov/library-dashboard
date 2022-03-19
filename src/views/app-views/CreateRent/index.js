@@ -54,6 +54,7 @@ function CreateRent() {
 		return () => {
 			document.removeEventListener("keypress", handleShortCut);
 		};
+		// eslint-disable-next-line
 	}, []);
 
 	const onFinish = (values) => {
