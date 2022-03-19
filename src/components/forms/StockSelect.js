@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { message, Select, Spin } from "antd";
 import { debounce } from "utils/debounce";
 import FetchResource from "api/crud";
+import { addNews } from "redux/actions/resource";
+import { resources } from "api/resources";
+import { useDispatch } from "react-redux";
 
 const { Option } = Select;
 
@@ -15,7 +18,7 @@ function StockSelect({
 }) {
 	const [loading, setLoading] = useState(false);
 	const [items, setItems] = useState([]);
-
+	const dispatch = useDispatch();
 	function fetch(name) {
 		if (!fetchable) return;
 		if (!name) return;
@@ -26,6 +29,7 @@ function StockSelect({
 
 				FetchResource.getList(resource, { q: name, filters: { busy: false } })
 					.then((page) => {
+						dispatch(addNews(resources.stocks, page.items));
 						setItems(page.items);
 						setLoading(false);
 					})
@@ -45,8 +49,12 @@ function StockSelect({
 		debounce(
 			() => {
 				setLoading(true);
-				FetchResource.getList(resource, { id: [parseInt(id)] })
+				FetchResource.getList(resource, {
+					id: [parseInt(id)],
+					filters: { busy: false },
+				})
 					.then((page) => {
+						dispatch(addNews(resources.stocks, page.items));
 						setItems(page.items);
 						setLoading(false);
 					})

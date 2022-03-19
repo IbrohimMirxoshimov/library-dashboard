@@ -1,11 +1,12 @@
-import { Button, Col, Form, notification, Row } from "antd";
+import { Button, Col, Form, message, notification, Row } from "antd";
 import { resources } from "api/resources";
 import CustomDate from "components/forms/CustomDate";
 import SelectFetch from "components/forms/SelectFetch";
 import StockSelect from "components/forms/StockSelect";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import FetchResource from "api/crud";
 import { useSelector } from "react-redux";
+import printReciept from "utils/printReciept";
 
 const days = [5, 10, 15, 20, 30];
 
@@ -17,16 +18,13 @@ const openNotification = (userName, bookName) => {
 				<b>{bookName}</b> kitobi <b>{userName}</b>ga berildi
 			</p>
 		),
-		onClick: () => {
-			console.log("Notification Clicked!");
-		},
+		duration: 1,
 		placement: "top",
 	});
 };
 
 function CreateRent() {
 	const users = useSelector((state) => state.users.items);
-	const books = useSelector((state) => state.books.items);
 	const stocks = useSelector((state) => state.stocks.items);
 	const [form] = Form.useForm();
 
@@ -47,7 +45,6 @@ function CreateRent() {
 			if (e.ctrlKey && e.shiftKey && (e.key === "z" || e.key === "Z")) {
 				document.getElementById("stockInputRef").focus();
 			} else if (e.shiftKey && e.code.match(/Digit[1-5]/)) {
-				console.log(5);
 				const d = e.code.split("Digit")[1];
 				setDate(days[Number(d) - 1]);
 			}
@@ -60,13 +57,24 @@ function CreateRent() {
 	}, []);
 
 	const onFinish = (values) => {
-		FetchResource.create("rents", values).then((data) => {
-			const bookId = stocks.find((s) => s.id === data.stockId).bookId;
-			const book = books.find((b) => b.id === bookId);
-			const user = users.find((u) => u.id === data.userId);
-			openNotification(user.firstName + " " + user.lastName, book.name);
-			printRent({ user, book, data });
-		});
+		localStorage.setItem("ld", values.leasedAt);
+		localStorage.setItem("rd", values.returningDate);
+		FetchResource.create("rents", values)
+			.then((data) => {
+				const book = stocks.find((s) => s.id === data.stockId).book;
+				const user = users.find((u) => u.id === data.userId);
+				openNotification(user.firstName + " " + user.lastName, book.name);
+				printReciept({ user, book, rent: data });
+				form.resetFields();
+			})
+			.catch((err) => {
+				console.error(err);
+				message.error(
+					err.response?.data?.message ||
+						err.response?.data?.errors.message ||
+						err.message
+				);
+			});
 	};
 
 	return (
@@ -78,8 +86,16 @@ function CreateRent() {
 				layout="vertical"
 				className="p-3"
 				onFinish={onFinish}
+				initialValues={{
+					leasedAt: localStorage.getItem("ld"),
+					returningDate: localStorage.getItem("rd"),
+				}}
 			>
-				<Form.Item required label={"Kitobxon"} name="userId">
+				<Form.Item
+					rules={[{ required: true }]}
+					label={"Kitobxon"}
+					name="userId"
+				>
 					<SelectFetch
 						resource={resources.users}
 						fetchable={true}
@@ -90,7 +106,11 @@ function CreateRent() {
 						}
 					/>
 				</Form.Item>
-				<Form.Item name="stockId" required label="Kitob zaxirasi">
+				<Form.Item
+					name="stockId"
+					rules={[{ required: true }]}
+					label="Kitob zaxirasi"
+				>
 					<StockSelect
 						resource={resources.stocks}
 						fetchable={true}
@@ -106,26 +126,28 @@ function CreateRent() {
 				</Row>
 				<Row gutter={8}>
 					<Col span={12}>
-						<Form.Item name="leasedAt" required label="Topshirilgan sana">
+						<Form.Item
+							name="leasedAt"
+							rules={[{ required: true }]}
+							label="Topshirilgan sana"
+						>
 							<CustomDate
 								saveStorage={(value) => {
 									localStorage.setItem("ld", value.toISOString());
 								}}
-								getDefaultValue={() => localStorage.getItem("ld")}
 							/>
 						</Form.Item>
 					</Col>
 					<Col span={12}>
 						<Form.Item
 							name="returningDate"
-							required
+							rules={[{ required: true }]}
 							label="Qaytarililishi kerak bo'lgan sana"
 						>
 							<CustomDate
 								saveStorage={(value) => {
 									localStorage.setItem("rd", value.toISOString());
 								}}
-								getDefaultValue={() => localStorage.getItem("rd")}
 							/>
 						</Form.Item>
 					</Col>
