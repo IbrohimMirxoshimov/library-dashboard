@@ -64,7 +64,7 @@ function FormDrawer() {
 	return <FormDrawerMicro messageId={messageId} data={data} />;
 }
 
-export function FormDrawerMicro({ messageId, data }) {
+export function FormDrawerMicro({ messageId, data, onFormClose }) {
 	const user = useSelector((state) => state.auth.user);
 
 	const [visible, setVisible] = useState(false);
@@ -81,9 +81,10 @@ export function FormDrawerMicro({ messageId, data }) {
 		// eslint-disable-next-line
 	}, [messageId]);
 
-	function onClose() {
+	function onClose(isFetchEnd) {
 		setVisible(false);
 		form.resetFields();
+		onFormClose && onFormClose(isFetchEnd);
 	}
 
 	function fetch(values) {
@@ -101,7 +102,7 @@ export function FormDrawerMicro({ messageId, data }) {
 				message.success("Success");
 				unstable_batchedUpdates(() => {
 					setLoading(false);
-					onClose();
+					onClose(true);
 				});
 
 				window.refreshList && window.refreshList(endpoint);

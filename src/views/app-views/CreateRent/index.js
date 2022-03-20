@@ -4,6 +4,7 @@ import {
 	Form,
 	InputNumber,
 	message,
+	Modal,
 	notification,
 	Row,
 } from "antd";
@@ -11,10 +12,24 @@ import { resources } from "api/resources";
 import CustomDate from "components/forms/CustomDate";
 import SelectFetch from "components/forms/SelectFetch";
 import StockSelect from "components/forms/StockSelect";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import FetchResource from "api/crud";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import printReciept from "utils/printReciept";
+import {
+	BookOutlined,
+	CloseCircleOutlined,
+	UserOutlined,
+} from "@ant-design/icons";
+import { FormDrawerMicro } from "components/FormDrawer";
+import Rents from "api/routes/rents";
+import {
+	closeShift,
+	newRent,
+	newUser,
+	openShift,
+	returnedRent,
+} from "redux/actions/ShiftActions";
 
 const days = [5, 10, 15, 20, 30];
 
@@ -36,6 +51,8 @@ function CreateRent() {
 	const stocks = useSelector((state) => state.stocks.items);
 	const [form] = Form.useForm();
 	const [day, setDay] = useState(10);
+	const shift = useSelector((state) => state.shift);
+	const dispatch = useDispatch();
 
 	const setDate = (d) => {
 		const now = new Date().toISOString();
@@ -71,6 +88,7 @@ function CreateRent() {
 	const onFinish = (values) => {
 		FetchResource.create("rents", values)
 			.then((data) => {
+				dispatch(newRent());
 				const book = stocks.find((s) => s.id === data.stockId).book;
 				const user = users.find((u) => u.id === data.userId);
 				openNotification(user.firstName + " " + user.lastName, book.name);
@@ -87,12 +105,27 @@ function CreateRent() {
 				);
 			});
 	};
+	if (!shift.openedAt) {
+		return (
+			<div
+				className="d-flex align-items-center justify-content-center"
+				style={{ height: "90vh" }}
+			>
+				<Button
+					className="big"
+					style={{ width: "40%" }}
+					htmlType="submit"
+					type="primary"
+					onClick={() => dispatch(openShift())}
+				>
+					Boshlash
+				</Button>
+			</div>
+		);
+	}
 
 	return (
-		<Row
-			// className="d-flex justify-content-center"
-			style={{ background: "#f8f8f8" }}
-		>
+		<Row style={{ background: "#f8f8f8" }} className="p-3">
 			<Col span={18}>
 				<h3 className="ml-3">Ijara qo'shish</h3>
 				<Form
@@ -171,43 +204,51 @@ function CreateRent() {
 						</Col>
 					</Row>
 					<Form.Item>
-						<Button
-							style={{
-								width: "100%",
-								height: "60px",
-								fontSize: "22px",
-							}}
-							htmlType="submit"
-							type="primary"
-						>
+						<Button className="big" htmlType="submit" type="primary">
 							Saqlash
 						</Button>
 					</Form.Item>
 				</Form>
 			</Col>
-			<MakeFreeRent />
+			<RightTools />
 		</Row>
 	);
 }
 
-function MakeFreeRent() {
+function LeaseRent({ incramentReturning }) {
+	const [loading, setLoading] = useState(false);
+	const [form] = Form.useForm();
+
 	function onFinish(values) {
-		console.log(values);
+		if (values.rentId) {
+			setLoading(true);
+			Rents.return(values.rentId)
+				.then((r) => {
+					incramentReturning();
+					message.success(values.rentId + " raqamili ijara bo'shatildi!");
+					setLoading(false);
+					form.resetFields();
+				})
+				.catch((err) => {
+					console.error(err);
+					message.error("Ijara bo'shatishda qandaydi muammo");
+					setLoading(false);
+				});
+		}
 	}
+
 	return (
-		<Col span={6}>
+		<Fragment>
 			<h3 className="ml-3">Bo'shatish</h3>
-			<Form layout="vertical" className="p-3" onFinish={onFinish}>
-				<Form.Item label={"Ijara raqami"}>
+			<Form form={form} layout="vertical" className="p-3" onFinish={onFinish}>
+				<Form.Item name={"rentId"} label={"Ijara raqami"}>
 					<InputNumber style={{ width: "100%" }} />
 				</Form.Item>
 				<Form.Item>
 					<Button
-						style={{
-							width: "100%",
-							height: "60px",
-							fontSize: "18px",
-						}}
+						className="big"
+						disabled={loading}
+						loading={loading}
 						htmlType="submit"
 						type="primary"
 					>
@@ -215,6 +256,97 @@ function MakeFreeRent() {
 					</Button>
 				</Form.Item>
 			</Form>
+		</Fragment>
+	);
+}
+
+function CloseShift() {
+	const [modal, setModal] = useState(false);
+	const shift = useSelector((state) => state.shift);
+	const dispatch = useDispatch();
+
+	return (
+		<Fragment>
+			<Button
+				className="my-1 big"
+				icon={<CloseCircleOutlined />}
+				// type="primary"
+				ghost
+				danger
+				onClick={() => setModal(true)}
+			>
+				Yakunlash
+			</Button>
+
+			<Modal
+				visible={modal}
+				onCancel={() => setModal(false)}
+				okText="Yakunlash"
+				onOk={() => dispatch(closeShift())}
+				cancelText="Orqaga"
+				okButtonProps={{ danger: true }}
+				title={<h2>Bugun bajarilgan amallar</h2>}
+			>
+				<h2>Qaytarilgan ijaralar: {shift.returned_rents}</h2>
+				<h2>Yangi ijaralar: {shift.new_rents}</h2>
+				<h2>Yangi kitobxonlar: {shift.new_users}</h2>
+			</Modal>
+		</Fragment>
+	);
+}
+
+function RightTools() {
+	const formsData = {
+		stocks: {
+			form: "stocks",
+			resource: { endpoint: "stocks", nameOne: "Kitob" },
+		},
+		users: {
+			form: "users",
+			resource: { endpoint: "users", nameOne: "Kitobxon" },
+		},
+	};
+
+	const [activeForm, setActiveForm] = useState();
+	const dispatch = useDispatch();
+
+	return (
+		<Col span={6}>
+			<LeaseRent incramentReturning={() => dispatch(returnedRent())} />
+			{activeForm && (
+				<FormDrawerMicro
+					data={activeForm}
+					messageId={1}
+					onFormClose={(created) =>
+						setTimeout(() => {
+							if (activeForm.form === "users") dispatch(newUser());
+
+							setActiveForm(undefined);
+						}, 500)
+					}
+				/>
+			)}
+			<div className="p-3">
+				<Button
+					className="big"
+					onClick={() => setActiveForm(formsData.users)}
+					icon={<UserOutlined />}
+					type="primary"
+					ghost
+				>
+					Kitobxon qo'shish
+				</Button>
+				<Button
+					className="my-1 big"
+					onClick={() => setActiveForm(formsData.stocks)}
+					icon={<BookOutlined />}
+					type="primary"
+					ghost
+				>
+					Kitob qo'shish
+				</Button>
+				<CloseShift />
+			</div>
 		</Col>
 	);
 }

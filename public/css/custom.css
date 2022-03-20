@@ -96,3 +96,9 @@
 iframe {
 	display: none;
 }
+
+.ant-btn.big {
+	width: 100%;
+	height: 60px;
+	font-size: 18px;
+}
