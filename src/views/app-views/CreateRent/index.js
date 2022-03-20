@@ -1,9 +1,17 @@
-import { Button, Col, Form, message, notification, Row } from "antd";
+import {
+	Button,
+	Col,
+	Form,
+	InputNumber,
+	message,
+	notification,
+	Row,
+} from "antd";
 import { resources } from "api/resources";
 import CustomDate from "components/forms/CustomDate";
 import SelectFetch from "components/forms/SelectFetch";
 import StockSelect from "components/forms/StockSelect";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import FetchResource from "api/crud";
 import { useSelector } from "react-redux";
 import printReciept from "utils/printReciept";
@@ -27,6 +35,7 @@ function CreateRent() {
 	const users = useSelector((state) => state.users.items);
 	const stocks = useSelector((state) => state.stocks.items);
 	const [form] = Form.useForm();
+	const [day, setDay] = useState(10);
 
 	const setDate = (d) => {
 		const now = new Date().toISOString();
@@ -38,6 +47,7 @@ function CreateRent() {
 			leasedAt: now,
 			returningDate: returnDate,
 		});
+		setDay(d);
 	};
 
 	useEffect(() => {
@@ -49,6 +59,7 @@ function CreateRent() {
 				setDate(days[Number(d) - 1]);
 			}
 		};
+		setDate(10);
 
 		document.addEventListener("keypress", handleShortCut);
 		return () => {
@@ -58,8 +69,6 @@ function CreateRent() {
 	}, []);
 
 	const onFinish = (values) => {
-		localStorage.setItem("ld", values.leasedAt);
-		localStorage.setItem("rd", values.returningDate);
 		FetchResource.create("rents", values)
 			.then((data) => {
 				const book = stocks.find((s) => s.id === data.stockId).book;
@@ -67,6 +76,7 @@ function CreateRent() {
 				openNotification(user.firstName + " " + user.lastName, book.name);
 				printReciept({ user, book, rent: data });
 				form.resetFields();
+				setDate(10);
 			})
 			.catch((err) => {
 				console.error(err);
@@ -79,87 +89,133 @@ function CreateRent() {
 	};
 
 	return (
-		<div>
-			<h3 className="m-3">Ijara qo'shish</h3>
-			<Form
-				form={form}
-				name="basic"
-				layout="vertical"
-				className="p-3"
-				onFinish={onFinish}
-				initialValues={{
-					leasedAt: localStorage.getItem("ld"),
-					returningDate: localStorage.getItem("rd"),
-				}}
-			>
-				<Form.Item
-					rules={[{ required: true }]}
-					label={"Kitobxon"}
-					name="userId"
+		<Row
+			// className="d-flex justify-content-center"
+			style={{ background: "#f8f8f8" }}
+		>
+			<Col span={18}>
+				<h3 className="ml-3">Ijara qo'shish</h3>
+				<Form
+					form={form}
+					name="basic"
+					layout="vertical"
+					className="p-3"
+					onFinish={onFinish}
 				>
-					<SelectFetch
-						resource={resources.users}
-						fetchable={true}
-						column={"fullName"}
-						render={(item) =>
-							item &&
-							`${item.firstName} ${item.lastName} - ${item.phone} - ${item.passportId}`
-						}
-					/>
-				</Form.Item>
-				<Form.Item
-					name="stockId"
-					rules={[{ required: true }]}
-					label="Kitob zaxirasi"
-				>
-					<StockSelect
-						resource={resources.stocks}
-						fetchable={true}
-						column="name"
-					/>
-				</Form.Item>
-				<Row className="mb-3">
-					{days.map((d) => (
-						<Button key={d} onClick={() => setDate(d)} className="mr-2">
-							{d} kun
+					<Form.Item
+						rules={[{ required: true }]}
+						label={"Kitobxon"}
+						name="userId"
+					>
+						<SelectFetch
+							placeholder={"Kitobxon ism, familiya yoki telefon raqam"}
+							resource={resources.users}
+							fetchable={true}
+							column={"fullName"}
+							render={(item) =>
+								item &&
+								`${item.firstName} ${item.lastName} - ${item.phone} - ${item.passportId}`
+							}
+						/>
+					</Form.Item>
+					<Form.Item
+						name="stockId"
+						rules={[{ required: true }]}
+						label="Kitob zaxirasi"
+					>
+						<StockSelect
+							placeholder={"Kitob nomi"}
+							resource={resources.stocks}
+							fetchable={true}
+							column="name"
+						/>
+					</Form.Item>
+					<Row className="mb-3">
+						{days.map((d) => (
+							<Button
+								type={d === day ? "primary" : "default"}
+								key={d}
+								onClick={() => setDate(d)}
+								className="mr-2"
+							>
+								{d} kun
+							</Button>
+						))}
+					</Row>
+					<Row gutter={8}>
+						<Col span={12}>
+							<Form.Item
+								name="leasedAt"
+								rules={[{ required: true }]}
+								label="Topshirilgan sana"
+							>
+								<CustomDate
+									saveStorage={(value) => {
+										localStorage.setItem("ld", value.toISOString());
+									}}
+								/>
+							</Form.Item>
+						</Col>
+						<Col span={12}>
+							<Form.Item
+								name="returningDate"
+								rules={[{ required: true }]}
+								label="Qaytarililishi kerak bo'lgan sana"
+							>
+								<CustomDate
+									saveStorage={(value) => {
+										localStorage.setItem("rd", value.toISOString());
+									}}
+								/>
+							</Form.Item>
+						</Col>
+					</Row>
+					<Form.Item>
+						<Button
+							style={{
+								width: "100%",
+								height: "60px",
+								fontSize: "22px",
+							}}
+							htmlType="submit"
+							type="primary"
+						>
+							Saqlash
 						</Button>
-					))}
-				</Row>
-				<Row gutter={8}>
-					<Col span={12}>
-						<Form.Item
-							name="leasedAt"
-							rules={[{ required: true }]}
-							label="Topshirilgan sana"
-						>
-							<CustomDate
-								saveStorage={(value) => {
-									localStorage.setItem("ld", value.toISOString());
-								}}
-							/>
-						</Form.Item>
-					</Col>
-					<Col span={12}>
-						<Form.Item
-							name="returningDate"
-							rules={[{ required: true }]}
-							label="Qaytarililishi kerak bo'lgan sana"
-						>
-							<CustomDate
-								saveStorage={(value) => {
-									localStorage.setItem("rd", value.toISOString());
-								}}
-							/>
-						</Form.Item>
-					</Col>
-				</Row>
+					</Form.Item>
+				</Form>
+			</Col>
+			<MakeFreeRent />
+		</Row>
+	);
+}
+
+function MakeFreeRent() {
+	function onFinish(values) {
+		console.log(values);
+	}
+	return (
+		<Col span={6}>
+			<h3 className="ml-3">Bo'shatish</h3>
+			<Form layout="vertical" className="p-3" onFinish={onFinish}>
+				<Form.Item label={"Ijara raqami"}>
+					<InputNumber style={{ width: "100%" }} />
+				</Form.Item>
 				<Form.Item>
-					<Button htmlType="submit" type="primary">
-						Saqlash
+					<Button
+						style={{
+							width: "100%",
+							height: "60px",
+							fontSize: "18px",
+						}}
+						htmlType="submit"
+						type="primary"
+					>
+						Bo'shatish
 					</Button>
 				</Form.Item>
 			</Form>
-		</div>
+		</Col>
 	);
 }
 

@@ -1,14 +1,13 @@
 import mainCaller from "../main";
 
 export default class Rents {
-	static return(id, { stockId }) {
-		return mainCaller(`/rents/${id}/return`, "PUT", {
-			stockId,
-		});
+	static return(id) {
+		return mainCaller(`/rents/${id}/return`, "PUT");
 	}
-	static reject(id, deleteStock) {
-		return mainCaller(`/rents/${id}/reject`, "PUT", {
-			deleteStock,
-		});
+	static reject(id) {
+		return mainCaller(`/rents/${id}/reject`, "PUT");
+	}
+	static destroy(id) {
+		return mainCaller(`/rents/${id}`, "DELETE");
 	}
 }

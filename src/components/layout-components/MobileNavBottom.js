@@ -6,7 +6,7 @@ import navigationConfig from "configs/NavigationConfig";
 export const MobileNav = ({ location }) => {
 	return (
 		<div className="nav_bottom_menu">
-			{navigationConfig[0].submenu.slice(0, 3).map((menu) => (
+			{navigationConfig[0].submenu.slice(0, 4).map((menu) => (
 				<Link
 					to={menu.path}
 					className={

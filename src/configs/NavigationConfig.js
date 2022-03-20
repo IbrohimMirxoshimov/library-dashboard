@@ -15,21 +15,21 @@ const dashBoardNavTree = {
 	breadcrumb: false,
 	submenu: [
 		{
-			key: "rents",
-			path: `${APP_PREFIX_PATH}/rents`,
-			title: "Ijara",
-			icon: "FileDoneOutlined",
-			role: roles.librarian,
-			submenu: [],
-		},
-		{
 			key: "create_rent",
 			path: `${APP_PREFIX_PATH}/create-rent`,
 			title: "Ijara qo'shish",
-			icon: "FileDoneOutlined",
+			icon: "PlusCircleOutlined",
 			role: roles.librarian,
 			submenu: [],
 			other: true,
+		},
+		{
+			key: "rents",
+			path: `${APP_PREFIX_PATH}/rents`,
+			title: "Ijaralar",
+			icon: "FileDoneOutlined",
+			role: roles.librarian,
+			submenu: [],
 		},
 		{
 			key: "users",

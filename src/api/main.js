@@ -3,7 +3,9 @@ import { getTOKEN } from "redux/reducers/Auth";
 import { signOutDirectly } from "redux/store";
 import { isDevelopment } from "utils/methods";
 export const mainUrl = () =>
-	isDevelopment() ? "http://localhost:3258" : "https://library.softly.uz";
+	isDevelopment()
+		? `http://${window.location.hostname}:3258`
+		: "https://library.softly.uz";
 
 export default function mainCaller(path, method, data, headers) {
 	const _headers = {

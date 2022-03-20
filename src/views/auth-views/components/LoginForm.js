@@ -28,6 +28,7 @@ const LoginForm = ({ history }) => {
 				history.push("/app");
 			})
 			.catch((err) => {
+				console.error(err);
 				message.error("Xatolik");
 				setLoading(false);
 			});

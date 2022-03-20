@@ -7,6 +7,7 @@ import {
 	BookOutlined,
 	UserOutlined,
 	FileDoneOutlined,
+	PlusCircleOutlined,
 	BankOutlined,
 } from "@ant-design/icons";
 
@@ -20,6 +21,7 @@ const Icons = {
 	UserOutlined,
 	BankOutlined,
 	FileDoneOutlined,
+	PlusCircleOutlined,
 };
 
 export default Icons;

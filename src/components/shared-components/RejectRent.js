@@ -8,7 +8,7 @@ function RejectRent({ id, onClose }) {
 	return (
 		<div className="d-flex justify-content-between">
 			<Popconfirm
-				title="Eslatma!!! Agar Ijarani bekor qilsangiz shunga bog'langan kitob ham o'chib ketadi!"
+				title="Eslatma!!! Agar ijarani bekor qilsangiz shunga bog'langan kitob ham o'chib ketadi!"
 				okText="Roziman"
 				cancelText="Yo'q"
 				okButtonProps={{
@@ -16,7 +16,7 @@ function RejectRent({ id, onClose }) {
 				}}
 				onConfirm={() => {
 					setLoading(true);
-					Rents.reject(id, true)
+					Rents.reject(id)
 						.then(() => {
 							setLoading(true);
 							onClose();
@@ -36,7 +36,7 @@ function RejectRent({ id, onClose }) {
 					loading={loading}
 					icon={<CloseCircleOutlined />}
 				>
-					Qaytarilmasdan bekor qilish
+					Kitob qaytrilmadi. O'chirish
 				</Button>
 			</Popconfirm>
 			<Popconfirm
@@ -49,7 +49,7 @@ function RejectRent({ id, onClose }) {
 				onConfirm={() => {
 					setLoading(true);
 
-					Rents.reject(id, false)
+					Rents.destroy(id)
 						.then(() => {
 							setLoading(true);
 							onClose();

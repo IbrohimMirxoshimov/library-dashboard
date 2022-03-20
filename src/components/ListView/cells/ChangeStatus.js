@@ -14,16 +14,15 @@ function ChangeStatus({ record, value }) {
 			onChange={(ch) => {
 				if (ch) {
 					setLoading(true);
-					Rents.return(record.id, { stockId: record.stockId })
+					Rents.return(record.id)
 						.then((r) => {
 							setLoading(false);
-							message.success("Success");
+							message.success("Bo'shatildi");
 							setChecked(true);
 						})
 						.catch((err) => {
 							console.error(err);
 							setLoading(false);
-
 							message.error(err.message);
 						});
 				} else {
