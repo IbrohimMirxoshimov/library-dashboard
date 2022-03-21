@@ -63,13 +63,13 @@ const pagesConfig = {
 				],
 				fieldProp: { resource: resources.books, fetchable: true },
 			},
-			{
-				name: "locationId",
-				label: tl("location"),
-				field: "selectFetch",
-				role: roles.owner,
-				fieldProp: { resource: resources.locations, fetchSize: 30 },
-			},
+			// {
+			// 	name: "locationId",
+			// 	label: tl("location"),
+			// 	field: "selectFetch",
+			// 	role: roles.owner,
+			// 	fieldProp: { resource: resources.locations, fetchSize: 30 },
+			// },
 		],
 		footer: (data, form) => {
 			return [
@@ -188,13 +188,13 @@ const pagesConfig = {
 				dataIndex: "id",
 			},
 			{
-				title: "name",
+				title: tl("name"),
 				key: "name",
 				dataIndex: "name",
 				cellRenderer: "editOpener",
 			},
 			{
-				title: "image",
+				title: tl("image"),
 				key: "image",
 				dataIndex: "image",
 				render: (image) =>
@@ -207,13 +207,13 @@ const pagesConfig = {
 					),
 			},
 			{
-				title: "To'plam",
+				title: tl("group"),
 				key: "booksgroup",
 				dataIndex: "booksGroupId",
 				resource: resources.booksgroups,
 			},
 			{
-				title: "author",
+				title: tl("author"),
 				key: "authorId",
 				dataIndex: "authorId",
 				resource: resources.authors,
@@ -223,6 +223,7 @@ const pagesConfig = {
 		form: [
 			{
 				name: "name",
+				label: tl("name"),
 				rules: [
 					{
 						required: true,
@@ -230,14 +231,8 @@ const pagesConfig = {
 				],
 			},
 			{
-				name: "description",
-			},
-			{
-				name: "image",
-				field: "imageUpload",
-			},
-			{
 				name: "rentDuration",
+				label: tl("rentDuration"),
 				rules: [
 					{
 						required: true,
@@ -246,30 +241,48 @@ const pagesConfig = {
 				fieldProp: { defaultValue: 30, type: "number" },
 			},
 			{
-				name: "booksGroupId",
-				field: "selectFetch",
-				fieldProp: { resource: resources.booksgroups, fetchable: true },
+				name: "pages",
+				label: tl("pages"),
+				fieldProp: { type: "number" },
 			},
 			{
 				name: "authorId",
+				label: tl("author"),
 				field: "selectFetch",
 				fieldProp: { resource: resources.authors, fetchable: true },
 			},
 			{
+				label: tl("description"),
+				name: "description",
+			},
+			{
+				name: "image",
+				label: tl("image"),
+				field: "imageUpload",
+			},
+
+			{
+				name: "booksGroupId",
+				field: "selectFetch",
+				label: tl("group"),
+				fieldProp: { resource: resources.booksgroups, fetchable: true },
+			},
+
+			{
 				name: "publishingId",
 				field: "selectFetch",
+				label: tl("publishing"),
 				fieldProp: { resource: resources.publishings, fetchable: true },
 			},
 			{
 				name: "printedAt",
+				label: tl("printedAt"),
 				fieldProp: { type: "date" },
 			},
-			{
-				name: "pages",
-				fieldProp: { type: "number" },
-			},
+
 			{
 				name: "sort",
+				label: tl("sort"),
 				fieldProp: { type: "number" },
 			},
 		],
@@ -394,6 +407,7 @@ const pagesConfig = {
 		form: [
 			{
 				name: "name",
+				label: tl("name"),
 				rules: [
 					{
 						required: true,
@@ -423,6 +437,7 @@ const pagesConfig = {
 		form: [
 			{
 				name: "name",
+				label: tl("name"),
 				rules: [
 					{
 						required: true,

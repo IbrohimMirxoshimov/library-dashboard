@@ -18,5 +18,14 @@
 	"extra": "Qo'shimcha ma'lumot",
 	"bookId": "Kitob raqami",
 	"rents": "Ijaralar",
+	"description": "Qo'shimcha ma'lumot",
+	"image": "Rasm",
+	"rentDuration": "O'qish muddati (kunda)",
+	"group": "To'plam",
+	"author": "Muallif",
+	"publishing": "Nashriyot",
+	"printedAt": "Chop etilgan sana",
+	"pages": "Sahifalar soni",
+	"sort": "Tartib raqami",
 	"rent": "Ijara"
 }
