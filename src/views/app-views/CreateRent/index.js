@@ -163,18 +163,19 @@ function CreateRent() {
 							column="name"
 						/>
 					</Form.Item>
-					<Row className="mb-3">
+					<div className="mb-3">
 						{days.map((d) => (
 							<Button
 								type={d === day ? "primary" : "default"}
 								key={d}
 								onClick={() => setDate(d)}
 								className="mr-2"
+								style={{ height: 50, fontSize: 20 }}
 							>
 								{d} kun
 							</Button>
 						))}
-					</Row>
+					</div>
 					<Row gutter={8}>
 						<Col span={12}>
 							<Form.Item
@@ -193,7 +194,7 @@ function CreateRent() {
 							<Form.Item
 								name="returningDate"
 								rules={[{ required: true }]}
-								label="Qaytarililishi kerak bo'lgan sana"
+								label="Qaytarilishi kerak bo'lgan sana"
 							>
 								<CustomDate
 									saveStorage={(value) => {
@@ -268,7 +269,7 @@ function CloseShift() {
 	return (
 		<Fragment>
 			<Button
-				className="my-1 big"
+				className="big"
 				icon={<CloseCircleOutlined />}
 				// type="primary"
 				ghost
