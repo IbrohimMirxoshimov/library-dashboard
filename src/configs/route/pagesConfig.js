@@ -1,5 +1,4 @@
 import { resources } from "api/resources";
-import { roles } from "configs/NavigationConfig";
 import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
 import { rents } from "./rents";
 import { createdAtAndUpdatedAtColumns } from "./utils";

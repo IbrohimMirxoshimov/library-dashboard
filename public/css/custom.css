@@ -102,3 +102,38 @@ iframe {
 	height: 60px;
 	font-size: 18px;
 }
+
+.c-rent .ant-form-item-label label {
+	font-size: 20px;
+	line-height: 0px;
+}
+.c-rent .ant-select-selector {
+	border: 2px solid #3e79f7 !important ;
+}
+.c-rent .ant-picker {
+	border: 2px solid #3e79f7 !important ;
+}
+.c-rent .ant-input-number {
+	border: 2px solid #3e79f7 !important ;
+}
+.c-rent .custom-stock {
+	display: inline-table;
+	width: 30%;
+	margin-top: -30px;
+	margin-left: 3px;
+}
+
+.c-rent .custom-stock label {
+	font-size: 20px;
+	font-weight: 500;
+	color: #1a3253;
+}
+
+input::placeholder {
+	color: #555;
+}
+
+.ant-message-notice-content {
+	font-size: 25px;
+	font-weight: bold;
+}

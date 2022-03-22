@@ -81,10 +81,10 @@ export function FormDrawerMicro({ messageId, data, onFormClose }) {
 		// eslint-disable-next-line
 	}, [messageId]);
 
-	function onClose(isFetchEnd) {
+	function onClose(response) {
 		setVisible(false);
 		form.resetFields();
-		onFormClose && onFormClose(isFetchEnd);
+		onFormClose && onFormClose(response);
 	}
 
 	function fetch(values) {
@@ -102,7 +102,7 @@ export function FormDrawerMicro({ messageId, data, onFormClose }) {
 				message.success("Success");
 				unstable_batchedUpdates(() => {
 					setLoading(false);
-					onClose(true);
+					onClose(res);
 				});
 
 				window.refreshList && window.refreshList(endpoint);

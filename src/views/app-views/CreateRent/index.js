@@ -46,6 +46,17 @@ const openNotification = (userName, bookName) => {
 	});
 };
 
+function showError(err, custom_message) {
+	console.error(err);
+	message.error(
+		err.response?.data?.message ||
+			err.response?.data?.errors.message ||
+			custom_message ||
+			err.message,
+		10
+	);
+}
+
 function CreateRent() {
 	const users = useSelector((state) => state.users.items);
 	const stocks = useSelector((state) => state.stocks.items);
@@ -96,14 +107,7 @@ function CreateRent() {
 				form.resetFields();
 				setDate(10);
 			})
-			.catch((err) => {
-				console.error(err);
-				message.error(
-					err.response?.data?.message ||
-						err.response?.data?.errors.message ||
-						err.message
-				);
-			});
+			.catch(showError);
 	};
 	if (!shift.openedAt) {
 		return (
@@ -125,7 +129,7 @@ function CreateRent() {
 	}
 
 	return (
-		<Row style={{ background: "#f8f8f8" }} className="p-3">
+		<Row style={{ background: "#f8f8f8" }} className="p-3 c-rent">
 			<Col span={18}>
 				<h3 className="ml-3">Ijara qo'shish</h3>
 				<Form
@@ -151,11 +155,7 @@ function CreateRent() {
 							}
 						/>
 					</Form.Item>
-					<Form.Item
-						name="stockId"
-						rules={[{ required: true }]}
-						label="Kitob zaxirasi"
-					>
+					<Form.Item name="stockId" rules={[{ required: true }]} label="Kitob">
 						<StockSelect
 							placeholder={"Kitob nomi"}
 							resource={resources.stocks}
@@ -176,7 +176,7 @@ function CreateRent() {
 							</Button>
 						))}
 					</div>
-					<Row gutter={8}>
+					<Row gutter={8} className="mt-4">
 						<Col span={12}>
 							<Form.Item
 								name="leasedAt"
@@ -221,20 +221,28 @@ function LeaseRent({ incramentReturning }) {
 	const [form] = Form.useForm();
 
 	function onFinish(values) {
-		if (values.rentId) {
+		function success(id) {
+			incramentReturning();
+			message.success(id + " raqamli ijara bo'shatildi!");
+			setLoading(false);
+			form.resetFields();
+		}
+
+		function error(err) {
+			showError(err, "Ijara bo'shatishda qandaydir muammo");
+			setLoading(false);
+		}
+
+		if (values.id) {
 			setLoading(true);
-			Rents.return(values.rentId)
-				.then((r) => {
-					incramentReturning();
-					message.success(values.rentId + " raqamili ijara bo'shatildi!");
-					setLoading(false);
-					form.resetFields();
-				})
-				.catch((err) => {
-					console.error(err);
-					message.error("Ijara bo'shatishda qandaydi muammo");
-					setLoading(false);
-				});
+			Rents.return(values.id)
+				.then((r) => success(values.id))
+				.catch(error);
+		} else if (values.customId) {
+			setLoading(true);
+			Rents.returnWithCustomId(values.customId)
+				.then((r) => success(values.customId))
+				.catch(error);
 		}
 	}
 
@@ -242,7 +250,10 @@ function LeaseRent({ incramentReturning }) {
 		<Fragment>
 			<h3 className="ml-3">Bo'shatish</h3>
 			<Form form={form} layout="vertical" className="p-3" onFinish={onFinish}>
-				<Form.Item name={"rentId"} label={"Ijara raqami"}>
+				<Form.Item name={"id"} label={"Yangi kvitansiya"}>
+					<InputNumber style={{ width: "100%" }} />
+				</Form.Item>
+				<Form.Item name={"customId"} label={"Eski kvitansiya"}>
 					<InputNumber style={{ width: "100%" }} />
 				</Form.Item>
 				<Form.Item>
@@ -318,9 +329,12 @@ function RightTools() {
 				<FormDrawerMicro
 					data={activeForm}
 					messageId={1}
-					onFormClose={(created) =>
+					onFormClose={(response) =>
 						setTimeout(() => {
 							if (activeForm.form === "users") dispatch(newUser());
+							if (activeForm.form === "stocks") {
+								message.success(response.id + " - yangi kitob raqami", 10);
+							}
 
 							setActiveForm(undefined);
 						}, 500)

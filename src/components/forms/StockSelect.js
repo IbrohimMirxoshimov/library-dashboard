@@ -95,25 +95,28 @@ function StockSelect({
 					);
 				})}
 			</Select>
-			<Select
-				id="stockInputRef"
-				style={{ width: "30%", minWidth: "30%", marginLeft: 3 }}
-				loading={loading}
-				notFoundContent={loading && <Spin size="small" />}
-				onSearch={searchById}
-				onChange={props.onChange}
-				showSearch
-				value={value}
-				placeholder={"ID"}
-			>
-				{items.map((item, i) => {
-					return (
-						<Option key={i} value={item.id}>
-							{item.id}
-						</Option>
-					);
-				})}
-			</Select>
+			<div className="custom-stock">
+				<label>Kitob raqami</label>
+				<Select
+					id="stockInputRef"
+					style={{ width: "100%", minWidth: "30%" }}
+					loading={loading}
+					notFoundContent={loading && <Spin size="small" />}
+					onSearch={searchById}
+					onChange={props.onChange}
+					showSearch
+					value={value}
+					placeholder={"Kitob raqami"}
+				>
+					{items.map((item, i) => {
+						return (
+							<Option key={i} value={item.id}>
+								{item.id}
+							</Option>
+						);
+					})}
+				</Select>
+			</div>
 		</div>
 	);
 }
