@@ -19,7 +19,7 @@ export default function printReciept(data) {
 function getRentIdForBarcode(id) {
 	let zeros = "0";
 	let id_str = String(id);
-	return "S" + zeros.repeat(9 - id_str.length) + id_str;
+	return "R" + zeros.repeat(9 - id_str.length) + id_str;
 }
 
 function getRecieptContent({ user, book, rent }) {
