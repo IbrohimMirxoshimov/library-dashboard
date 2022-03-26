@@ -23,7 +23,6 @@ import {
 	CloseCircleOutlined,
 	UserOutlined,
 } from "@ant-design/icons";
-import { FormDrawerMicro } from "components/FormDrawer";
 import Rents from "api/routes/rents";
 import {
 	closeShift,
