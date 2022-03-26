@@ -30,6 +30,7 @@ import {
 	openShift,
 	returnedRent,
 } from "redux/actions/ShiftActions";
+import { addNeeds } from "redux/actions/resource";
 
 const days = [5, 10, 15, 20, 30];
 
@@ -219,9 +220,34 @@ function CreateRent() {
 function LeaseRent({ incramentReturning }) {
 	const [loading, setLoading] = useState(false);
 	const [form] = Form.useForm();
+	const [modal, setModal] = useState({ open: false, rent: {} });
+
+	async function onCheck() {
+		try {
+			const values = form.getFieldsValue();
+			if (values.id || values.customId) {
+				setLoading(true);
+
+				if (values.id) {
+					let rent = await Rents.getOne(values.id);
+					setModal({ open: true, rent });
+				} else if (values.customId) {
+					let rent = await Rents.getOneBtCustomId(values.customId);
+					setModal({ open: true, rent });
+				}
+				setLoading(false);
+			}
+		} catch (error) {
+			showError(error);
+			setLoading(false);
+		}
+	}
 
 	function onFinish(values) {
 		function success(id) {
+			if (modal.open) {
+				setModal({ open: false });
+			}
 			incramentReturning();
 			message.success(id + " raqamli ijara bo'shatildi!");
 			setLoading(false);
@@ -249,7 +275,13 @@ function LeaseRent({ incramentReturning }) {
 	return (
 		<Fragment>
 			<h3 className="ml-3">Bo'shatish</h3>
-			<Form form={form} layout="vertical" className="p-3" onFinish={onFinish}>
+			<Form
+				id="rent-form"
+				form={form}
+				layout="vertical"
+				className="p-3"
+				onFinish={onFinish}
+			>
 				<Form.Item name={"id"} label={"Yangi kvitansiya"}>
 					<InputNumber style={{ width: "100%" }} />
 				</Form.Item>
@@ -261,14 +293,65 @@ function LeaseRent({ incramentReturning }) {
 						className="big"
 						disabled={loading}
 						loading={loading}
-						htmlType="submit"
+						onClick={onCheck}
+						// htmlType="submit"
 						type="primary"
 					>
 						Bo'shatish
 					</Button>
 				</Form.Item>
 			</Form>
+			{modal.open && (
+				<CheckModal
+					rent={modal.rent}
+					loading={loading}
+					close={() => setModal({ open: false })}
+				/>
+			)}
 		</Fragment>
+	);
+}
+
+function CheckModal({ rent, loading, close }) {
+	const book = useSelector(
+		(state) =>
+			rent.stock &&
+			state.books.items.find((book) => book.id === rent.stock.bookId)
+	);
+
+	useEffect(() => {
+		if (!book) {
+			addNeeds(resources.books, [rent.stock.bookId]);
+		}
+		// eslint-disable-next-line
+	}, []);
+
+	return (
+		<Modal
+			title="Tekshiramiz"
+			visible={true}
+			onCancel={close}
+			footer={
+				<Button
+					className="big"
+					disabled={loading}
+					loading={loading}
+					htmlType="submit"
+					type="primary"
+					form={"rent-form"}
+				>
+					Bo'shatish
+				</Button>
+			}
+		>
+			{rent.customId ? (
+				<h1>Eski kvitansiya raqami: {rent.customId}</h1>
+			) : (
+				<h1>Kvitansiya raqami: {rent.id}</h1>
+			)}
+			<h1>Kitob raqami: {rent.stockId}</h1>
+			<h1>Kitob: {book.name}</h1>
+		</Modal>
 	);
 }
 

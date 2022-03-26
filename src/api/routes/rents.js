@@ -13,4 +13,20 @@ export default class Rents {
 	static destroy(id) {
 		return mainCaller(`/rents/${id}`, "DELETE");
 	}
+	static getOne(id) {
+		return mainCaller(`/rents/${id}`, "GET");
+	}
+	static getOneBtCustomId(id) {
+		return mainCaller(`/rents?filters[customId]=${id}`, "GET").then((r) => {
+			if (r.items.length === 0) {
+				throw new Error("Kvitansiya topilmadi");
+			}
+
+			if (r.items.length === 1) {
+				return r.items[0];
+			}
+
+			throw new Error("Ko'p kvitansiyalar bor");
+		});
+	}
 }
