@@ -2,10 +2,12 @@ import {
 	Button,
 	Col,
 	Form,
+	Input,
 	InputNumber,
 	message,
 	Modal,
 	notification,
+	Radio,
 	Row,
 } from "antd";
 import { resources } from "api/resources";
@@ -30,7 +32,10 @@ import {
 	openShift,
 	returnedRent,
 } from "redux/actions/ShiftActions";
-import { addNeeds } from "redux/actions/resource";
+import { addNeeds, addNews } from "redux/actions/resource";
+import Passport from "components/forms/Passport";
+import { tl } from "i18n";
+import PhoneNumber from "components/forms/PhoneNumber";
 
 const days = [5, 10, 15, 20, 30];
 
@@ -49,13 +54,16 @@ const openNotification = (userName, bookName) => {
 
 function showError(err, custom_message) {
 	console.error(err);
-	message.error(
-		err.response?.data?.message ||
-			err.response?.data?.errors.message ||
-			custom_message ||
-			err.message,
-		10
-	);
+	if (err.response?.data?.message === "Validation error")
+		message.error("Bu seriyali foydalanuvchi allaqachon mavjud mavjud");
+	else
+		message.error(
+			err.response?.data?.message ||
+				err.response?.data?.errors.message ||
+				custom_message ||
+				err.message,
+			10
+		);
 }
 
 function CreateRent() {
@@ -212,7 +220,7 @@ function CreateRent() {
 					</Form.Item>
 				</Form>
 			</Col>
-			<RightTools />
+			<RightTools form={form} />
 		</Row>
 	);
 }
@@ -350,7 +358,7 @@ function CheckModal({ rent, loading, close }) {
 				<h1>Kvitansiya raqami: {rent.id}</h1>
 			)}
 			<h1>Kitob raqami: {rent.stockId}</h1>
-			<h1>Kitob: {book.name}</h1>
+			<h1>Kitob: {book?.name}</h1>
 		</Modal>
 	);
 }
@@ -390,38 +398,39 @@ function CloseShift() {
 	);
 }
 
-function RightTools() {
+function RightTools({ form }) {
 	const formsData = {
-		stocks: {
-			form: "stocks",
-			resource: { endpoint: "stocks", nameOne: "Kitob" },
-		},
-		users: {
-			form: "users",
-			resource: { endpoint: "users", nameOne: "Kitobxon" },
-		},
+		stocks: "stocks",
+		users: "users",
 	};
-
 	const [activeForm, setActiveForm] = useState();
 	const dispatch = useDispatch();
+
+	const onUserFormClose = (user) => {
+		if (user) {
+			dispatch(newUser());
+			dispatch(addNews(resources.users, [user]));
+			form.setFieldsValue({ userId: user.id });
+		}
+
+		setActiveForm(undefined);
+	};
 
 	return (
 		<Col span={6}>
 			<LeaseRent incramentReturning={() => dispatch(returnedRent())} />
-			{activeForm && (
-				<FormDrawerMicro
-					data={activeForm}
-					messageId={1}
-					onFormClose={(response) =>
-						setTimeout(() => {
-							if (activeForm.form === "users") dispatch(newUser());
-							if (activeForm.form === "stocks") {
-								message.success(response.id + " - yangi kitob raqami", 10);
-							}
+			{activeForm === formsData.users && (
+				<UserForm onFormClose={onUserFormClose} />
+			)}
+			{activeForm === formsData.stocks && (
+				<StockForm
+					onFormClose={(stock) => {
+						setActiveForm(undefined);
 
-							setActiveForm(undefined);
-						}, 500)
-					}
+						if (stock) {
+							message.success(stock.id + " - yangi kitob raqami", 10);
+						}
+					}}
 				/>
 			)}
 			<div className="p-3">
@@ -446,6 +455,166 @@ function RightTools() {
 				<CloseShift />
 			</div>
 		</Col>
+	);
+}
+const rules = {
+	required: [{ required: true }],
+};
+function UserForm({ onFormClose }) {
+	const [loading, setLoading] = useState(false);
+
+	function onFinish(values) {
+		setLoading(true);
+		FetchResource.create(resources.users, values)
+			.then((user) => {
+				setLoading(false);
+				onFormClose(user);
+			})
+			.catch((err) => {
+				setLoading(false);
+				showError(err);
+			});
+	}
+	return (
+		<Modal
+			width={700}
+			closeIcon={" "}
+			title={"Kitobxon qo'shish"}
+			visible={true}
+			footer={
+				<div className="d-flex justify-content-between">
+					<Button className="big" danger onClick={() => onFormClose()}>
+						Orqaga
+					</Button>
+					<Button
+						className="big"
+						disabled={loading}
+						loading={loading}
+						htmlType="submit"
+						type="primary"
+						form={"user-form"}
+					>
+						Saqlash
+					</Button>
+				</div>
+			}
+		>
+			<Form id="user-form" onFinish={onFinish} layout="vertical">
+				<Row gutter={8}>
+					<Col span={12}>
+						<Form.Item
+							label={tl("firstName")}
+							name="firstName"
+							rules={rules.required}
+						>
+							<Input />
+						</Form.Item>
+					</Col>
+					<Col span={12}>
+						<Form.Item
+							label={tl("lastName")}
+							name="lastName"
+							rules={rules.required}
+						>
+							<Input />
+						</Form.Item>
+					</Col>
+
+					<Col span={12}>
+						<Form.Item label={tl("phone")} name="phone" rules={rules.required}>
+							<PhoneNumber />
+						</Form.Item>
+					</Col>
+					<Col span={12}>
+						<Form.Item
+							label={tl("extraPhone")}
+							name="extraPhone"
+							rules={rules.required}
+						>
+							<PhoneNumber />
+						</Form.Item>
+					</Col>
+					<Col span={12}>
+						<Form.Item
+							label={tl("passportId")}
+							name="passportId"
+							rules={rules.required}
+						>
+							<Passport />
+						</Form.Item>
+					</Col>
+					<Col span={12}>
+						<Form.Item
+							label={tl("gender")}
+							name="gender"
+							rules={rules.required}
+						>
+							<Radio.Group
+								options={[
+									{
+										label: "Erkak",
+										value: "male",
+									},
+									{
+										label: "Ayol",
+										value: "female",
+									},
+								]}
+								optionType={"button"}
+							/>
+						</Form.Item>
+					</Col>
+				</Row>
+			</Form>
+		</Modal>
+	);
+}
+
+function StockForm({ onFormClose }) {
+	const [loading, setLoading] = useState(false);
+
+	function onFinish(values) {
+		setLoading(true);
+		FetchResource.create(resources.stocks, values)
+			.then((stock) => {
+				setLoading(false);
+				onFormClose(stock);
+			})
+			.catch((err) => {
+				setLoading(false);
+				showError(err);
+			});
+	}
+	return (
+		<Modal
+			width={700}
+			closeIcon={" "}
+			title={"Kitobxon qo'shish"}
+			visible={true}
+			footer={
+				<div className="d-flex justify-content-between">
+					<Button danger className="big" onClick={() => onFormClose()}>
+						Orqaga
+					</Button>
+					<Button
+						className="big"
+						disabled={loading}
+						loading={loading}
+						htmlType="submit"
+						type="primary"
+						form={"stock-form"}
+					>
+						Saqlash
+					</Button>
+				</div>
+			}
+		>
+			<Form id="stock-form" onFinish={onFinish} layout="vertical">
+				<Form.Item label={tl("book")} name="bookId" rules={rules.required}>
+					<SelectFetch {...{ resource: resources.books, fetchable: true }} />
+				</Form.Item>
+			</Form>
+		</Modal>
 	);
 }
 
