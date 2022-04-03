@@ -132,6 +132,12 @@ iframe {
 	margin-top: -30px;
 	margin-left: 3px;
 }
+.rent-check-modal h1 {
+	font-weight: normal;
+}
+.rent-check-modal h1 span {
+	font-weight: bold;
+}
 
 .c-rent .custom-stock label {
 	font-size: 20px;

@@ -199,9 +199,9 @@ export function arrayToKeyValueObject(array, object = {}) {
 	return object;
 }
 
-export function clearFalsyKeysFromObject(object) {
+export function clearNullishKeysFromObject(object) {
 	Object.keys(object).forEach((key) => {
-		if (!object[key]) {
+		if (!object[key] && object[key] !== 0) {
 			delete object[key];
 		}
 	});

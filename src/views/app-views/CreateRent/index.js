@@ -35,8 +35,7 @@ import { addNeeds, addNews } from "redux/actions/resource";
 import Passport from "components/forms/Passport";
 import { tl } from "i18n";
 import PhoneNumber from "components/forms/PhoneNumber";
-import store from "redux/store";
-import { clearFalsyKeysFromObject } from "utils/array";
+import { clearNullishKeysFromObject } from "utils/array";
 
 const days = [5, 10, 15, 20, 30];
 
@@ -262,7 +261,7 @@ function LeaseRent({ incramentReturning }) {
 				setLoading(true);
 
 				const rent = await Rents.getList({
-					filters: clearFalsyKeysFromObject({ ...values, returnedAt: 0 }),
+					filters: clearNullishKeysFromObject({ ...values, returnedAt: 0 }),
 				});
 
 				await addNeeds(resources.users, [rent.userId]);
@@ -363,6 +362,7 @@ function CheckModal({ rent, loading, close }) {
 			title="Tekshiramiz"
 			visible={true}
 			onCancel={close}
+			className="rent-check-modal"
 			footer={
 				<Button
 					className="big"
