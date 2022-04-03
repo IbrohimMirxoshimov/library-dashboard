@@ -212,6 +212,16 @@ const pagesConfig = {
 				resource: resources.booksgroups,
 			},
 			{
+				title: tl("pages"),
+				key: "pages",
+				dataIndex: "pages",
+			},
+			{
+				title: tl("rentDuration"),
+				key: "rentDuration",
+				dataIndex: "rentDuration",
+			},
+			{
 				title: tl("author"),
 				key: "authorId",
 				dataIndex: "authorId",
