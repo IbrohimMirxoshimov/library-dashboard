@@ -40,7 +40,7 @@
 		"build_plain": "react-scripts build",
 		"test": "react-scripts test",
 		"build_and_upload": "react-scripts build && zip -r build build && scp build.zip root@softly.uz:.",
-		"unzip_and_copy": "unzip -o ~/build.zip && cp -r ~/build/* /home/library-app/frontend",
+		"unzipcp": "unzip -o ~/build.zip && cp -r build/* /home/library-app/frontend",
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
