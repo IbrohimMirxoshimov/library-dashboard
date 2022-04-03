@@ -181,7 +181,7 @@ function CreateRent() {
 					<div className="mb-3">
 						{days.map(
 							(d) =>
-								choosenStock.book.rentDuration > d && (
+								(!choosenStock || choosenStock.book.rentDuration > d) && (
 									<Button
 										type={d === day ? "primary" : "default"}
 										key={d}
