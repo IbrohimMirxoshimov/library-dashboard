@@ -1,4 +1,5 @@
 import mainCaller from "../main";
+import qs from "qs";
 
 export default class Rents {
 	static return(id) {
@@ -18,6 +19,19 @@ export default class Rents {
 	}
 	static getOneBtCustomId(id) {
 		return mainCaller(`/rents?filters[customId]=${id}`, "GET").then((r) => {
+			if (r.items.length === 0) {
+				throw new Error("Kvitansiya topilmadi");
+			}
+
+			if (r.items.length === 1) {
+				return r.items[0];
+			}
+
+			throw new Error("Ko'p kvitansiyalar bor");
+		});
+	}
+	static getList(query) {
+		return mainCaller(`/rents?` + qs.stringify(query), "GET").then((r) => {
 			if (r.items.length === 0) {
 				throw new Error("Kvitansiya topilmadi");
 			}

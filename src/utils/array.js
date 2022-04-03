@@ -198,3 +198,13 @@ export function arrayToKeyValueObject(array, object = {}) {
 	}
 	return object;
 }
+
+export function clearFalsyKeysFromObject(object) {
+	Object.keys(object).forEach((key) => {
+		if (!object[key]) {
+			delete object[key];
+		}
+	});
+
+	return object;
+}

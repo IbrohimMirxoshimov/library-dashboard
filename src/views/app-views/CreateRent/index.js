@@ -36,6 +36,7 @@ import Passport from "components/forms/Passport";
 import { tl } from "i18n";
 import PhoneNumber from "components/forms/PhoneNumber";
 import store from "redux/store";
+import { clearFalsyKeysFromObject } from "utils/array";
 
 const days = [5, 10, 15, 20, 30];
 
@@ -103,7 +104,7 @@ function CreateRent() {
 		};
 		// eslint-disable-next-line
 	}, []);
-	console.log(choosenStock);
+
 	const onFinish = (values) => {
 		FetchResource.create("rents", values)
 			.then((data) => {
@@ -252,20 +253,24 @@ function LeaseRent({ incramentReturning }) {
 	const [loading, setLoading] = useState(false);
 	const [form] = Form.useForm();
 	const [modal, setModal] = useState({ open: false, rent: {} });
+	const store = useStore();
 
 	async function onCheck() {
 		try {
 			const values = form.getFieldsValue();
-			if (values.id || values.customId) {
+			if (values.id || values.customId || values.stockId) {
 				setLoading(true);
 
-				if (values.id) {
-					let rent = await Rents.getOne(values.id);
-					setModal({ open: true, rent });
-				} else if (values.customId) {
-					let rent = await Rents.getOneBtCustomId(values.customId);
-					setModal({ open: true, rent });
-				}
+				const rent = await Rents.getList({
+					filters: clearFalsyKeysFromObject({ ...values, returnedAt: 0 }),
+				});
+
+				await addNeeds(resources.users, [rent.userId]);
+				rent.user = store
+					.getState()
+					.users.items.find((user) => user.id === rent.userId);
+
+				setModal({ open: true, rent });
 				setLoading(false);
 			}
 		} catch (error) {
@@ -274,7 +279,7 @@ function LeaseRent({ incramentReturning }) {
 		}
 	}
 
-	function onFinish(values) {
+	function onFinish() {
 		function success(id) {
 			if (modal.open) {
 				setModal({ open: false });
@@ -290,17 +295,10 @@ function LeaseRent({ incramentReturning }) {
 			setLoading(false);
 		}
 
-		if (values.id) {
-			setLoading(true);
-			Rents.return(values.id)
-				.then((r) => success(values.id))
-				.catch(error);
-		} else if (values.customId) {
-			setLoading(true);
-			Rents.returnWithCustomId(values.customId)
-				.then((r) => success(values.customId))
-				.catch(error);
-		}
+		setLoading(true);
+		Rents.return(modal.rent.id)
+			.then((r) => success(modal.rent.id))
+			.catch(error);
 	}
 
 	return (
@@ -317,6 +315,9 @@ function LeaseRent({ incramentReturning }) {
 					<InputNumber style={{ width: "100%" }} />
 				</Form.Item>
 				<Form.Item name={"customId"} label={"Eski kvitansiya"}>
+					<InputNumber style={{ width: "100%" }} />
+				</Form.Item>
+				<Form.Item name={"stockId"} label={"Kitob raqami bo'yicha"}>
 					<InputNumber style={{ width: "100%" }} />
 				</Form.Item>
 				<Form.Item>
@@ -376,12 +377,26 @@ function CheckModal({ rent, loading, close }) {
 			}
 		>
 			{rent.customId ? (
-				<h1>Eski kvitansiya raqami: {rent.customId}</h1>
+				<h1>
+					Eski kvitansiya raqami: <span>{rent.customId}</span>
+				</h1>
 			) : (
-				<h1>Kvitansiya raqami: {rent.id}</h1>
+				<h1>
+					Kvitansiya raqami: <span>{rent.id}</span>
+				</h1>
 			)}
-			<h1>Kitob raqami: {rent.stockId}</h1>
-			<h1>Kitob: {book?.name}</h1>
+			<h1>
+				Kitob raqami: <span>{rent.stockId}</span>
+			</h1>
+			<h1>
+				Kitob: <span>{book?.name}</span>
+			</h1>
+			<h1>
+				Kitobxon:{" "}
+				<span>
+					{rent?.user?.firstName} {rent?.user?.lastName}
+				</span>
+			</h1>
 		</Modal>
 	);
 }
