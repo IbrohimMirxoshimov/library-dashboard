@@ -16,7 +16,8 @@ export const deleteColumn = {
 	sorter: false,
 };
 
-export const getDateString = (iso) => new Date(iso).toLocaleDateString("ru");
+export const getDateString = (iso) =>
+	new Date(iso).toLocaleString("ru").slice(0, -3);
 
 export const createdAtAndUpdatedAtColumns = [
 	{

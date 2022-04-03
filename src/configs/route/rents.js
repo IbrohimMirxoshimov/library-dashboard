@@ -1,7 +1,11 @@
 import { message, Tag } from "antd";
 import { resources } from "api/resources";
 import { CheckCircleTwoTone } from "@ant-design/icons";
-import { getDateString, getRamainedDays } from "./utils";
+import {
+	createdAtAndUpdatedAtColumns,
+	getDateString,
+	getRamainedDays,
+} from "./utils";
 import Comments from "./components/Comments";
 import { tl } from "i18n";
 import RejectRent from "components/shared-components/RejectRent";
@@ -28,7 +32,7 @@ export const rents = {
 			dataIndex: "leasedAt",
 			key: "leasedAt",
 			title: "Berildi",
-			render: (value) => new Date(value).toLocaleDateString("ru"),
+			render: (value) => new Date(value).toLocaleString("ru").slice(0, -3),
 		},
 		{
 			dataIndex: "returningDate",
@@ -100,18 +104,7 @@ export const rents = {
 			valueGetter: (stock) =>
 				`${stock.id}/${stock?.book?.id} - ${stock?.book?.name}`,
 		},
-		{
-			dataIndex: "createdAt",
-			key: "createdAt",
-			title: "Yasalgan",
-			render: (value) => new Date(value).toLocaleDateString("ru"),
-		},
-		{
-			dataIndex: "updatedAt",
-			key: "updatedAt",
-			title: "Yangilangan",
-			render: (value) => new Date(value).toLocaleDateString("ru"),
-		},
+		...createdAtAndUpdatedAtColumns,
 	],
 	// formInitial: {
 	// 	leasedAt: localStorage.getItem("ld"),
