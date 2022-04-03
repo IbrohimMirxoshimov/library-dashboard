@@ -16,7 +16,7 @@ import SelectFetch from "components/forms/SelectFetch";
 import StockSelect from "components/forms/StockSelect";
 import React, { Fragment, useEffect, useState } from "react";
 import FetchResource from "api/crud";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, useStore } from "react-redux";
 import printReciept from "utils/printReciept";
 import {
 	BookOutlined,
@@ -35,6 +35,7 @@ import { addNeeds, addNews } from "redux/actions/resource";
 import Passport from "components/forms/Passport";
 import { tl } from "i18n";
 import PhoneNumber from "components/forms/PhoneNumber";
+import store from "redux/store";
 
 const days = [5, 10, 15, 20, 30];
 
@@ -66,13 +67,12 @@ function showError(err, custom_message) {
 }
 
 function CreateRent() {
-	const users = useSelector((state) => state.users.items);
-	const stocks = useSelector((state) => state.stocks.items);
 	const [form] = Form.useForm();
 	const [day, setDay] = useState(10);
 	const shift = useSelector((state) => state.shift);
 	const dispatch = useDispatch();
-
+	const [choosenStock, setChoosenStock] = useState();
+	const store = useStore();
 	const setDate = (d) => {
 		const now = new Date().toISOString();
 		const returnDate = new Date(
@@ -103,15 +103,18 @@ function CreateRent() {
 		};
 		// eslint-disable-next-line
 	}, []);
-
+	console.log(choosenStock);
 	const onFinish = (values) => {
 		FetchResource.create("rents", values)
 			.then((data) => {
 				dispatch(newRent());
+				const users = store.getState().users.items;
+				const stocks = store.getState().stocks.items;
 				const book = stocks.find((s) => s.id === data.stockId).book;
 				const user = users.find((u) => u.id === data.userId);
 				openNotification(user.firstName + " " + user.lastName, book.name);
 				printReciept({ user, book, rent: data });
+				setChoosenStock(undefined);
 				form.resetFields();
 				setDate(10);
 			})
@@ -169,20 +172,41 @@ function CreateRent() {
 							resource={resources.stocks}
 							fetchable={true}
 							column="name"
+							onChangeItem={(stock) => {
+								setDay(stock.book.rentDuration);
+								setChoosenStock(stock);
+							}}
 						/>
 					</Form.Item>
 					<div className="mb-3">
-						{days.map((d) => (
+						{days.map(
+							(d) =>
+								choosenStock.book.rentDuration > d && (
+									<Button
+										type={d === day ? "primary" : "default"}
+										key={d}
+										onClick={() => setDate(d)}
+										className="mr-2"
+										style={{ height: 50, fontSize: 20 }}
+									>
+										{d} kun
+									</Button>
+								)
+						)}
+						{choosenStock && (
 							<Button
-								type={d === day ? "primary" : "default"}
-								key={d}
-								onClick={() => setDate(d)}
+								type={
+									day >= choosenStock.book.rentDuration ? "primary" : "default"
+								}
+								onClick={() => setDate(choosenStock.book.rentDuration)}
 								className="mr-2"
+								danger
 								style={{ height: 50, fontSize: 20 }}
+								disabled={!choosenStock}
 							>
-								{d} kun
+								{choosenStock.book.rentDuration} kun
 							</Button>
-						))}
+						)}
 					</div>
 					<Row gutter={8} className="mt-4">
 						<Col span={12}>

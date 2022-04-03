@@ -6,14 +6,14 @@ import { addNews } from "redux/actions/resource";
 import { resources } from "api/resources";
 import { useDispatch } from "react-redux";
 
-const { Option } = Select;
-
 function StockSelect({
 	resource,
 	column = "name",
 	fetchable,
 	fetchSize,
 	value,
+	onChangeItem,
+	onChange,
 	...props
 }) {
 	const [loading, setLoading] = useState(false);
@@ -69,32 +69,35 @@ function StockSelect({
 		);
 	}
 
+	function onChangeInner(value) {
+		if (onChangeItem) {
+			const item = items.find((item) => item.id === value);
+			onChangeItem(item);
+		}
+		onChange(value);
+	}
+
 	return (
 		<div className="d-flex">
 			<Select
 				style={{ width: "70%" }}
-				placeholder={props.placeholder}
 				loading={loading}
-				optionFilterProp="children"
 				notFoundContent={loading && <Spin size="small" />}
 				onSearch={fetch}
-				filterOption={(input, option) =>
-					option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-				}
+				filterOption={(input, option) => {
+					return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+				}}
 				showSearch
-				defaultValue={props.value}
-				onChange={props.onChange}
-				disabled={props.disabled}
+				onChange={onChangeInner}
 				value={value}
-			>
-				{items.map((item, i) => {
-					return (
-						<Option key={i} value={item.id}>
-							{item.book.name}
-						</Option>
-					);
+				{...props}
+				options={items.map((item) => {
+					return {
+						value: item.id,
+						label: item.book.name,
+					};
 				})}
-			</Select>
+			/>
 			<div className="custom-stock">
 				<label>Kitob raqami</label>
 				<Select
@@ -103,19 +106,17 @@ function StockSelect({
 					loading={loading}
 					notFoundContent={loading && <Spin size="small" />}
 					onSearch={searchById}
-					onChange={props.onChange}
+					onChange={onChangeInner}
 					showSearch
 					value={value}
 					placeholder={"Kitob raqami"}
-				>
-					{items.map((item, i) => {
-						return (
-							<Option key={i} value={item.id}>
-								{item.id}
-							</Option>
-						);
+					options={items.map((item) => {
+						return {
+							value: item.id,
+							label: item.id,
+						};
 					})}
-				</Select>
+				/>
 			</div>
 		</div>
 	);
