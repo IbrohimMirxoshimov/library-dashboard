@@ -116,6 +116,16 @@ iframe {
 .c-rent .ant-input-number {
 	border: 2px solid #3e79f7 !important ;
 }
+
+.custom-stock label {
+	display: none;
+}
+
+.custom-stock {
+	width: 30%;
+	margin-left: 3px;
+}
+
 .c-rent .custom-stock {
 	display: inline-table;
 	width: 30%;
@@ -127,6 +137,7 @@ iframe {
 	font-size: 20px;
 	font-weight: 500;
 	color: #1a3253;
+	display: block;
 }
 
 input::placeholder {
