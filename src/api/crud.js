@@ -1,5 +1,6 @@
 import mainCaller from "./main";
 import qs from "qs";
+import { clearNullishKeysFromObject } from "utils/array";
 
 export default class FetchResource {
 	constructor(endpoint) {
@@ -14,7 +15,11 @@ export default class FetchResource {
 	}
 
 	update(id, data) {
-		return mainCaller(`/${this.endpoint}/` + id, "PUT", data);
+		return mainCaller(
+			`/${this.endpoint}/` + id,
+			"PUT",
+			clearNullishKeysFromObject(data)
+		);
 	}
 
 	create(data) {
