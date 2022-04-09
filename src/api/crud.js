@@ -55,7 +55,11 @@ export default class FetchResource {
 	}
 
 	static update(endpoint, id, data) {
-		return mainCaller(`/${endpoint}/` + id, "PUT", data);
+		return mainCaller(
+			`/${endpoint}/` + id,
+			"PUT",
+			clearNullishKeysFromObject(data)
+		);
 	}
 
 	static create(endpoint, data) {
