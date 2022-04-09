@@ -29,7 +29,7 @@ export default function mainCaller(path, method, data, headers) {
 	return axios(options)
 		.then((r) => r.data)
 		.catch((err) => {
-			if (err.response.status === 403) {
+			if (err.response.status === 401) {
 				signOutDirectly();
 				return {};
 			}
