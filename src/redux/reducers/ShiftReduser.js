@@ -5,6 +5,8 @@ import {
 	OPEN_SHIFT,
 	RETURNED_RENTS,
 } from "redux/constants/ShiftTypes";
+import storage from "redux-persist/lib/storage";
+import { persistReducer } from "redux-persist";
 
 const initState = {
 	all_shifts: [],
@@ -50,4 +52,11 @@ const ShiftReduser = (state = initState, action) => {
 	}
 };
 
-export default ShiftReduser;
+export default persistReducer(
+	{
+		key: "shift",
+		storage: storage,
+		keyPrefix: "l-",
+	},
+	ShiftReduser
+);

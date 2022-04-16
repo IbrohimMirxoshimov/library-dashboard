@@ -9,6 +9,7 @@ import {
 	notification,
 	Radio,
 	Row,
+	Switch,
 } from "antd";
 import { resources } from "api/resources";
 import CustomDate from "components/forms/CustomDate";
@@ -36,6 +37,8 @@ import Passport from "components/forms/Passport";
 import { tl } from "i18n";
 import PhoneNumber from "components/forms/PhoneNumber";
 import { clearNullishKeysFromObject } from "utils/array";
+import VerifyPhoneAPI from "api/VerifyPhoneAPI";
+import Loading from "components/shared-components/Loading";
 
 const days = [5, 10, 15, 20, 30];
 
@@ -313,12 +316,14 @@ function LeaseRent({ incramentReturning }) {
 				<Form.Item name={"id"} label={"Yangi kvitansiya"}>
 					<InputNumber style={{ width: "100%" }} />
 				</Form.Item>
-				<Form.Item name={"customId"} label={"Eski kvitansiya"}>
-					<InputNumber style={{ width: "100%" }} />
-				</Form.Item>
-				<Form.Item name={"stockId"} label={"Kitob raqami bo'yicha"}>
-					<InputNumber style={{ width: "100%" }} />
-				</Form.Item>
+				<div className="d-flex">
+					<Form.Item name={"customId"} label={"Eski kv"}>
+						<InputNumber style={{ width: "100%" }} />
+					</Form.Item>
+					<Form.Item name={"stockId"} label={"Kitob bilan"}>
+						<InputNumber style={{ width: "100%" }} />
+					</Form.Item>
+				</div>
 				<Form.Item>
 					<Button
 						className="big"
@@ -500,110 +505,210 @@ const rules = {
 };
 function UserForm({ onFormClose }) {
 	const [loading, setLoading] = useState(false);
+	const [verifyPhone, setVerifyPhone] = useState({
+		verifing: false,
+		verify: true,
+	});
 
+	function setVerifing(verifing) {
+		setVerifyPhone({
+			verifing: verifing,
+			verify: true,
+		});
+	}
+
+	function onSubmit(values) {
+		if (verifyPhone) {
+			setVerifing(true);
+		} else {
+			onFinish(values);
+		}
+	}
+
+	const [form] = Form.useForm();
 	function onFinish(values) {
 		setLoading(true);
 		FetchResource.create(resources.users, values)
 			.then((user) => {
 				setLoading(false);
 				onFormClose(user);
+				message.success("Foydalanuvchi qo'shildi");
 			})
 			.catch((err) => {
 				setLoading(false);
 				showError(err);
 			});
 	}
+
+	return (
+		<Fragment>
+			{verifyPhone.verify && verifyPhone.verifing && (
+				<VerifyPhone
+					phone={form.getFieldValue("phone")}
+					setCodeFinish={(code) => {
+						if (code) {
+							onFinish({ code: code, ...form.getFieldsValue() });
+						}
+
+						setVerifing(false);
+					}}
+				/>
+			)}
+			<Modal
+				width={700}
+				closeIcon={" "}
+				title={"Kitobxon qo'shish"}
+				visible={true}
+				footer={
+					<div className="d-flex justify-content-between">
+						<Button className="big" danger onClick={() => onFormClose()}>
+							Orqaga
+						</Button>
+						<Button
+							className="big"
+							disabled={loading}
+							loading={loading}
+							htmlType="submit"
+							type="primary"
+							form={"user-form"}
+						>
+							Saqlash
+						</Button>
+					</div>
+				}
+			>
+				<Form
+					form={form}
+					className="c-rent"
+					id="user-form"
+					onFinish={onSubmit}
+					layout="vertical"
+				>
+					<Row gutter={8}>
+						<Col span={12}>
+							<Form.Item
+								label={tl("firstName")}
+								name="firstName"
+								rules={rules.required}
+							>
+								<Input />
+							</Form.Item>
+						</Col>
+						<Col span={12}>
+							<Form.Item
+								label={tl("lastName")}
+								name="lastName"
+								rules={rules.required}
+							>
+								<Input />
+							</Form.Item>
+						</Col>
+
+						<Col span={12}>
+							<Form.Item
+								label={tl("phone")}
+								name="phone"
+								rules={rules.required}
+							>
+								<PhoneNumber />
+							</Form.Item>
+						</Col>
+						<Col span={12}>
+							<Form.Item
+								label={tl("extraPhone")}
+								name="extraPhone"
+								rules={rules.required}
+							>
+								<PhoneNumber />
+							</Form.Item>
+						</Col>
+						<Col span={12}>
+							<Form.Item
+								label={tl("passportId")}
+								name="passportId"
+								rules={rules.required}
+							>
+								<Passport />
+							</Form.Item>
+						</Col>
+						<Col span={8}>
+							<Form.Item
+								label={tl("gender")}
+								name="gender"
+								rules={rules.required}
+							>
+								<Radio.Group
+									options={[
+										{
+											label: "Erkak",
+											value: "male",
+										},
+										{
+											label: "Ayol",
+											value: "female",
+										},
+									]}
+									optionType={"button"}
+								/>
+							</Form.Item>
+						</Col>
+						<Col span={4}>
+							<Form.Item label={tl("verifyPhone")}>
+								<Switch
+									checked={verifyPhone.verify}
+									onChange={(s) => setVerifyPhone((p) => ({ ...p, verify: s }))}
+								/>
+							</Form.Item>
+						</Col>
+					</Row>
+				</Form>
+			</Modal>
+		</Fragment>
+	);
+}
+
+function VerifyPhone({ phone, setCodeFinish }) {
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		VerifyPhoneAPI(phone)
+			.then((r) => {
+				setLoading(false);
+			})
+			.catch(showError);
+
+		// eslint-disable-next-line
+	}, []);
+
 	return (
 		<Modal
-			width={700}
-			closeIcon={" "}
-			title={"Kitobxon qo'shish"}
+			okButtonProps={{ htmlType: "submit", form: "verify-phone" }}
 			visible={true}
-			footer={
-				<div className="d-flex justify-content-between">
-					<Button className="big" danger onClick={() => onFormClose()}>
-						Orqaga
-					</Button>
-					<Button
-						className="big"
-						disabled={loading}
-						loading={loading}
-						htmlType="submit"
-						type="primary"
-						form={"user-form"}
-					>
-						Saqlash
-					</Button>
-				</div>
-			}
+			destroyOnClose
+			onCancel={() => setCodeFinish(0)}
 		>
-			<Form id="user-form" onFinish={onFinish} layout="vertical">
-				<Row gutter={8}>
-					<Col span={12}>
-						<Form.Item
-							label={tl("firstName")}
-							name="firstName"
-							rules={rules.required}
-						>
-							<Input />
-						</Form.Item>
-					</Col>
-					<Col span={12}>
-						<Form.Item
-							label={tl("lastName")}
-							name="lastName"
-							rules={rules.required}
-						>
-							<Input />
-						</Form.Item>
-					</Col>
-
-					<Col span={12}>
-						<Form.Item label={tl("phone")} name="phone" rules={rules.required}>
-							<PhoneNumber />
-						</Form.Item>
-					</Col>
-					<Col span={12}>
-						<Form.Item
-							label={tl("extraPhone")}
-							name="extraPhone"
-							rules={rules.required}
-						>
-							<PhoneNumber />
-						</Form.Item>
-					</Col>
-					<Col span={12}>
-						<Form.Item
-							label={tl("passportId")}
-							name="passportId"
-							rules={rules.required}
-						>
-							<Passport />
-						</Form.Item>
-					</Col>
-					<Col span={12}>
-						<Form.Item
-							label={tl("gender")}
-							name="gender"
-							rules={rules.required}
-						>
-							<Radio.Group
-								options={[
-									{
-										label: "Erkak",
-										value: "male",
-									},
-									{
-										label: "Ayol",
-										value: "female",
-									},
-								]}
-								optionType={"button"}
-							/>
-						</Form.Item>
-					</Col>
-				</Row>
-			</Form>
+			<h3>Tasdiqlash kodi {phone} ga yuborildi.</h3>
+			{loading ? (
+				<Loading />
+			) : (
+				<Form
+					className="c-rent"
+					id="verify-phone"
+					style={{ fontSize: "30px !important" }}
+					layout="vertical"
+					onFinish={({ code }) => {
+						setCodeFinish(code);
+					}}
+				>
+					<Form.Item
+						rules={[{ required: true }]}
+						label={"Kodni kriting"}
+						name="code"
+					>
+						<InputNumber style={{ width: "100%" }} />
+					</Form.Item>
+				</Form>
+			)}
 		</Modal>
 	);
 }
