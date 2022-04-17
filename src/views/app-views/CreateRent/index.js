@@ -518,11 +518,11 @@ function UserForm({ onFormClose }) {
 	}
 
 	function onSubmit(values) {
-		if (verifyPhone) {
-			setVerifing(true);
-		} else {
-			onFinish(values);
-		}
+		// if (verifyPhone) {
+		// 	setVerifing(true);
+		// } else {
+		// }
+		onFinish(values);
 	}
 
 	const [form] = Form.useForm();
