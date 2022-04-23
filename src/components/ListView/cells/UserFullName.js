@@ -45,7 +45,15 @@ function UserFullName({ record }) {
 	if (!user) return "";
 
 	return (
-		<div>
+		<div className="cursor-pointer">
+			<b
+				onClick={(e) => {
+					window.fastSearchOnListView("u" + user.id);
+				}}
+			>
+				{user.id}.
+			</b>
+
 			<a
 				href="/"
 				onClick={(e) => {
@@ -61,7 +69,7 @@ function UserFullName({ record }) {
 						"f_d"
 					);
 				}}
-			>{`${user.id}. ${user.firstName} ${user.lastName}`}</a>
+			>{` ${user.firstName} ${user.lastName}`}</a>
 			<a href={"tel:" + user.phone}> tel</a>
 			<CopyTwoTone
 				onClick={() => {

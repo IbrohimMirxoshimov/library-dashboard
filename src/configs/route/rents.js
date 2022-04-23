@@ -10,6 +10,7 @@ import Comments from "./components/Comments";
 import { tl } from "i18n";
 import RejectRent from "components/shared-components/RejectRent";
 import SubForm from "./components/SubForm";
+import StockCell from "components/ListView/cells/StockCell";
 // import ScanBarcode from "components/shared-components/ScanBarcode";
 
 export const rents = {
@@ -97,12 +98,10 @@ export const rents = {
 		},
 		{
 			title: tl("stock"),
-			key: "stockId",
-			dataIndex: "stockId",
-			resource: resources.stocks,
+			key: "stock",
+			dataIndex: "stock",
 			sorter: false,
-			valueGetter: (stock) =>
-				`${stock.id}/${stock?.book?.id} - ${stock?.book?.name}`,
+			render: (stock) => stock && <StockCell stock={stock} />,
 		},
 		...createdAtAndUpdatedAtColumns,
 	],

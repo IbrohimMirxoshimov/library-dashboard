@@ -20,6 +20,7 @@ const initialQuery = {
 	size: 20,
 	page: 1,
 	s: "name",
+	q: "",
 	// sort: "updatedAt
 };
 
@@ -95,8 +96,13 @@ const ListView = ({ resource, columns, search }) => {
 		totalCount: 0,
 		page: 1,
 	});
-	const [filter, setFilter] = useState({ ...initialQuery, s: search?.key });
+	const [filter, setFilter] = useState(() => ({
+		...initialQuery,
+		s: search?.key,
+	}));
+
 	const user = useSelector((state) => state.auth.user);
+
 	const tableColumns = useMemo(() => {
 		return customizeColumns(columns, resource.endpoint, user);
 		// eslint-disable-next-line
@@ -139,6 +145,17 @@ const ListView = ({ resource, columns, search }) => {
 		fetch(q);
 	}
 
+	function fastSearchOnListView(searchQuery) {
+		const query = {
+			...filter,
+			q: searchQuery,
+		};
+		setFilter(query);
+		fetch(query);
+	}
+
+	window.fastSearchOnListView = fastSearchOnListView;
+
 	async function fetch(query) {
 		setLoading(true);
 		FetchResource.getList(resource.endpoint, query)
@@ -162,6 +179,14 @@ const ListView = ({ resource, columns, search }) => {
 
 	const onRefresh = () => {
 		fetch(filter);
+	};
+	const onReset = () => {
+		const q = {
+			...initialQuery,
+			s: search?.key,
+		};
+		setFilter(q);
+		fetch(q);
 	};
 
 	const onSearch = (v) => {
@@ -199,11 +224,12 @@ const ListView = ({ resource, columns, search }) => {
 		}
 
 		window.addEventListener("keyup", hotKeys);
-		window.refreshList = (resource_refresh) => {
-			if (resource_refresh === resource.endpoint) {
-				fetch(filter);
-			}
-		};
+		// temporary disable refresh list on form submit
+		// window.refreshList = (resource_refresh) => {
+		// if (resource_refresh === resource.endpoint) {
+		// 	fetch(filter);
+		// }
+		// };
 		return () => {
 			window.removeEventListener("keyup", hotKeys);
 		};
@@ -232,9 +258,17 @@ const ListView = ({ resource, columns, search }) => {
 							id="main-search"
 							style={{ width: "100%", marginBottom: 3 }}
 							enterButton
+							value={filter.q}
 						/>
 					</div>
 					<div className="d-flex">
+						<Button
+							className="mr-1 px-2"
+							icon={<ReloadOutlined />}
+							onClick={onReset}
+						>
+							Qayta
+						</Button>
 						<Button
 							className="mr-1 px-2"
 							icon={<ReloadOutlined />}
