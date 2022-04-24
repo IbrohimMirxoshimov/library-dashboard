@@ -259,6 +259,7 @@ const ListView = ({ resource, columns, search }) => {
 							style={{ width: "100%", marginBottom: 3 }}
 							enterButton
 							value={filter.q}
+							onChange={(e) => setFilter({ ...filter, q: e.target.value })}
 						/>
 					</div>
 					<div className="d-flex">
