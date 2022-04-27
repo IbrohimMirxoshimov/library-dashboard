@@ -76,6 +76,7 @@ function CreateRent() {
 	const dispatch = useDispatch();
 	const [choosenStock, setChoosenStock] = useState();
 	const store = useStore();
+
 	const setDate = (d) => {
 		const now = new Date().toISOString();
 		const returnDate = new Date(
@@ -176,7 +177,7 @@ function CreateRent() {
 							fetchable={true}
 							column="name"
 							onChangeItem={(stock) => {
-								setDay(stock.book.rentDuration);
+								setDate(stock.book.rentDuration);
 								setChoosenStock(stock);
 							}}
 						/>
