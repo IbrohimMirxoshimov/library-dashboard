@@ -9,6 +9,7 @@ import UserAutoComplate from "./UserAutoComplate";
 
 const FieldComponents = {
 	input: Input,
+	textarea: Input.TextArea,
 	imageUpload: Input,
 	checkbox: Checkbox,
 	switch: Switch,

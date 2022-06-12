@@ -89,7 +89,7 @@ function columnsResourcesAddNeeds(columns, page) {
 	});
 }
 
-const ListView = ({ resource, columns, search }) => {
+const ListView = ({ resource, columns, search, tableProps = {} }) => {
 	const [loading, setLoading] = useState(false);
 	const [list, setList] = useState({
 		items: [],
@@ -303,6 +303,7 @@ const ListView = ({ resource, columns, search }) => {
 						dataSource={list.items}
 						onChange={handleTableChange}
 						size="small"
+						{...tableProps}
 					/>
 				</div>
 			</ListViewContext.Provider>

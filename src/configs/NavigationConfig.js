@@ -81,6 +81,14 @@ const dashBoardNavTree = {
 			submenu: [],
 		},
 		{
+			key: "sms",
+			path: `${APP_PREFIX_PATH}/sms`,
+			title: "Sms",
+			icon: "EnvironmentOutlined",
+			role: roles.owner,
+			submenu: [],
+		},
+		{
 			key: "locations",
 			path: `${APP_PREFIX_PATH}/locations`,
 			title: "Kutubxonalar",

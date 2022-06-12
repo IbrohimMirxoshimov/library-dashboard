@@ -5,10 +5,12 @@ import { createdAtAndUpdatedAtColumns } from "./utils";
 import { tl } from "i18n";
 import ActiveControllerCell from "./components/ActiveControllerCell";
 import { users } from "./users";
+import { smsbulks } from "./smsbulks";
 import SubForm from "./components/SubForm";
 
 const pagesConfig = {
 	users: users,
+	sms: smsbulks,
 	stocks: {
 		name: tl("stocks"),
 		nameOne: tl("stock"),

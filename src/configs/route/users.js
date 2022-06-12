@@ -148,7 +148,6 @@ export const users = {
 		},
 		{
 			name: "gender",
-			field: "choice",
 			label: tl("gender"),
 			rules: [{ required: true }],
 			fieldProp: {

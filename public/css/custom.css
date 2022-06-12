@@ -102,7 +102,12 @@ iframe {
 	height: 60px;
 	font-size: 18px;
 }
-
+.ant-table-cell {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 250px;
+}
 .c-rent .ant-form-item-label label {
 	font-size: 20px;
 	line-height: 0px;
@@ -154,4 +159,3 @@ input::placeholder {
 	font-size: 25px;
 	font-weight: bold;
 }
-
