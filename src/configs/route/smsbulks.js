@@ -177,7 +177,6 @@ export const smsbulks = {
 		{
 			name: "users_filter",
 			label: tl("users_filter"),
-			rules: [{ required: true }],
 			colSpan: 24,
 			disabledOnEdit: true,
 			fieldProp: {
@@ -185,7 +184,16 @@ export const smsbulks = {
 					label: tl(uft),
 					value: uft,
 				})),
-				optionType: "button",
+			},
+			fieldComponent: Select,
+		},
+		{
+			name: "phones",
+			label: tl("phones"),
+			colSpan: 24,
+			disabledOnEdit: true,
+			fieldProp: {
+				mode: "tags",
 			},
 			fieldComponent: Select,
 		},
