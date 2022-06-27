@@ -229,6 +229,11 @@ const pagesConfig = {
 				dataIndex: "authorId",
 				resource: resources.authors,
 			},
+			{
+				title: tl("isbn"),
+				key: "isbn",
+				dataIndex: "isbn",
+			},
 			...createdAtAndUpdatedAtColumns,
 		],
 		form: [
@@ -249,7 +254,16 @@ const pagesConfig = {
 						required: true,
 					},
 				],
-				fieldProp: { defaultValue: 30, type: "number" },
+				fieldProp: { type: "number" },
+			},
+			{
+				name: "isbn",
+				label: tl("isbn"),
+				// rules: [
+				// 	{
+				// 		required: true,
+				// 	},
+				// ],
 			},
 			{
 				name: "pages",

@@ -45,7 +45,7 @@ function ResourceRender({ id, resourceKey = "name", resource, valueGetter }) {
 		}
 	}
 
-	return id;
+	return id || "-";
 }
 
 function customizeColumns(columns, resource, user) {

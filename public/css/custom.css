@@ -108,6 +108,9 @@ iframe {
 	text-overflow: ellipsis;
 	width: 250px;
 }
+.ant-table {
+	overflow: auto;
+}
 .c-rent .ant-form-item-label label {
 	font-size: 20px;
 	line-height: 0px;
