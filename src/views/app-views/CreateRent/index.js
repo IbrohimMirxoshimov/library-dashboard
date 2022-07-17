@@ -663,6 +663,24 @@ function UserForm({ onFormClose }) {
 								/>
 							</Form.Item>
 						</Col>
+						<Col span={6}>
+							<Form.Item label={tl("region")} name={["address", "region"]}>
+								<SelectFetch withoutId resource={resources.regions} />
+							</Form.Item>
+						</Col>
+						<Col span={6}>
+							<Form.Item label={tl("town")} name={["address", "town"]}>
+								<SelectFetch withoutId resource={resources.towns} />
+							</Form.Item>
+						</Col>
+						<Col span={12}>
+							<Form.Item
+								label={tl("addressLine")}
+								name={["address", "addressLine"]}
+							>
+								<Input />
+							</Form.Item>
+						</Col>
 					</Row>
 				</Form>
 			</Modal>

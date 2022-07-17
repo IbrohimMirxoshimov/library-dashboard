@@ -10,17 +10,16 @@ const dispatch = store.dispatch;
 function SelectFetch({
 	resource,
 	column = "name",
-	fetchable,
 	fetchSize,
 	render,
 	value,
+	withoutId,
 	...props
 }) {
 	const [loading, setLoading] = useState(false);
 	const items = useResource(resource, [props.value]);
 
 	function fetch(name) {
-		// if (!fetchable) return;
 		if (!name) return;
 
 		debounce(
@@ -65,7 +64,7 @@ function SelectFetch({
 	return (
 		<div className="d-flex">
 			<Select
-				style={{ width: "70%" }}
+				style={{ width: !withoutId ? "70%" : "100%" }}
 				placeholder={props.placeholder}
 				loading={loading}
 				optionFilterProp="children"
@@ -87,25 +86,27 @@ function SelectFetch({
 					);
 				})}
 			</Select>
-			<Select
-				style={{ width: "30%", minWidth: "30%", marginLeft: 3 }}
-				loading={loading}
-				notFoundContent={loading && <Spin size="small" />}
-				onSearch={searchById}
-				onChange={props.onChange}
-				disabled={props.disabled}
-				showSearch
-				value={value}
-				placeholder={"ID"}
-			>
-				{items.map((item, i) => {
-					return (
-						<Option key={i} value={item.id}>
-							{item.id}
-						</Option>
-					);
-				})}
-			</Select>
+			{!withoutId && (
+				<Select
+					style={{ width: "30%", minWidth: "30%", marginLeft: 3 }}
+					loading={loading}
+					notFoundContent={loading && <Spin size="small" />}
+					onSearch={searchById}
+					onChange={props.onChange}
+					disabled={props.disabled}
+					showSearch
+					value={value}
+					placeholder={"ID"}
+				>
+					{items.map((item, i) => {
+						return (
+							<Option key={i} value={item.id}>
+								{item.id}
+							</Option>
+						);
+					})}
+				</Select>
+			)}
 		</div>
 	);
 }

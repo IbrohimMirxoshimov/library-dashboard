@@ -29,5 +29,8 @@
 	"sort": "Tartib raqami",
 	"verifyPhone": "Tasdiqlash",
 	"isbn": "ISBN",
-	"rent": "Ijara"
+	"rent": "Ijara",
+	"region": "Viloyat",
+	"addressLine": "Manzil",
+	"town": "Tuman"
 }
