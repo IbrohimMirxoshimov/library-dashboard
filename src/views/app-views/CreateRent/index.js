@@ -145,7 +145,7 @@ function CreateRent() {
 
 	return (
 		<Row style={{ background: "#f8f8f8" }} className="p-3 c-rent">
-			<Col span={18}>
+			<Col md={24} lg={18}>
 				<h3 className="ml-3">Ijara qo'shish</h3>
 				<Form
 					form={form}
@@ -247,7 +247,9 @@ function CreateRent() {
 					</Form.Item>
 				</Form>
 			</Col>
-			<RightTools form={form} />
+			<Col md={24} lg={6}>
+				<RightTools form={form} />
+			</Col>
 		</Row>
 	);
 }
@@ -461,7 +463,7 @@ function RightTools({ form }) {
 	};
 
 	return (
-		<Col span={6}>
+		<Fragment>
 			<LeaseRent incramentReturning={() => dispatch(returnedRent())} />
 			{activeForm === formsData.users && (
 				<UserForm onFormClose={onUserFormClose} />
@@ -498,7 +500,7 @@ function RightTools({ form }) {
 				</Button>
 				<CloseShift />
 			</div>
-		</Col>
+		</Fragment>
 	);
 }
 const rules = {
