@@ -13,8 +13,8 @@ export function toMatrix(list, elementsPerSubArray) {
 }
 
 export function isEmptyObject(obj) {
-	for (var prop in obj) {
-		if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+	for (const prop in obj) {
+		if (obj[prop] !== undefined) {
 			return false;
 		}
 	}
