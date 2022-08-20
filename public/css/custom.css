@@ -115,13 +115,13 @@ iframe {
 	font-size: 20px;
 	line-height: 0px;
 }
-.c-rent .ant-select-selector {
+.c-rent.color-bordered .ant-select-selector {
 	border: 2px solid #3e79f7 !important ;
 }
-.c-rent .ant-picker {
+.c-rent.color-bordered .ant-picker {
 	border: 2px solid #3e79f7 !important ;
 }
-.c-rent .ant-input-number {
+.c-rent.color-bordered .ant-input-number {
 	border: 2px solid #3e79f7 !important ;
 }
 

@@ -62,9 +62,9 @@ function showError(err, custom_message) {
 	else
 		message.error(
 			err.response?.data?.message ||
-				err.response?.data?.errors.message ||
-				custom_message ||
-				err.message,
+			err.response?.data?.errors.message ||
+			custom_message ||
+			err.message,
 			10
 		);
 }
@@ -144,7 +144,7 @@ function CreateRent() {
 	}
 
 	return (
-		<Row style={{ background: "#f8f8f8" }} className="p-3 c-rent">
+		<Row style={{ background: "#f8f8f8" }} className="p-3 c-rent color-bordered">
 			<Col md={24} lg={18}>
 				<h3 className="ml-3">Ijara qo'shish</h3>
 				<Form
@@ -631,7 +631,7 @@ function UserForm({ onFormClose }) {
 								<PhoneNumber />
 							</Form.Item>
 						</Col>
-						<Col span={12}>
+						<Col span={6}>
 							<Form.Item
 								label={tl("passportId")}
 								name="passportId"
@@ -640,7 +640,15 @@ function UserForm({ onFormClose }) {
 								<Passport />
 							</Form.Item>
 						</Col>
-						<Col span={8}>
+						<Col span={6}>
+							<Form.Item
+								label={tl("birthDate")}
+								name="birthDate"
+							>
+								<CustomDate />
+							</Form.Item>
+						</Col>
+						<Col span={6}>
 							<Form.Item
 								label={tl("gender")}
 								name="gender"
@@ -729,7 +737,7 @@ function VerifyPhone({ phone, setCodeFinish }) {
 				<Loading />
 			) : (
 				<Form
-					className="c-rent"
+					className="c-rent color-bordered"
 					id="verify-phone"
 					style={{ fontSize: "30px !important" }}
 					layout="vertical"
