@@ -7,6 +7,11 @@ import { useResource } from "hooks/useResource";
 import store from "redux/store";
 const { Option } = Select;
 const dispatch = store.dispatch;
+
+function defaultOptionValueGetter(item) {
+	return item.id;
+}
+
 function SelectFetch({
 	resource,
 	column = "name",
@@ -14,6 +19,7 @@ function SelectFetch({
 	render,
 	value,
 	withoutId,
+	optionValueGetter = defaultOptionValueGetter,
 	...props
 }) {
 	const [loading, setLoading] = useState(false);
@@ -64,6 +70,7 @@ function SelectFetch({
 	return (
 		<div className="d-flex">
 			<Select
+				{...props}
 				style={{ width: !withoutId ? "70%" : "100%" }}
 				placeholder={props.placeholder}
 				loading={loading}
@@ -80,7 +87,7 @@ function SelectFetch({
 			>
 				{items.map((item, i) => {
 					return (
-						<Option key={i} value={item.id}>
+						<Option key={i} value={optionValueGetter(item)}>
 							{(render && render(item)) || item[column] || ""}
 						</Option>
 					);
@@ -100,7 +107,7 @@ function SelectFetch({
 				>
 					{items.map((item, i) => {
 						return (
-							<Option key={i} value={item.id}>
+							<Option key={i} value={optionValueGetter(item)}>
 								{item.id}
 							</Option>
 						);

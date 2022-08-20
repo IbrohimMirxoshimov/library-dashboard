@@ -12,6 +12,16 @@ export function toMatrix(list, elementsPerSubArray) {
 	return matrix;
 }
 
+export function isEmptyObject(obj) {
+	for (var prop in obj) {
+		if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+			return false;
+		}
+	}
+
+	return JSON.stringify(obj) === JSON.stringify({});
+}
+
 export function divideArray(array) {
 	const half = Math.round(array.length / 2);
 	return [array.slice(0, half), array.slice(half)];

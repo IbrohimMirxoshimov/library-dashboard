@@ -112,6 +112,14 @@ const dashBoardNavTree = {
 			role: roles.moderator,
 			submenu: [],
 		},
+		{
+			key: "towns",
+			path: `${APP_PREFIX_PATH}/towns`,
+			title: "Tumanlar",
+			icon: "EnvironmentOutlined",
+			role: roles.moderator,
+			submenu: [],
+		},
 	],
 };
 

@@ -162,3 +162,8 @@ input::placeholder {
 	font-size: 25px;
 	font-weight: bold;
 }
+
+.ant-layout-sider-children {
+	overflow-y: auto;
+	overflow-x: hidden;
+}

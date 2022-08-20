@@ -176,6 +176,34 @@ export const users = {
 			Component: Tokenization,
 		},
 		{
+			name: ["address", "region"],
+			field: "selectFetch",
+			label: "Viloyat",
+			role: roles.owner,
+			fieldProp: {
+				resource: resources.regions, defaultOptionValueGetter(item) {
+					return item.name
+				}
+			},
+		},
+		{
+			name: ["address", "town"],
+			field: "selectFetch",
+			label: "Tuman",
+			role: roles.librarian,
+			fieldProp: {
+				resource: resources.towns, defaultOptionValueGetter(item) {
+					return item.name
+				}
+			},
+		},
+		{
+			name: ["address", "addressLine"],
+			label: "Manzil",
+			role: roles.librarian,
+			colSpan: 24,
+		},
+		{
 			name: "libraryId",
 			field: "selectFetch",
 			role: roles.owner,
@@ -185,13 +213,6 @@ export const users = {
 		{
 			name: "pinfl",
 			label: tl("pinfl"),
-		},
-
-		{
-			name: "regionId",
-			field: "selectFetch",
-			role: roles.owner,
-			fieldProp: { resource: resources.regions },
 		},
 		{ name: "username", role: roles.owner },
 		{ name: "password", role: roles.owner },
@@ -213,8 +234,7 @@ export const users = {
 			label: tl("verified"),
 			propName: "checked",
 		},
-
-		{ name: "extra", label: tl("extra") },
+		{ name: "extra", label: tl("extra"), field: "textarea" },
 	],
 	view: { canDelete: (user) => true },
 };

@@ -178,6 +178,30 @@ const pagesConfig = {
 			},
 		],
 	},
+	towns: {
+		name: tl("towns"),
+		nameOne: tl("town"),
+		view: { canDelete: () => true },
+		columns: [
+			{
+				title: "ID",
+				key: "id",
+				dataIndex: "id",
+			},
+			{
+				title: "name",
+				key: "name",
+				dataIndex: "name",
+				cellRenderer: "editOpener",
+			},
+			...createdAtAndUpdatedAtColumns,
+		],
+		form: [
+			{
+				name: "name",
+			},
+		],
+	},
 	books: {
 		name: tl("books"),
 		nameOne: tl("book"),

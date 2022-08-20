@@ -36,7 +36,7 @@ import { addNeeds, addNews } from "redux/actions/resource";
 import Passport from "components/forms/Passport";
 import { tl } from "i18n";
 import PhoneNumber from "components/forms/PhoneNumber";
-import { clearNullishKeysFromObject } from "utils/array";
+import { clearNullishKeysFromObject, isEmptyObject } from "utils/array";
 import VerifyPhoneAPI from "api/VerifyPhoneAPI";
 import Loading from "components/shared-components/Loading";
 
@@ -531,6 +531,12 @@ function UserForm({ onFormClose }) {
 	const [form] = Form.useForm();
 	function onFinish(values) {
 		setLoading(true);
+
+		if (values.address?.addressLine?.length === 0) {
+			delete values.address.addressLine;
+		}
+		values.address = isEmptyObject(values.address) ? undefined : values.address;
+
 		FetchResource.create(resources.users, values)
 			.then((user) => {
 				setLoading(false);
@@ -665,12 +671,22 @@ function UserForm({ onFormClose }) {
 						</Col>
 						<Col span={6}>
 							<Form.Item label={tl("region")} name={["address", "region"]}>
-								<SelectFetch withoutId resource={resources.regions} />
+								<SelectFetch
+									allowClear
+									withoutId
+									optionValueGetter={(item) => item.name}
+									resource={resources.regions}
+								/>
 							</Form.Item>
 						</Col>
 						<Col span={6}>
 							<Form.Item label={tl("town")} name={["address", "town"]}>
-								<SelectFetch withoutId resource={resources.towns} />
+								<SelectFetch
+									allowClear
+									withoutId
+									optionValueGetter={(item) => item.name}
+									resource={resources.towns}
+								/>
 							</Form.Item>
 						</Col>
 						<Col span={12}>
