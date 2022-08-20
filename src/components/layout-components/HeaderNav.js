@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Layout, Button } from "antd";
+import { Layout } from "antd";
 import {
-	LogoutOutlined,
 	MenuFoldOutlined,
 	MenuUnfoldOutlined,
 } from "@ant-design/icons";
@@ -15,7 +14,7 @@ import {
 } from "constants/ThemeConstant";
 import utils from "utils";
 import { signOut } from "redux/actions/Auth";
-import { useHistory } from "react-router-dom";
+import NavProfile from "./NavProfile";
 
 const { Header } = Layout;
 
@@ -29,10 +28,9 @@ export const HeaderNav = (props) => {
 		onMobileNavToggle,
 		isMobile,
 		currentTheme,
-		signOut,
+		user, token
 	} = props;
 	const [, setSearchActive] = useState(false);
-	const history = useHistory();
 	const onSearchClose = () => {
 		setSearchActive(false);
 	};
@@ -99,15 +97,7 @@ export const HeaderNav = (props) => {
 						</ul>
 					</div>
 					<div className="nav-right d-flex align-items-center">
-						<Button
-							icon={<LogoutOutlined className="mr-3" />}
-							onClick={() => {
-								signOut();
-								history.push("/auth/login");
-							}}
-						>
-							Chiqish
-						</Button>
+						<NavProfile user={user} token={token} signOut={signOut} />
 					</div>
 				</div>
 			</div>
@@ -115,7 +105,7 @@ export const HeaderNav = (props) => {
 	);
 };
 
-const mapStateToProps = ({ theme }) => {
+const mapStateToProps = ({ theme, auth }) => {
 	const {
 		navCollapsed,
 		navType,
@@ -124,6 +114,7 @@ const mapStateToProps = ({ theme }) => {
 		currentTheme,
 		direction,
 	} = theme;
+
 	return {
 		navCollapsed,
 		navType,
@@ -131,6 +122,8 @@ const mapStateToProps = ({ theme }) => {
 		mobileNav,
 		currentTheme,
 		direction,
+		token: auth.token,
+		user: auth.user
 	};
 };
 
