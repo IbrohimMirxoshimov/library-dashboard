@@ -1,3 +1,4 @@
+import { message } from "antd";
 import axios from "axios";
 import { getTOKEN } from "redux/reducers/Auth";
 import { signOutDirectly } from "redux/store";
@@ -29,7 +30,9 @@ export default function mainCaller(path, method, data, headers) {
 	return axios(options)
 		.then((r) => r.data)
 		.catch((err) => {
-			if (err.response.status === 401) {
+			if (!err.response && err.message === "Network Error") {
+				err.message = "Internet bilan bog'liq muammo. Internetni tekshiring yoki dasturchiga bog'laning"
+			} else if (err.response.status === 401) {
 				signOutDirectly();
 				return {};
 			}
