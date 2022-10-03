@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import FieldComponents from "components/forms/FieldComponents";
 import { useForm } from "antd/lib/form/Form";
 import DeleteButton from "components/forms/DeleteButton";
+import { isEmptyObject } from "utils/array";
 
 function getInitilaFormData(config, record = {}) {
 	if (config?.formInitial) {
@@ -97,6 +98,9 @@ export function FormDrawerMicro({ messageId, data, onFormClose }) {
 
 	function onFinish(values) {
 		setLoading(true);
+		if (isEmptyObject(values.address)) {
+			values.address = undefined;
+		}
 		fetch(values)
 			.then((res) => {
 				message.success("Success");

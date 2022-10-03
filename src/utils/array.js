@@ -13,12 +13,6 @@ export function toMatrix(list, elementsPerSubArray) {
 }
 
 export function isEmptyObject(obj) {
-	for (const prop in obj) {
-		if (obj[prop] !== undefined) {
-			return false;
-		}
-	}
-
 	return JSON.stringify(obj) === JSON.stringify({});
 }
 
