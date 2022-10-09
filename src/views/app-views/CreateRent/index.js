@@ -40,7 +40,6 @@ import PhoneNumber from "components/forms/PhoneNumber";
 import { clearNullishKeysFromObject, isEmptyObject } from "utils/array";
 import VerifyPhoneAPI from "api/VerifyPhoneAPI";
 import Loading from "components/shared-components/Loading";
-import { mainUrl } from "api/main";
 
 const days = [5, 10, 15, 20, 30];
 
