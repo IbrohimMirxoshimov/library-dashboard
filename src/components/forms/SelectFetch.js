@@ -68,7 +68,7 @@ function SelectFetch({
 		);
 	}
 	return (
-		<div className="d-flex">
+		<div className="d-flex w-100">
 			<Select
 				{...props}
 				style={{ width: !withoutId ? "70%" : "100%" }}

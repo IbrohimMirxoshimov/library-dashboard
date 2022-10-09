@@ -12,7 +12,8 @@ import { cells } from "./cells";
 import { useSelector } from "react-redux";
 import { addNeeds } from "redux/actions/resource";
 import { debounce } from "utils/debounce";
-
+import { useLocation } from "react-router-dom";
+import qs from "qs";
 // import { resources } from "api/resources";
 const { Search } = Input;
 
@@ -96,9 +97,12 @@ const ListView = ({ resource, columns, search, tableProps = {} }) => {
 		totalCount: 0,
 		page: 1,
 	});
+	const location = useLocation();
+
 	const [filter, setFilter] = useState(() => ({
 		...initialQuery,
 		s: search?.key,
+		...qs.parse(location.search),
 	}));
 
 	const user = useSelector((state) => state.auth.user);
@@ -202,7 +206,7 @@ const ListView = ({ resource, columns, search, tableProps = {} }) => {
 	};
 
 	useEffect(() => {
-		fetch(initialQuery);
+		fetch(filter);
 		document.querySelector("title").innerText = resource.name;
 
 		function hotKeys(e) {

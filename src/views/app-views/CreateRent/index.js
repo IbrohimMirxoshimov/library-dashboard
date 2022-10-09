@@ -22,6 +22,7 @@ import printReciept from "utils/printReciept";
 import {
 	BookOutlined,
 	CloseCircleOutlined,
+	FileDoneOutlined,
 	UserOutlined,
 } from "@ant-design/icons";
 import Rents from "api/routes/rents";
@@ -62,11 +63,44 @@ function showError(err, custom_message) {
 	else
 		message.error(
 			err.response?.data?.message ||
-			err.response?.data?.errors.message ||
-			custom_message ||
-			err.message,
+				err.response?.data?.errors.message ||
+				custom_message ||
+				err.message,
 			10
 		);
+}
+
+function OpenUserHistory({ userId }) {
+	return (
+		<Button
+			disabled={!userId}
+			onClick={() => {
+				window.open(`/app/rents/?size=20&page=1&q=u${userId}.`, "_blank");
+			}}
+			className="ml-1"
+			icon={<FileDoneOutlined />}
+		/>
+	);
+}
+
+function SelectUserAndUserHistory({ onChange, value }) {
+	return (
+		<div className="d-flex">
+			<SelectFetch
+				placeholder={"Kitobxon ism, familiya yoki telefon raqam"}
+				resource={resources.users}
+				fetchable={true}
+				onChange={onChange}
+				value={value}
+				column={"fullName"}
+				render={(item) =>
+					item &&
+					`${item.firstName} ${item.lastName} - ${item.phone} - ${item.passportId}`
+				}
+			/>
+			<OpenUserHistory userId={value} />
+		</div>
+	);
 }
 
 function CreateRent() {
@@ -144,7 +178,10 @@ function CreateRent() {
 	}
 
 	return (
-		<Row style={{ background: "#f8f8f8" }} className="p-3 c-rent color-bordered">
+		<Row
+			style={{ background: "#f8f8f8" }}
+			className="p-3 c-rent color-bordered"
+		>
 			<Col md={24} lg={18}>
 				<h3 className="ml-3">Ijara qo'shish</h3>
 				<Form
@@ -159,17 +196,9 @@ function CreateRent() {
 						label={"Kitobxon"}
 						name="userId"
 					>
-						<SelectFetch
-							placeholder={"Kitobxon ism, familiya yoki telefon raqam"}
-							resource={resources.users}
-							fetchable={true}
-							column={"fullName"}
-							render={(item) =>
-								item &&
-								`${item.firstName} ${item.lastName} - ${item.phone} - ${item.passportId}`
-							}
-						/>
+						<SelectUserAndUserHistory />
 					</Form.Item>
+
 					<Form.Item name="stockId" rules={[{ required: true }]} label="Kitob">
 						<StockSelect
 							placeholder={"Kitob nomi"}
@@ -254,7 +283,7 @@ function CreateRent() {
 	);
 }
 
-function LeaseRent({ incramentReturning }) {
+function LeaseRent({ incramentReturning, onSelectUserId }) {
 	const [loading, setLoading] = useState(false);
 	const [form] = Form.useForm();
 	const [modal, setModal] = useState({ open: false, rent: {} });
@@ -293,6 +322,7 @@ function LeaseRent({ incramentReturning }) {
 			message.success(id + " raqamli ijara bo'shatildi!");
 			setLoading(false);
 			form.resetFields();
+			onSelectUserId(modal.rent.user.id);
 		}
 
 		function error(err) {
@@ -317,14 +347,14 @@ function LeaseRent({ incramentReturning }) {
 				onFinish={onFinish}
 			>
 				<Form.Item name={"id"} label={"Yangi kvitansiya"}>
-					<InputNumber style={{ width: "100%" }} />
+					<InputNumber style={{ width: "100%" }} onPressEnter={onCheck} />
 				</Form.Item>
 				<div className="d-flex">
-					<Form.Item name={"customId"} label={"Eski kv"}>
-						<InputNumber style={{ width: "100%" }} />
+					<Form.Item name={"customId"} className="mr-1" label={"Eski kv"}>
+						<InputNumber className="w-100" onPressEnter={onCheck} />
 					</Form.Item>
 					<Form.Item name={"stockId"} label={"Kitob bilan"}>
-						<InputNumber style={{ width: "100%" }} />
+						<InputNumber className="w-100" onPressEnter={onCheck} />
 					</Form.Item>
 				</div>
 				<Form.Item>
@@ -358,10 +388,16 @@ function CheckModal({ rent, loading, close }) {
 			state.books.items.find((book) => book.id === rent.stock.bookId)
 	);
 
+	const id_submit = "check-submit";
+
 	useEffect(() => {
 		if (!book) {
 			addNeeds(resources.books, [rent.stock.bookId]);
 		}
+
+		setTimeout(() => {
+			document.getElementById(id_submit)?.focus();
+		}, 0);
 		// eslint-disable-next-line
 	}, []);
 
@@ -378,6 +414,7 @@ function CheckModal({ rent, loading, close }) {
 					loading={loading}
 					htmlType="submit"
 					type="primary"
+					id={id_submit}
 					form={"rent-form"}
 				>
 					Bo'shatish
@@ -464,7 +501,12 @@ function RightTools({ form }) {
 
 	return (
 		<Fragment>
-			<LeaseRent incramentReturning={() => dispatch(returnedRent())} />
+			<LeaseRent
+				onSelectUserId={(userId) => {
+					form.setFieldsValue({ userId: userId });
+				}}
+				incramentReturning={() => dispatch(returnedRent())}
+			/>
 			{activeForm === formsData.users && (
 				<UserForm onFormClose={onUserFormClose} />
 			)}
@@ -641,10 +683,7 @@ function UserForm({ onFormClose }) {
 							</Form.Item>
 						</Col>
 						<Col span={6}>
-							<Form.Item
-								label={tl("birthDate")}
-								name="birthDate"
-							>
+							<Form.Item label={tl("birthDate")} name="birthDate">
 								<CustomDate />
 							</Form.Item>
 						</Col>
