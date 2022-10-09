@@ -40,6 +40,7 @@ import PhoneNumber from "components/forms/PhoneNumber";
 import { clearNullishKeysFromObject, isEmptyObject } from "utils/array";
 import VerifyPhoneAPI from "api/VerifyPhoneAPI";
 import Loading from "components/shared-components/Loading";
+import { mainUrl } from "api/main";
 
 const days = [5, 10, 15, 20, 30];
 
@@ -70,12 +71,32 @@ function showError(err, custom_message) {
 		);
 }
 
+function openOnce(url, target = "NewWindow") {
+	// open a blank "target" window
+	// or get the reference to the existing "target" window
+	const winref = window.open("", target, "");
+	const newUrl = new URL(url);
+
+	// if the "target" window was just opened, change its url
+	if (
+		winref.location.href === "about:blank" ||
+		(winref.location.href !== newUrl.href &&
+			winref.location.pathname === newUrl.pathname &&
+			winref.location.origin === newUrl.origin)
+	) {
+		winref.location.href = url;
+	}
+	return winref;
+}
+
 function OpenUserHistory({ userId }) {
 	return (
 		<Button
 			disabled={!userId}
 			onClick={() => {
-				window.open(`/app/rents/?size=20&page=1&q=u${userId}.`, "_blank");
+				openOnce(
+					`${window.location.origin}/app/rents/?size=20&page=1&q=u${userId}.`
+				);
 			}}
 			className="ml-1"
 			icon={<FileDoneOutlined />}
