@@ -311,6 +311,27 @@ const pagesConfig = {
 			},
 
 			{
+				name: "few",
+				field: "choice",
+				label: tl("Tanqislik"),
+				fieldProp: {
+					choices: [
+						{
+							value: 0,
+							name: "Tanqis emas",
+						},
+						{
+							value: 1,
+							name: "Tanqis",
+						},
+						{
+							value: 2,
+							name: "Tizim",
+						},
+					],
+				},
+			},
+			{
 				name: "booksGroupId",
 				field: "selectFetch",
 				label: tl("group"),

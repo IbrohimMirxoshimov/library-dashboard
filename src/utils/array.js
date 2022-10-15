@@ -205,7 +205,7 @@ export function arrayToKeyValueObject(array, object = {}) {
 
 export function clearNullishKeysFromObject(object) {
 	Object.keys(object).forEach((key) => {
-		if (!object[key] && object[key] !== 0) {
+		if (object[key] === null) {
 			delete object[key];
 		}
 	});
