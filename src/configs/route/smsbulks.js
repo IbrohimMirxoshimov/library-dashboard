@@ -196,6 +196,7 @@ export const smsbulks = {
 			disabledOnEdit: true,
 			fieldProp: {
 				mode: "tags",
+				tokenSeparators: [","],
 			},
 			fieldComponent: Select,
 		},

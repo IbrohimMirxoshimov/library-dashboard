@@ -85,7 +85,7 @@ const dashBoardNavTree = {
 			path: `${APP_PREFIX_PATH}/sms`,
 			title: "Sms",
 			icon: "EnvironmentOutlined",
-			role: roles.owner,
+			role: roles.librarian,
 			submenu: [],
 		},
 		{
