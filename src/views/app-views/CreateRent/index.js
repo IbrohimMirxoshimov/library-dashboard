@@ -352,7 +352,13 @@ function LeaseRent({ incramentReturning, onSelectUserId }) {
 
 		setLoading(true);
 		Rents.return(modal.rent.id)
-			.then((r) => success(modal.rent.id))
+			.then((r) => {
+				if (r.is_user_blocked) {
+					message.warning("Kitobxon bloklandi");
+				}
+
+				success(modal.rent.id);
+			})
 			.catch(error);
 	}
 
