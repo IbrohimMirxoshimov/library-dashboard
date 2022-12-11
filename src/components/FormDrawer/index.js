@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Button, Drawer, message, Form, Row, Col } from "antd";
 import useMessage from "hooks/useMessage";
 import FetchResource from "api/crud";
-import { unstable_batchedUpdates } from "react-dom";
 import pagesConfig from "configs/route/pagesConfig";
 import { useSelector } from "react-redux";
 import FieldComponents from "components/forms/FieldComponents";
@@ -104,12 +103,9 @@ export function FormDrawerMicro({ messageId, data, onFormClose }) {
 		fetch(values)
 			.then((res) => {
 				message.success("Success");
-				unstable_batchedUpdates(() => {
-					setLoading(false);
-					onClose(res);
-				});
-
-				window.refreshList && window.refreshList(endpoint);
+				setLoading(false);
+				onClose(res);
+				window.refreshList && window.refreshList();
 			})
 			.catch((err) => {
 				setLoading(false);

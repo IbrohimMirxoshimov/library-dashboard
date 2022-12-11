@@ -229,12 +229,9 @@ const ListView = ({ resource, columns, search, tableProps = {} }) => {
 
 		window.addEventListener("keyup", hotKeys);
 		// temporary disable refresh list on form submit
-		// window.refreshList = (resource_refresh) => {
-		// if (resource_refresh === resource.endpoint) {
-		// 	fetch(filter);
-		// }
-		// };
+		window.refreshList = onRefresh;
 		return () => {
+			window.refreshList = undefined;
 			window.removeEventListener("keyup", hotKeys);
 		};
 		// eslint-disable-next-line
