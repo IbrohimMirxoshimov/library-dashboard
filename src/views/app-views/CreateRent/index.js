@@ -858,7 +858,7 @@ function StockForm({ onFormClose }) {
 		>
 			<Form id="stock-form" onFinish={onFinish} layout="vertical">
 				<Form.Item label={tl("book")} name="bookId" rules={rules.required}>
-					<SelectFetch {...{ resource: resources.books, fetchable: true }} />
+					<SelectFetch resource={resources.books} fetchable />
 				</Form.Item>
 			</Form>
 		</Modal>

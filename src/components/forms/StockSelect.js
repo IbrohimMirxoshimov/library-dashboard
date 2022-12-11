@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 function StockSelect({
 	resource,
 	column = "name",
-	fetchable,
+	fetchable = true,
 	fetchSize,
 	value,
 	onChangeItem,

@@ -2,7 +2,12 @@ import { resources } from "api/resources";
 import { roles } from "configs/NavigationConfig";
 import { createdAtAndUpdatedAtColumns, getDateString } from "./utils";
 import { tl } from "i18n";
-import { Input, Radio } from "antd";
+import { Input, Radio, Tag } from "antd";
+
+const UserStatusOpposite = {
+	1: "active",
+	0: "blocked",
+};
 
 function getInfoFromPassportSerial(text) {
 	let match = text
@@ -118,6 +123,14 @@ export const users = {
 			role: roles.owner,
 		},
 		{
+			title: "Status",
+			key: "status",
+			dataIndex: "status",
+			render: (value) => (
+				<Tag color={value ? "green" : "red"}>{UserStatusOpposite[value]}</Tag>
+			),
+		},
+		{
 			title: "Tug'ilgan",
 			key: "birthDate",
 			dataIndex: "birthDate",
@@ -179,11 +192,12 @@ export const users = {
 			name: ["address", "region"],
 			field: "selectFetch",
 			label: "Viloyat",
-			role: roles.owner,
+			role: roles.librarian,
 			fieldProp: {
-				resource: resources.regions, defaultOptionValueGetter(item) {
-					return item.name
-				}
+				resource: resources.regions,
+				defaultOptionValueGetter(item) {
+					return item.name;
+				},
 			},
 		},
 		{
@@ -192,9 +206,10 @@ export const users = {
 			label: "Tuman",
 			role: roles.librarian,
 			fieldProp: {
-				resource: resources.towns, defaultOptionValueGetter(item) {
-					return item.name
-				}
+				resource: resources.towns,
+				defaultOptionValueGetter(item) {
+					return item.name;
+				},
 			},
 		},
 		{
@@ -213,6 +228,32 @@ export const users = {
 		{
 			name: "pinfl",
 			label: tl("pinfl"),
+		},
+		{
+			name: "status",
+			field: "choice",
+			label: tl("Status"),
+			role: roles.librarian,
+			fieldProp: {
+				choices: [
+					{
+						value: 1,
+						name: "Faol",
+					},
+					{
+						value: 0,
+						name: "Bloklangan",
+					},
+				],
+			},
+		},
+		{
+			name: "balance",
+			label: "Hisob",
+			role: roles.librarian,
+			fieldProp: {
+				type: "number",
+			},
 		},
 		{ name: "username", role: roles.owner },
 		{ name: "password", role: roles.owner },

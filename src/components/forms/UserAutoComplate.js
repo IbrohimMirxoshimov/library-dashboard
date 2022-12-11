@@ -12,7 +12,6 @@ function UserAutoComplate({ resource, ...props }) {
 	// console.log(items);
 
 	function fetch(name) {
-		// if (!fetchable) return;
 		if (!name) return;
 
 		debounce(

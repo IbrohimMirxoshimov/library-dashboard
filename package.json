@@ -35,7 +35,7 @@
 		"workbox-streams": "^5.1.4"
 	},
 	"scripts": {
-		"start": "react-scripts start",
+		"start": "GENERATE_SOURCEMAP=true react-scripts start",
 		"build": "react-scripts build && cp -r build/* ../library-app/frontend/",
 		"build_plain": "react-scripts build",
 		"test": "react-scripts test",

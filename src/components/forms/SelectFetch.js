@@ -19,6 +19,7 @@ function SelectFetch({
 	render,
 	value,
 	withoutId,
+	fetchable = true,
 	optionValueGetter = defaultOptionValueGetter,
 	...props
 }) {
@@ -26,6 +27,7 @@ function SelectFetch({
 	const items = useResource(resource, [props.value]);
 
 	function fetch(name) {
+		if (!fetchable) return;
 		if (!name) return;
 
 		debounce(

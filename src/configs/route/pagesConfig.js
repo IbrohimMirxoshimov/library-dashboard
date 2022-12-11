@@ -295,6 +295,16 @@ const pagesConfig = {
 				fieldProp: { type: "number" },
 			},
 			{
+				name: "price",
+				label: tl("price"),
+				rules: [
+					{
+						required: true,
+					},
+				],
+				fieldProp: { type: "number" },
+			},
+			{
 				name: "authorId",
 				label: tl("author"),
 				field: "selectFetch",
@@ -359,6 +369,7 @@ const pagesConfig = {
 		footer: (data, form) => {
 			return [
 				<SubForm
+					key={1}
 					data={{
 						form: "authors",
 						resource: { endpoint: "authors", nameOne: "Muallif" },
@@ -366,6 +377,7 @@ const pagesConfig = {
 					buttonText={"Muallif +"}
 				/>,
 				<SubForm
+					key={2}
 					data={{
 						form: "publishings",
 						resource: { endpoint: "publishings", nameOne: "Nashriyot" },
