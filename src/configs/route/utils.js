@@ -4,7 +4,13 @@ export const getRamainedDays = (rent) => {
 	let remain = new Date(rent.returningDate) - new Date();
 	let remainDays = Math.floor(remain / ONE_DAY_IN_MS);
 
-	return remainDays + 1;
+	return remainDays;
+};
+export const getLeasedDays = (rent) => {
+	let remain = new Date() - new Date(rent.leasedAt);
+	let remainDays = Math.floor(remain / ONE_DAY_IN_MS);
+
+	return remainDays;
 };
 
 export const deleteColumn = {

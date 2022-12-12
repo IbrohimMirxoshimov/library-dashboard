@@ -4,6 +4,7 @@ import { CheckCircleTwoTone } from "@ant-design/icons";
 import {
 	createdAtAndUpdatedAtColumns,
 	getDateString,
+	getLeasedDays,
 	getRamainedDays,
 } from "./utils";
 import Comments from "./components/Comments";
@@ -43,22 +44,21 @@ export const rents = {
 		},
 		{
 			key: "remain",
-			title: "Qoldi",
-			width: 40,
+			title: "Qoldi / Jami",
+			width: 100,
 			sorter: false,
 			render: (v, record) => {
 				if (!record.returnedAt) {
-					let remainDays = getRamainedDays(record);
-
-					if (remainDays > 20) {
-						return <Tag color="green">{remainDays}</Tag>;
-					} else if (remainDays > 5) {
-						return <Tag color="orange">{remainDays}</Tag>;
-					} else if (remainDays > 0) {
-						return <Tag color="red">{remainDays}</Tag>;
-					} else {
-						return <Tag color="black">{remainDays}</Tag>;
-					}
+					const remainDays = getRamainedDays(record);
+					const leasingDays = getLeasedDays(record);
+					return (
+						<div className="days-cell">
+							<Tag color={getRemainedDaysColor(remainDays)} className="mr-0">
+								{remainDays}
+							</Tag>
+							<Tag>{leasingDays}</Tag>
+						</div>
+					);
 				}
 
 				return (
@@ -200,3 +200,23 @@ export const rents = {
 		},
 	],
 };
+
+function getRemainedDaysColor(remained_days) {
+	if (remained_days > 20) {
+		return "green";
+	} else if (remained_days > 5) {
+		return "orange";
+	} else if (remained_days > 0) {
+		return "red";
+	} else {
+		return "black";
+	}
+}
+
+export function getLeasedDaysColor(leased_days) {
+	if (leased_days > 30) {
+		return "black";
+	}
+
+	return "green";
+}

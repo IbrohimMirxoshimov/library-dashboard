@@ -167,3 +167,10 @@ input::placeholder {
 	overflow-y: auto;
 	overflow-x: hidden;
 }
+
+.days-cell .ant-tag {
+	width: 35px;
+	margin-right: 0px;
+	padding: 0px 6px;
+	text-align: center;
+}
