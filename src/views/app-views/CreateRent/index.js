@@ -342,7 +342,7 @@ function LeaseRent({ incramentReturning, onSelectUserId }) {
 			message.success(id + " raqamli ijara bo'shatildi!");
 			setLoading(false);
 			form.resetFields();
-			onSelectUserId(modal.rent.user.id);
+			// onSelectUserId(modal.rent.user.id);
 		}
 
 		function error(err) {
