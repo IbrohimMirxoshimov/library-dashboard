@@ -36,8 +36,8 @@
 	},
 	"scripts": {
 		"start": "GENERATE_SOURCEMAP=true react-scripts start",
-		"build": "react-scripts build && cp -r build/* ../library-app/frontend/",
-		"build_plain": "react-scripts build",
+		"build": "react-scripts build",
+		"build_full": "react-scripts build && cp -r build/* ../library-app/frontend/",
 		"test": "react-scripts test",
 		"build_and_upload": "GENERATE_SOURCEMAP=false react-scripts build && zip -r build build && scp build.zip root@softly.uz:.",
 		"unzipcp": "unzip -o ~/build.zip && cp -r build/* /home/library-app/frontend",
