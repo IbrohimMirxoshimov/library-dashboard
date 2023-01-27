@@ -43,6 +43,9 @@
 		"unzipcp": "unzip -o ~/build.zip && cp -r build/* /home/library-app/frontend",
 		"eject": "react-scripts eject"
 	},
+	"engines": {
+		"node": "16.x"
+	},
 	"eslintConfig": {
 		"extends": [
 			"react-app",
