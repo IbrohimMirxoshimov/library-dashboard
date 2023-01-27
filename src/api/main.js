@@ -1,11 +1,8 @@
 import axios from "axios";
 import { getTOKEN } from "redux/reducers/Auth";
 import { signOutDirectly } from "redux/store";
-import { isDevelopment } from "utils/methods";
 export const mainUrl = () =>
-	isDevelopment()
-		? `http://${window.location.hostname}:3258`
-		: "https://library.softly.uz";
+	process.env.REACT_APP_API_URL || "https://library.softly.uz";
 
 export default function mainCaller(path, method, data, headers) {
 	const _headers = {
@@ -30,7 +27,8 @@ export default function mainCaller(path, method, data, headers) {
 		.then((r) => r.data)
 		.catch((err) => {
 			if (!err.response && err.message === "Network Error") {
-				err.message = "Internet bilan bog'liq muammo. Internetni tekshiring yoki dasturchiga bog'laning"
+				err.message =
+					"Internet bilan bog'liq muammo. Internetni tekshiring yoki dasturchiga bog'laning";
 			} else if (err.response.status === 401) {
 				signOutDirectly();
 				return {};
