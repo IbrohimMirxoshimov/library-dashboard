@@ -14,7 +14,7 @@ import {
 	RightTools,
 } from "./create-rent.utils";
 import Popconfirm from "antd/es/popconfirm";
-import { addNeeds, getResourcesByIds } from "redux/actions/resource";
+import { getResourcesByIds } from "redux/actions/resource";
 
 const RENT_DAYS = [5, 10, 15, 20, 30];
 
