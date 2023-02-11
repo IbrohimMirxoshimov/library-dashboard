@@ -1,4 +1,4 @@
-import { Button, Col, Form, Row } from "antd";
+import { Button, Col, Form, Row, Tag } from "antd";
 import { resources } from "api/resources";
 import CustomDate from "components/forms/CustomDate";
 import StockSelect from "components/forms/StockSelect";
@@ -14,6 +14,7 @@ import {
 	RightTools,
 } from "./create-rent.utils";
 import Popconfirm from "antd/es/popconfirm";
+import { addNeeds, getResourcesByIds } from "redux/actions/resource";
 
 const RENT_DAYS = [5, 10, 15, 20, 30];
 
@@ -24,6 +25,7 @@ function CreateRent() {
 	const dispatch = useDispatch();
 	const [choosenStock, setChoosenStock] = useState();
 	const store = useStore();
+	const [latestUsersId, setLatestUsersId] = useState([]);
 
 	const setDate = (d) => {
 		const now = new Date().toISOString();
@@ -56,6 +58,12 @@ function CreateRent() {
 		// eslint-disable-next-line
 	}, []);
 
+	function addLatestChoosenUser(user_id) {
+		setLatestUsersId((ids) =>
+			[user_id, ...ids.filter((id) => id !== user_id)].slice(0, 5)
+		);
+	}
+
 	const onFinish = (values) => {
 		FetchResource.create("rents", values)
 			.then((data) => {
@@ -69,6 +77,7 @@ function CreateRent() {
 				setChoosenStock(undefined);
 				form.resetFields();
 				setDate(10);
+				addLatestChoosenUser(values.userId);
 			})
 			.catch(showError);
 	};
@@ -109,9 +118,28 @@ function CreateRent() {
 						rules={[{ required: true }]}
 						label={"Kitobxon"}
 						name="userId"
+						className="mb-1"
 					>
 						<SelectUserAndUserHistory />
 					</Form.Item>
+
+					<div className="mb-3 mt-2">
+						{getResourcesByIds(resources.users, latestUsersId).map((user) => {
+							return (
+								<Tag
+									onClick={() => {
+										form.setFieldsValue({ userId: user.id });
+									}}
+									style={{ fontSize: 18 }}
+									color="blue"
+									className="cursor-pointer"
+									key={user.id}
+								>
+									{user.firstName} {user.lastName}
+								</Tag>
+							);
+						})}
+					</div>
 
 					<Form.Item name="stockId" rules={[{ required: true }]} label="Kitob">
 						<StockSelect
@@ -207,7 +235,12 @@ function CreateRent() {
 				</Form>
 			</Col>
 			<Col md={24} lg={6}>
-				<RightTools form={form} />
+				<RightTools
+					form={form}
+					onSelectUser={(user_id) => {
+						addLatestChoosenUser(user_id);
+					}}
+				/>
 			</Col>
 		</Row>
 	);

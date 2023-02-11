@@ -121,7 +121,7 @@ function LeaseRent({ incramentReturning, onSelectUserId }) {
 			message.success(id + " raqamli ijara bo'shatildi!");
 			setLoading(false);
 			form.resetFields();
-			// onSelectUserId(modal.rent.user.id);
+			onSelectUserId(modal.rent.user.id);
 		}
 
 		function error(err) {
@@ -283,7 +283,7 @@ function CloseShift() {
 		</Fragment>
 	);
 }
-export function RightTools({ form }) {
+export function RightTools({ form, onSelectUser }) {
 	const formsData = {
 		stocks: "stocks",
 		users: "users",
@@ -304,9 +304,7 @@ export function RightTools({ form }) {
 	return (
 		<Fragment>
 			<LeaseRent
-				onSelectUserId={(userId) => {
-					form.setFieldsValue({ userId: userId });
-				}}
+				onSelectUserId={onSelectUser}
 				incramentReturning={() => dispatch(returnedRent())}
 			/>
 			{activeForm === formsData.users && (

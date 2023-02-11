@@ -72,3 +72,8 @@ export function addNeedsWithDebounce(resource, ids) {
 		addNeeds(resource, data);
 	}, "an-" + resource);
 }
+
+export const getResourcesByIds = (resource, ids) => {
+	const items = store.getState()[resource].items;
+	return items.filter((item) => ids.includes(item.id));
+};
