@@ -2,7 +2,7 @@ import axios from "axios";
 import { getTOKEN } from "redux/reducers/Auth";
 import { signOutDirectly } from "redux/store";
 export const mainUrl = () =>
-	process.env.REACT_APP_API_URL || "https://admin.mehrkutubxonasi.uz";
+	process.env.REACT_APP_API_URL || "https://library.softly.uz";
 
 export default function mainCaller(path, method, data, headers) {
 	const _headers = {
