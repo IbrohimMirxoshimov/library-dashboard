@@ -96,6 +96,7 @@ function LeaseRent({ incramentReturning, onSelectUserId }) {
 
 				const rent = await Rents.getList({
 					filters: clearNullishKeysFromObject({ ...values, returnedAt: 0 }),
+					rejected: "all",
 				});
 
 				await addNeeds(resources.users, [rent.userId]);
