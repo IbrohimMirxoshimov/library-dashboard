@@ -4,7 +4,6 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import checkAuth from "api/auth";
 import { useDispatch } from "react-redux";
 import { authenticated } from "redux/actions/Auth";
-import { generateNavigationConfig } from "configs/NavigationConfig";
 
 const LoginForm = ({ history }) => {
 	const [loading, setLoading] = useState(false);
@@ -13,17 +12,7 @@ const LoginForm = ({ history }) => {
 		setLoading(true);
 		checkAuth(values)
 			.then(({ token, user }) => {
-				const navigationConfig = generateNavigationConfig({
-					moderator: user.moderator,
-					owner: user.owner,
-					librarian: user.librarian,
-				});
-				dispatch(
-					authenticated(token, {
-						...user,
-						navigationConfig: navigationConfig,
-					})
-				);
+				dispatch(authenticated(token, user));
 				message.success("Muvoffaqiyatli amalga oshirildi!");
 				history.push("/app");
 			})

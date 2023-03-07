@@ -1,5 +1,6 @@
 import { APP_PREFIX_PATH } from "configs/AppConfig";
 import { tl } from "i18n";
+import { isMobile } from "utils/isMobile";
 
 export const roles = {
 	moderator: "moderator",
@@ -14,7 +15,7 @@ const dashBoardNavTree = {
 	icon: "SearchOutlined",
 	breadcrumb: false,
 	submenu: [
-		{
+		!isMobile() && {
 			key: "create_rent",
 			path: `${APP_PREFIX_PATH}/create-rent`,
 			title: "Ijara qo'shish",
@@ -120,7 +121,7 @@ const dashBoardNavTree = {
 			role: roles.moderator,
 			submenu: [],
 		},
-	],
+	].filter(Boolean),
 };
 
 export const permissions = {

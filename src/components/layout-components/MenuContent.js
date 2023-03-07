@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { SIDE_NAV_LIGHT, NAV_TYPE_SIDE } from "constants/ThemeConstant";
 import utils from "utils";
 import { onMobileNavToggle } from "redux/actions/Theme";
+import { generateNavigationConfig } from "configs/NavigationConfig";
 // import Version from "components/Version";
 
 const { SubMenu } = Menu;
@@ -34,7 +35,7 @@ const SideNavContent = (props) => {
 		hideGroupTitle,
 		localization,
 		onMobileNavToggle,
-		navigationConfig,
+		user,
 	} = props;
 	const isMobile = !utils.getBreakPoint(useBreakpoint()).includes("lg");
 	const closeMobileNav = () => {
@@ -51,7 +52,7 @@ const SideNavContent = (props) => {
 			defaultOpenKeys={setDefaultOpen(routeInfo?.key)}
 			className={hideGroupTitle ? "hide-group-title" : ""}
 		>
-			{navigationConfig.map((menu) =>
+			{generateNavigationConfig(user).map((menu) =>
 				menu.submenu.length > 0 ? (
 					<Menu.ItemGroup
 						key={menu.key}
@@ -114,63 +115,8 @@ const SideNavContent = (props) => {
 	);
 };
 
-const TopNavContent = (props) => {
-	const { topNavColor, localization, navigationConfig } = props;
-	return (
-		<Menu mode="horizontal" style={{ backgroundColor: topNavColor }}>
-			{navigationConfig.map((menu) =>
-				menu.submenu.length > 0 ? (
-					<SubMenu
-						key={menu.key}
-						popupClassName="top-nav-menu"
-						title={
-							<span>
-								{menu.icon ? <Icon type={menu?.icon} /> : null}
-								<span>{setLocale(localization, menu.title)}</span>
-							</span>
-						}
-					>
-						{menu.submenu.map((subMenuFirst) =>
-							subMenuFirst.submenu.length > 0 ? (
-								<SubMenu
-									key={subMenuFirst.key}
-									icon={
-										subMenuFirst.icon ? (
-											<Icon type={subMenuFirst?.icon} />
-										) : null
-									}
-									title={setLocale(localization, subMenuFirst.title)}
-								>
-									{subMenuFirst.submenu.map((subMenuSecond) => (
-										<Menu.Item key={subMenuSecond.key}>
-											<span>
-												{setLocale(localization, subMenuSecond.title)}
-											</span>
-											<Link to={subMenuSecond.path} />
-										</Menu.Item>
-									))}
-								</SubMenu>
-							) : (
-								<Menu.Item key={subMenuFirst.key}>
-									{subMenuFirst.icon ? (
-										<Icon type={subMenuFirst?.icon} />
-									) : null}
-									<span>{setLocale(localization, subMenuFirst.title)}</span>
-									<Link to={subMenuFirst.path} />
-								</Menu.Item>
-							)
-						)}
-					</SubMenu>
-				) : (
-					<Menu.Item key={menu.key}>
-						{menu.icon ? <Icon type={menu?.icon} /> : null}
-						<span>{setLocale(localization, menu?.title)}</span>
-						{menu.path ? <Link to={menu.path} /> : null}
-					</Menu.Item>
-				)
-			)}
-		</Menu>
-	);
+const TopNavContent = () => {
+	return <div>TopNavContent</div>;
 };
 
 const MenuContent = (props) => {
@@ -183,8 +129,7 @@ const MenuContent = (props) => {
 
 const mapStateToProps = ({ theme, auth }) => {
 	const { sideNavTheme, topNavColor } = theme;
-	const { navigationConfig } = auth.user;
-	return { sideNavTheme, topNavColor, navigationConfig };
+	return { sideNavTheme, topNavColor, user: auth.user };
 };
 
 export default connect(mapStateToProps, { onMobileNavToggle })(MenuContent);
