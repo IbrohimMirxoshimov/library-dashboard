@@ -20,6 +20,7 @@ import { useDispatch, useSelector, useStore } from "react-redux";
 import {
 	BookOutlined,
 	CloseCircleOutlined,
+	EditOutlined,
 	FileDoneOutlined,
 	UserOutlined,
 } from "@ant-design/icons";
@@ -89,7 +90,7 @@ function OpenUserEditForm({ userId }) {
 					"f_d"
 				);
 			}}
-			icon={<BookOutlined />}
+			icon={<EditOutlined />}
 		/>
 	);
 }
