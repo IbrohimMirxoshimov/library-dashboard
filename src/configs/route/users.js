@@ -131,6 +131,16 @@ export const users = {
 			),
 		},
 		{
+			title: "Hisob",
+			key: "balance",
+			dataIndex: "balance",
+		},
+		{
+			title: "Bloklanish sababi",
+			key: "blockingReason",
+			dataIndex: "blockingReason",
+		},
+		{
 			title: "Tug'ilgan",
 			key: "birthDate",
 			dataIndex: "birthDate",
