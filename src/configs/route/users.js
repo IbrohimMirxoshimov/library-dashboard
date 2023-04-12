@@ -219,17 +219,6 @@ export const users = {
 			colSpan: 24,
 		},
 		{
-			name: "libraryId",
-			field: "selectFetch",
-			role: roles.owner,
-			label: tl("libraryId"),
-			fieldProp: { resource: resources.locations },
-		},
-		{
-			name: "pinfl",
-			label: tl("pinfl"),
-		},
-		{
 			name: "status",
 			field: "choice",
 			label: tl("Status"),
@@ -255,13 +244,30 @@ export const users = {
 				type: "number",
 			},
 		},
+		{
+			name: "blockingReason",
+			label: tl("Bloklanish sababi"),
+			field: "textarea",
+		},
+		{ name: "extra", label: tl("extra"), field: "textarea" },
+		{
+			name: "verified",
+			field: "switch",
+			label: tl("verified"),
+			propName: "checked",
+		},
+		{
+			name: "pinfl",
+			label: tl("pinfl"),
+		},
 		{ name: "username", role: roles.owner },
 		{ name: "password", role: roles.owner },
 		{
-			name: "moderator",
-			field: "switch",
-			propName: "checked",
+			name: "libraryId",
+			field: "selectFetch",
 			role: roles.owner,
+			label: tl("libraryId"),
+			fieldProp: { resource: resources.locations },
 		},
 		{
 			name: "librarian",
@@ -270,12 +276,11 @@ export const users = {
 			role: roles.owner,
 		},
 		{
-			name: "verified",
+			name: "moderator",
 			field: "switch",
-			label: tl("verified"),
 			propName: "checked",
+			role: roles.owner,
 		},
-		{ name: "extra", label: tl("extra"), field: "textarea" },
 	],
 	view: { canDelete: (user) => true },
 };
