@@ -34,6 +34,7 @@ import VerifyPhoneAPI from "api/VerifyPhoneAPI";
 import Loading from "components/shared-components/Loading";
 import { showError } from "./showError";
 import { openOnce } from "./openOnce";
+import { sendMessage } from "hooks/useSendMessage";
 
 export const openNotification = (userName, bookName) => {
 	notification.success({
@@ -63,6 +64,36 @@ function OpenUserHistory({ userId }) {
 	);
 }
 
+function OpenUserEditForm({ userId }) {
+	const user = useSelector((state) => {
+		if (userId) {
+			return state.users.items.find((user) => user.id === userId);
+		}
+
+		return;
+	});
+
+	return (
+		<Button
+			disabled={!Boolean(user)}
+			className="ml-1"
+			onClick={() => {
+				sendMessage(
+					{
+						edit: true,
+						id: user.id,
+						resource: resources.users,
+						record: user,
+						form: resources.users,
+					},
+					"f_d"
+				);
+			}}
+			icon={<BookOutlined />}
+		/>
+	);
+}
+
 export function SelectUserAndUserHistory({ onChange, value }) {
 	return (
 		<div className="d-flex">
@@ -79,6 +110,7 @@ export function SelectUserAndUserHistory({ onChange, value }) {
 				}
 			/>
 			<OpenUserHistory userId={value} />
+			<OpenUserEditForm userId={value} />
 		</div>
 	);
 }
