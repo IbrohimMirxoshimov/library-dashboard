@@ -57,6 +57,7 @@ const pagesConfig = {
 				name: "bookId",
 				field: "selectFetch",
 				label: tl("book"),
+				disabledOnEdit: true,
 				rules: [
 					{
 						required: true,
