@@ -7,6 +7,7 @@ import ActiveControllerCell from "./components/ActiveControllerCell";
 import { users } from "./users";
 import { smsbulks } from "./smsbulks";
 import SubForm from "./components/SubForm";
+import { roles } from "configs/NavigationConfig";
 
 const pagesConfig = {
 	users: users,
@@ -65,13 +66,13 @@ const pagesConfig = {
 				],
 				fieldProp: { resource: resources.books, fetchable: true },
 			},
-			// {
-			// 	name: "locationId",
-			// 	label: tl("location"),
-			// 	field: "selectFetch",
-			// 	role: roles.owner,
-			// 	fieldProp: { resource: resources.locations, fetchSize: 30 },
-			// },
+			{
+				name: "locationId",
+				label: tl("location"),
+				field: "selectFetch",
+				role: roles.owner,
+				fieldProp: { resource: resources.locations, fetchSize: 30 },
+			},
 		],
 		footer: (data, form) => {
 			return [
