@@ -1,5 +1,7 @@
 import mainCaller from "./main";
 import qs from "qs";
+import { addNews } from "redux/actions/resource";
+import store from "redux/store";
 import { clearNullishKeysFromObject } from "utils/array";
 
 export default class FetchResource {
@@ -59,7 +61,14 @@ export default class FetchResource {
 			`/${endpoint}/` + id,
 			"PUT",
 			clearNullishKeysFromObject(data)
-		);
+		).then((res) => {
+			// agar object yangilangani qaytsa stateni yangilab qo'yish
+			if (res.message !== "Updated") {
+				store.dispatch(addNews(endpoint, [res]));
+			}
+
+			return res;
+		});
 	}
 
 	static create(endpoint, data) {
