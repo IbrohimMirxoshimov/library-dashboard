@@ -184,10 +184,10 @@ export const users = {
 			field: "phoneNumber",
 		},
 		{ name: "passportImage", label: tl("passportImage") },
-		{
-			colSpan: 24,
-			Component: Tokenization,
-		},
+		// {
+		// 	colSpan: 24,
+		// 	Component: Tokenization,
+		// },
 		{
 			name: ["address", "region"],
 			field: "selectFetch",
