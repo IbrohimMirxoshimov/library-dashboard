@@ -10,6 +10,7 @@ import {
 	Radio,
 	Row,
 	Switch,
+	Tooltip,
 } from "antd";
 import { resources } from "api/resources";
 import CustomDate from "components/forms/CustomDate";
@@ -52,16 +53,18 @@ export const openNotification = (userName, bookName) => {
 
 function OpenUserHistory({ userId }) {
 	return (
-		<Button
-			disabled={!userId}
-			onClick={() => {
-				openOnce(
-					`${window.location.origin}/app/rents/?size=20&page=1&q=u${userId}.`
-				);
-			}}
-			className="ml-1"
-			icon={<FileDoneOutlined />}
-		/>
+		<Tooltip title="Kitobxon ijaralar tarixi">
+			<Button
+				disabled={!userId}
+				onClick={() => {
+					openOnce(
+						`${window.location.origin}/app/rents/?size=20&page=1&q=u${userId}.`
+					);
+				}}
+				className="ml-1"
+				icon={<FileDoneOutlined />}
+			/>
+		</Tooltip>
 	);
 }
 
@@ -75,23 +78,25 @@ function OpenUserEditForm({ userId }) {
 	});
 
 	return (
-		<Button
-			disabled={!Boolean(user)}
-			className="ml-1"
-			onClick={() => {
-				sendMessage(
-					{
-						edit: true,
-						id: user.id,
-						resource: resources.users,
-						record: user,
-						form: resources.users,
-					},
-					"f_d"
-				);
-			}}
-			icon={<EditOutlined />}
-		/>
+		<Tooltip title="Kitobxon ma'lumotlarini o'zgartirish">
+			<Button
+				disabled={!Boolean(user)}
+				className="ml-1"
+				onClick={() => {
+					sendMessage(
+						{
+							edit: true,
+							id: user.id,
+							resource: resources.users,
+							record: user,
+							form: resources.users,
+						},
+						"f_d"
+					);
+				}}
+				icon={<EditOutlined />}
+			/>
+		</Tooltip>
 	);
 }
 
@@ -185,14 +190,12 @@ function LeaseRent({ incramentReturning, onSelectUserId }) {
 				className="p-3"
 				onFinish={onFinish}
 			>
-				<Form.Item name={"id"} label={"Yangi kvitansiya"}>
+				<Form.Item name={"id"} label={"Kvitansiya raqami orqali"}>
 					<InputNumber style={{ width: "100%" }} onPressEnter={onCheck} />
 				</Form.Item>
-				<div className="d-flex">
-					<Form.Item name={"stockId"} label={"Kitob bilan"}>
-						<InputNumber className="w-100" onPressEnter={onCheck} />
-					</Form.Item>
-				</div>
+				<Form.Item name={"stockId"} label={"Kitob raqami orqali"}>
+					<InputNumber className="w-100" onPressEnter={onCheck} />
+				</Form.Item>
 				<Form.Item>
 					<Button
 						className="big"
