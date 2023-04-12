@@ -189,9 +189,6 @@ function LeaseRent({ incramentReturning, onSelectUserId }) {
 					<InputNumber style={{ width: "100%" }} onPressEnter={onCheck} />
 				</Form.Item>
 				<div className="d-flex">
-					<Form.Item name={"customId"} className="mr-1" label={"Eski kv"}>
-						<InputNumber className="w-100" onPressEnter={onCheck} />
-					</Form.Item>
 					<Form.Item name={"stockId"} label={"Kitob bilan"}>
 						<InputNumber className="w-100" onPressEnter={onCheck} />
 					</Form.Item>
@@ -259,15 +256,16 @@ function CheckModal({ rent, loading, close }) {
 				</Button>
 			}
 		>
-			{rent.customId ? (
+			<h1>
+				Kvitansiya raqami: <span>{rent.id}</span>
+			</h1>
+
+			{Boolean(rent.customId) && (
 				<h1>
-					Eski kvitansiya raqami: <span>{rent.customId}</span>
-				</h1>
-			) : (
-				<h1>
-					Kvitansiya raqami: <span>{rent.id}</span>
+					Maxsus raqam: <span>{rent.customId}</span>
 				</h1>
 			)}
+
 			<h1>
 				Kitob raqami: <span>{rent.stockId}</span>
 			</h1>
