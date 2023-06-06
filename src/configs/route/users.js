@@ -105,9 +105,14 @@ export const users = {
 			dataIndex: "lastName",
 		},
 		{
-			title: "Phone",
+			title: "Telefon",
 			key: "phone",
 			dataIndex: "phone",
+		},
+		{
+			title: "Qo'shimcha t.",
+			key: "extraPhone",
+			dataIndex: "extraPhone",
 		},
 		{
 			title: "Passport",
