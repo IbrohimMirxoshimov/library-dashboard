@@ -12,9 +12,7 @@ function getText(book, rent, user) {
 
 	// return ""
 	let template = `Assalomu alaykum va rohmatullohi va barokatuh
-Aziz kitobxonimiz ${user.firstName} ${
-		user.lastName
-	}. Ilm va ehson kutubxonasidan yozyapmiz
+Aziz kitobxonimiz ${user.firstName} ${user.lastName}. Kutubxonadan yozyapmiz
 	
 Kitob olgan ekansiz. O'ylaymizki o'qib bo'lib qoldingiz. 
 Olgan kitobingiz: ${book.name}
