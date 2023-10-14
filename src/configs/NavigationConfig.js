@@ -94,7 +94,7 @@ const dashBoardNavTree = {
 			path: `${APP_PREFIX_PATH}/locations`,
 			title: "Kutubxonalar",
 			icon: "BankOutlined",
-			role: roles.moderator,
+			role: roles.owner,
 			submenu: [],
 		},
 		{
@@ -110,7 +110,7 @@ const dashBoardNavTree = {
 			path: `${APP_PREFIX_PATH}/regions`,
 			title: "Hududlar",
 			icon: "EnvironmentOutlined",
-			role: roles.moderator,
+			role: roles.owner,
 			submenu: [],
 		},
 		{
@@ -118,7 +118,7 @@ const dashBoardNavTree = {
 			path: `${APP_PREFIX_PATH}/towns`,
 			title: "Tumanlar",
 			icon: "EnvironmentOutlined",
-			role: roles.moderator,
+			role: roles.owner,
 			submenu: [],
 		},
 	].filter(Boolean),
