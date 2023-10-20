@@ -23,6 +23,9 @@ function getRentIdForBarcode(id) {
 }
 
 function getRecieptContent({ user, book, rent }) {
+	// boshqa kutubxonada chiqayotgan bo'lsa
+	const isMainLibrary = user.locationId === 1 || "";
+
 	return `<!DOCTYPE html>
 <html lang="en">
 
@@ -47,8 +50,13 @@ function getRecieptContent({ user, book, rent }) {
 
 <body style="width: 200px;font-family: sans-serif;margin: 0px;font-size: 14px;">
 	<div>
+		${
+			isMainLibrary &&
+			`
 		<h2 style="text-align: center; margin: 10px 20px;">Mehr kutubxonasi</h2>
 		<h2 style="text-align: center; margin: 5px;">*********************</h2>
+		`
+		}
 	</div>
 	<div>
 		<div class="row">
@@ -81,7 +89,9 @@ function getRecieptContent({ user, book, rent }) {
 	<div style="margin: 10px 0px;">
 		<b>* Kitobni o'qishingizni va vaqtida qaytarishingizni so'raymiz</b>
 	</div>
-
+${
+	isMainLibrary &&
+	`
 	<div style="margin: 10px 0px;">
 		<b>* Siz ham kutubxonaga ehson qilib ko'pchilikning ilm olishga sababchi bo'lishingiz mumkin</b>
 	</div>
@@ -94,8 +104,9 @@ function getRecieptContent({ user, book, rent }) {
 		<div>Telegram:<b>@mehr_kutubxonasi</b></div>
 		<div>Sayt: <b>mehrkutubxonasi.uz</b></div>
 		<div>Telefon: <b>+998909359034</b></div>
-	</div>
-
+	</div>`
+}
+	
 	<div>
 		<h2 style="text-align: center; margin: 10px 0px 0px 0px;">*********************</h2>
 	</div>
