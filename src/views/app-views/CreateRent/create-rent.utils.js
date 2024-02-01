@@ -26,8 +26,12 @@ import {
 	UserOutlined,
 } from "@ant-design/icons";
 import Rents from "api/routes/rents";
-import { closeShift, newUser, returnedRent } from "redux/actions/ShiftActions";
-import { addNeeds, addNews } from "redux/actions/resource";
+import {
+	closeShift,
+	newUser,
+	returnedRent,
+} from "my-redux/actions/ShiftActions";
+import { addNeeds, addNews } from "my-redux/actions/resource";
 import Passport from "components/forms/Passport";
 import { tl } from "i18n";
 import PhoneNumber from "components/forms/PhoneNumber";
@@ -37,6 +41,7 @@ import Loading from "components/shared-components/Loading";
 import { showError } from "./showError";
 import { openOnce } from "./openOnce";
 import { sendMessage } from "hooks/useSendMessage";
+import { PASSPORT_PATTERN } from "configs/route/utils";
 
 export const openNotification = (userName, bookName) => {
 	notification.success({
@@ -242,7 +247,7 @@ function CheckModal({ rent, loading, close }) {
 	return (
 		<Modal
 			title="Tekshiramiz"
-			visible={true}
+			open={true}
 			onCancel={close}
 			className="rent-check-modal"
 			footer={
@@ -303,7 +308,7 @@ function CloseShift() {
 			</Button>
 
 			<Modal
-				visible={modal}
+				open={modal}
 				onCancel={() => setModal(false)}
 				okText="Yakunlash"
 				onOk={() => dispatch(closeShift())}
@@ -444,7 +449,7 @@ function UserForm({ onFormClose }) {
 				width={700}
 				closeIcon={" "}
 				title={"Kitobxon qo'shish"}
-				visible={true}
+				open={true}
 				footer={
 					<div className="d-flex justify-content-between">
 						<Button className="big" danger onClick={() => onFormClose()}>
@@ -512,7 +517,12 @@ function UserForm({ onFormClose }) {
 							<Form.Item
 								label={tl("passportId")}
 								name="passportId"
-								rules={rules.required}
+								rules={[
+									{
+										required: true,
+										pattern: PASSPORT_PATTERN,
+									},
+								]}
 							>
 								<Passport />
 							</Form.Item>
@@ -601,7 +611,7 @@ function VerifyPhone({ phone, setCodeFinish }) {
 	return (
 		<Modal
 			okButtonProps={{ htmlType: "submit", form: "verify-phone" }}
-			visible={true}
+			open={true}
 			destroyOnClose
 			onCancel={() => setCodeFinish(0)}
 		>
@@ -650,7 +660,7 @@ function StockForm({ onFormClose }) {
 			width={700}
 			closeIcon={" "}
 			title={"Kitobxon qo'shish"}
-			visible={true}
+			open={true}
 			footer={
 				<div className="d-flex justify-content-between">
 					<Button danger className="big" onClick={() => onFormClose()}>

@@ -3,7 +3,7 @@ import { Drawer } from "antd";
 import { connect } from "react-redux";
 import { NAV_TYPE_SIDE } from "constants/ThemeConstant";
 import MenuContent from "./MenuContent";
-import { onMobileNavToggle } from "redux/actions/Theme";
+import { onMobileNavToggle } from "my-redux/actions/Theme";
 import Logo from "./Logo";
 import Flex from "components/shared-components/Flex";
 import { ArrowLeftOutlined } from "@ant-design/icons";
@@ -27,7 +27,7 @@ export const MobileNav = ({
 			placement="left"
 			closable={false}
 			onClose={onClose}
-			visible={mobileNav}
+			open={mobileNav}
 			bodyStyle={{ padding: 5 }}
 		>
 			<Flex flexDirection="column" className="h-100">

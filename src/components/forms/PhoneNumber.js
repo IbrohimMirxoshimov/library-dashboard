@@ -15,7 +15,7 @@ function PhoneNumber(props) {
 	);
 	return (
 		<MaskedInput
-			mask="111111111"
+			mask="00 000 00 00"
 			size="16"
 			prefix="+998"
 			suffix={suffix}

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { getTOKEN } from "redux/reducers/Auth";
-import { signOutDirectly } from "redux/store";
+import { getTOKEN } from "my-redux/reducers/Auth";
+import { signOutDirectly } from "my-redux/store";
 export const mainUrl = () =>
 	localStorage.getItem("_mainUrl") ||
 	process.env.REACT_APP_API_URL ||

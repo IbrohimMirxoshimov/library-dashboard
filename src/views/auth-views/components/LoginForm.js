@@ -3,7 +3,7 @@ import { Form, Input, Button, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import checkAuth from "api/auth";
 import { useDispatch } from "react-redux";
-import { authenticated } from "redux/actions/Auth";
+import { authenticated } from "my-redux/actions/Auth";
 
 const LoginForm = ({ history }) => {
 	const [loading, setLoading] = useState(false);

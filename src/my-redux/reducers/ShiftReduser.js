@@ -4,7 +4,7 @@ import {
 	NEW_USER,
 	OPEN_SHIFT,
 	RETURNED_RENTS,
-} from "redux/constants/ShiftTypes";
+} from "my-redux/constants/ShiftTypes";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 

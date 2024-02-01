@@ -6,7 +6,7 @@ import {
 	removeDuplicates,
 } from "utils/array";
 import { ADD_NEEDS, ADD_NEWS } from "../constants/resource";
-import store from "redux/store";
+import store from "my-redux/store";
 import FetchResource from "api/crud";
 import { debounce } from "utils/debounce";
 

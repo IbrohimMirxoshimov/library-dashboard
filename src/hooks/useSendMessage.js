@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
-import { sendMessage as sendMessageAction } from "redux/actions/message";
-import store from "redux/store";
+import { sendMessage as sendMessageAction } from "my-redux/actions/message";
+import store from "my-redux/store";
 
 function useSendMessage(toComponentId) {
 	const dispatch = useDispatch();

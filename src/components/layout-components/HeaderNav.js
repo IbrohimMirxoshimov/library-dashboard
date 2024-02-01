@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Layout } from "antd";
-import {
-	MenuFoldOutlined,
-	MenuUnfoldOutlined,
-} from "@ant-design/icons";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import Logo from "./Logo";
-import { toggleCollapsedNav, onMobileNavToggle } from "redux/actions/Theme";
+import { toggleCollapsedNav, onMobileNavToggle } from "my-redux/actions/Theme";
 import {
 	NAV_TYPE_TOP,
 	SIDE_NAV_COLLAPSED_WIDTH,
 	SIDE_NAV_WIDTH,
 } from "constants/ThemeConstant";
 import utils from "utils";
-import { signOut } from "redux/actions/Auth";
+import { signOut } from "my-redux/actions/Auth";
 import NavProfile from "./NavProfile";
 
 const { Header } = Layout;
@@ -28,7 +25,8 @@ export const HeaderNav = (props) => {
 		onMobileNavToggle,
 		isMobile,
 		currentTheme,
-		user, token
+		user,
+		token,
 	} = props;
 	const [, setSearchActive] = useState(false);
 	const onSearchClose = () => {
@@ -123,7 +121,7 @@ const mapStateToProps = ({ theme, auth }) => {
 		currentTheme,
 		direction,
 		token: auth.token,
-		user: auth.user
+		user: auth.user,
 	};
 };
 

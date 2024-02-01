@@ -48,9 +48,7 @@ function generateFields(fields, user, data, form) {
 						) : (
 							<FieldComponent
 								key={field.name + (data?.id || "f")}
-								disabled={
-									field.disabledOnEdit && data.id ? true : user[field.role]
-								}
+								disabled={field.disabledOnEdit && data.id ? true : false}
 								{...field.fieldProp}
 							/>
 						)}
@@ -151,7 +149,7 @@ export function FormDrawerMicro({ messageId, data, onFormClose }) {
 				title={resource.nameOne}
 				placement="right"
 				onClose={onClose}
-				visible={visible}
+				open={visible}
 				footer={
 					<div
 						key={messageId}
@@ -188,6 +186,7 @@ export function FormDrawerMicro({ messageId, data, onFormClose }) {
 						</Button>
 					</div>
 				}
+				destroyOnClose
 			>
 				<Form
 					form={form}

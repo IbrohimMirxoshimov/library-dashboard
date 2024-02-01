@@ -5,7 +5,7 @@ import Icon from "../util-components/Icon";
 import { connect } from "react-redux";
 import { SIDE_NAV_LIGHT, NAV_TYPE_SIDE } from "constants/ThemeConstant";
 import utils from "utils";
-import { onMobileNavToggle } from "redux/actions/Theme";
+import { onMobileNavToggle } from "my-redux/actions/Theme";
 import { generateNavigationConfig } from "configs/NavigationConfig";
 // import Version from "components/Version";
 

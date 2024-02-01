@@ -174,3 +174,7 @@ input::placeholder {
 	padding: 0px 6px;
 	text-align: center;
 }
+
+.ant-form-vertical .ant-row.ant-form-item-row {
+	flex-direction: column;
+}

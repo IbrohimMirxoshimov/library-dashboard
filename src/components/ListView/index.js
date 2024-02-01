@@ -10,7 +10,7 @@ import { unstable_batchedUpdates } from "react-dom";
 import { ListViewContext } from "./utils/context";
 import { cells } from "./cells";
 import { useSelector } from "react-redux";
-import { addNeeds } from "redux/actions/resource";
+import { addNeeds } from "my-redux/actions/resource";
 import { debounce } from "utils/debounce";
 import { useLocation } from "react-router-dom";
 import qs from "qs";

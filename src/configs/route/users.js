@@ -1,6 +1,10 @@
 import { resources } from "api/resources";
 import { roles } from "configs/NavigationConfig";
-import { createdAtAndUpdatedAtColumns, getDateString } from "./utils";
+import {
+	PASSPORT_PATTERN,
+	createdAtAndUpdatedAtColumns,
+	getDateString,
+} from "./utils";
 import { tl } from "i18n";
 import { Input, Radio, Tag } from "antd";
 
@@ -61,7 +65,7 @@ function parseDate(text) {
 	}
 }
 
-function Tokenization({ form }) {
+export function Tokenization({ form }) {
 	return (
 		<Input
 			placeholder="Tokenization => paste here passport serial or birthdate (like 25 11 1997)"
@@ -163,7 +167,12 @@ export const users = {
 		},
 		{ name: "lastName", label: tl("lastName"), rules: [{ required: true }] },
 		{ name: "birthDate", label: tl("birthDate"), field: "date" },
-		{ name: "passportId", label: tl("passportId"), field: "passport" },
+		{
+			name: "passportId",
+			label: tl("passportId"),
+			field: "passport",
+			rules: [{ pattern: PASSPORT_PATTERN }],
+		},
 		{
 			name: "phone",
 			rules: [

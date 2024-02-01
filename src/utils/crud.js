@@ -1,6 +1,6 @@
 import { message } from "antd";
 import Crud from "api/crud";
-import DataActions from "redux/actions/Data";
+import DataActions from "my-redux/actions/Data";
 
 export const fetchInitial = (dispatch, fetchs) => {
 	fetchs.forEach((f) => {

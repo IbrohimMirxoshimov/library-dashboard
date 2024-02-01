@@ -4,7 +4,7 @@ import {
 	NEW_USER,
 	OPEN_SHIFT,
 	RETURNED_RENTS,
-} from "redux/constants/ShiftTypes";
+} from "my-redux/constants/ShiftTypes";
 
 export const openShift = () => {
 	return {

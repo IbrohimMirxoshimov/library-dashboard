@@ -1,7 +1,7 @@
 import mainCaller from "./main";
 import qs from "qs";
-import { addNews } from "redux/actions/resource";
-import store from "redux/store";
+import { addNews } from "my-redux/actions/resource";
+import store from "my-redux/store";
 import { clearNullishKeysFromObject } from "utils/array";
 
 export default class FetchResource {

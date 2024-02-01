@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { message, Select, Spin } from "antd";
 import { debounce } from "utils/debounce";
 import FetchResource from "api/crud";
-import { addNews } from "redux/actions/resource";
+import { addNews } from "my-redux/actions/resource";
 import { resources } from "api/resources";
 import { useDispatch } from "react-redux";
 

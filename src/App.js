@@ -1,6 +1,6 @@
 import React from "react";
 import { Provider } from "react-redux";
-import store, { persistor } from "./redux/store";
+import store, { persistor } from "./my-redux/store";
 import { BrowserRouter as Router } from "react-router-dom";
 import Views from "./views";
 import { Route, Switch } from "react-router-dom";

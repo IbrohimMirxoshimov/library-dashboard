@@ -1,7 +1,7 @@
 import { createStore, compose } from "redux";
 import reducers from "../reducers";
 import { persistStore } from "redux-persist";
-import { signOut } from "redux/actions/Auth";
+import { signOut } from "my-redux/actions/Auth";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, composeEnhancers());

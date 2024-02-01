@@ -12,6 +12,7 @@ import { tl } from "i18n";
 import RejectRent from "components/shared-components/RejectRent";
 import SubForm from "./components/SubForm";
 import StockCell from "components/ListView/cells/StockCell";
+import { roles } from "configs/NavigationConfig";
 // import ScanBarcode from "components/shared-components/ScanBarcode";
 
 export const rents = {

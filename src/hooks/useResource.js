@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { addNeeds } from "redux/actions/resource";
+import { addNeeds } from "my-redux/actions/resource";
 
 export function useResourceArray(resource, ids) {
 	if (ids && ids.length && typeof ids[0] === "string")

@@ -2,7 +2,7 @@ import { resources } from "api/resources";
 import { sendMessage } from "hooks/useSendMessage";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { addNeedsWithDebounce } from "redux/actions/resource";
+import { addNeedsWithDebounce } from "my-redux/actions/resource";
 import { message } from "antd";
 import { CopyTwoTone } from "@ant-design/icons";
 import { getRamainedDays } from "configs/route/utils";

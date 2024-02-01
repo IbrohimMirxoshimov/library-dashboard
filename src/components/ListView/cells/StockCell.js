@@ -1,7 +1,7 @@
 import { resources } from "api/resources";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { addNeedsWithDebounce } from "redux/actions/resource";
+import { addNeedsWithDebounce } from "my-redux/actions/resource";
 
 function StockCell({ stock }) {
 	const bookName = useSelector((state) => {

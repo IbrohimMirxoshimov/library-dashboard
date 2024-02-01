@@ -1,10 +1,10 @@
 import React from "react";
 import { AutoComplete, message } from "antd";
-import { addNews } from "redux/actions/resource";
+import { addNews } from "my-redux/actions/resource";
 import { debounce } from "utils/debounce";
 import FetchResource from "api/crud";
 import { useResource } from "hooks/useResource";
-import store from "redux/store";
+import store from "my-redux/store";
 
 const dispatch = store.dispatch;
 function UserAutoComplate({ resource, ...props }) {

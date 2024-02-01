@@ -39,3 +39,5 @@ export const createdAtAndUpdatedAtColumns = [
 		render: getDateString,
 	},
 ];
+
+export const PASSPORT_PATTERN = /^[A-Z]{2}\d{7}$/;

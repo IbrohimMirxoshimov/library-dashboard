@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import FetchResource from "api/crud";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import printReciept from "utils/printReciept";
-import { newRent, openShift } from "redux/actions/ShiftActions";
+import { newRent, openShift } from "my-redux/actions/ShiftActions";
 import { showError } from "./showError";
 import {
 	openNotification,
@@ -14,7 +14,7 @@ import {
 	RightTools,
 } from "./create-rent.utils";
 import Popconfirm from "antd/es/popconfirm";
-import { getResourcesByIds } from "redux/actions/resource";
+import { getResourcesByIds } from "my-redux/actions/resource";
 
 const RENT_DAYS = [5, 10, 15, 20, 30];
 

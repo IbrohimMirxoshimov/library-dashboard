@@ -9,7 +9,7 @@ function ScanBarcode({ onScan }) {
 				<Modal
 					onCancel={() => setOpen(false)}
 					footer={<></>}
-					visible={open}
+					open={open}
 					title={"Barcode scanner"}
 				>
 					<Scanner setOpen={setOpen} onScan={onScan} />
