@@ -103,6 +103,14 @@ export const rents = {
 			sorter: false,
 			render: (stock) => stock && <StockCell stock={stock} />,
 		},
+		{
+			title: tl("Location"),
+			key: "locationId",
+			dataIndex: "stock",
+			sorter: false,
+			render: (stock) => stock.locationId,
+			role: roles.owner,
+		},
 		...createdAtAndUpdatedAtColumns,
 	],
 	// formInitial: {

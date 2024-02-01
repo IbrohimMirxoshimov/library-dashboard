@@ -48,7 +48,9 @@ function generateFields(fields, user, data, form) {
 						) : (
 							<FieldComponent
 								key={field.name + (data?.id || "f")}
-								disabled={field.disabledOnEdit && data.id ? true : false}
+								disabled={
+									field.disabledOnEdit && data.id ? true : user[field.role]
+								}
 								{...field.fieldProp}
 							/>
 						)}

@@ -51,6 +51,12 @@ const pagesConfig = {
 					},
 				],
 			},
+			{
+				title: tl("Location"),
+				key: "locationId",
+				dataIndex: "locationId",
+				role: roles.owner,
+			},
 			...createdAtAndUpdatedAtColumns,
 		],
 		form: [
@@ -59,6 +65,7 @@ const pagesConfig = {
 				field: "selectFetch",
 				label: tl("book"),
 				disabledOnEdit: true,
+				role: roles.owner,
 				rules: [
 					{
 						required: true,
