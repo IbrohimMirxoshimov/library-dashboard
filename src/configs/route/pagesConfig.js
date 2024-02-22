@@ -85,7 +85,6 @@ const pagesConfig = {
 				<SubForm
 					data={{
 						form: "books",
-
 						resource: { endpoint: "books", nameOne: "Kitob" },
 					}}
 					buttonText={"Kitob +"}
@@ -240,12 +239,6 @@ const pagesConfig = {
 					),
 			},
 			{
-				title: tl("group"),
-				key: "booksgroup",
-				dataIndex: "booksGroupId",
-				resource: resources.booksgroups,
-			},
-			{
 				title: tl("pages"),
 				key: "pages",
 				dataIndex: "pages",
@@ -265,6 +258,17 @@ const pagesConfig = {
 				title: tl("isbn"),
 				key: "isbn",
 				dataIndex: "isbn",
+			},
+			{
+				title: tl("language"),
+				key: "language",
+				dataIndex: "language",
+			},
+			{
+				title: tl("group"),
+				key: "booksgroup",
+				dataIndex: "booksGroupId",
+				resource: resources.booksgroups,
 			},
 			...createdAtAndUpdatedAtColumns,
 		],
@@ -289,6 +293,58 @@ const pagesConfig = {
 				fieldProp: { type: "number" },
 			},
 			{
+				name: "price",
+				label: tl("price"),
+				rules: [
+					{
+						required: true,
+					},
+				],
+				fieldProp: { type: "number" },
+			},
+			{
+				name: "language",
+				field: "choice",
+				label: tl("language"),
+				fieldProp: {
+					choices: [
+						{
+							value: "uz",
+							name: tl("uz"),
+						},
+						{
+							value: "ru",
+							name: tl("ru"),
+						},
+						{
+							value: "uz",
+							name: tl("uz"),
+						},
+						{
+							value: "tr",
+							name: tl("tr"),
+						},
+					],
+				},
+			},
+			{
+				name: "publishingId",
+				field: "selectFetch",
+				label: tl("publishing"),
+				fieldProp: { resource: resources.publishings, fetchable: true },
+			},
+			{
+				name: "authorId",
+				label: tl("author"),
+				field: "selectFetch",
+				fieldProp: { resource: resources.authors, fetchable: true },
+			},
+			{
+				name: "image",
+				label: tl("image"),
+				field: "imageUpload",
+			},
+			{
 				name: "isbn",
 				label: tl("isbn"),
 				// rules: [
@@ -303,31 +359,9 @@ const pagesConfig = {
 				fieldProp: { type: "number" },
 			},
 			{
-				name: "price",
-				label: tl("price"),
-				rules: [
-					{
-						required: true,
-					},
-				],
-				fieldProp: { type: "number" },
-			},
-			{
-				name: "authorId",
-				label: tl("author"),
-				field: "selectFetch",
-				fieldProp: { resource: resources.authors, fetchable: true },
-			},
-			{
 				label: tl("description"),
 				name: "description",
 			},
-			{
-				name: "image",
-				label: tl("image"),
-				field: "imageUpload",
-			},
-
 			{
 				name: "few",
 				field: "choice",
@@ -355,19 +389,11 @@ const pagesConfig = {
 				label: tl("group"),
 				fieldProp: { resource: resources.booksgroups, fetchable: true },
 			},
-
-			{
-				name: "publishingId",
-				field: "selectFetch",
-				label: tl("publishing"),
-				fieldProp: { resource: resources.publishings, fetchable: true },
-			},
 			{
 				name: "printedAt",
 				label: tl("printedAt"),
 				fieldProp: { type: "date" },
 			},
-
 			{
 				name: "sort",
 				label: tl("sort"),

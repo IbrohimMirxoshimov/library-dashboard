@@ -32,6 +32,12 @@
 	"rent": "Ijara",
 	"region": "Viloyat",
 	"addressLine": "Manzil",
+	"uz": "O'zbekcha",
+	"ru": "Ruscha",
+	"en": "Inglizcha",
+	"tr": "Turkcha",
+	"language": "Til",
 	"smsbulk": "Sms tayyorlash",
+	"price": "Narxi",
 	"town": "Tuman"
 }
