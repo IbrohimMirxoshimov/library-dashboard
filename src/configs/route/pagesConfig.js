@@ -64,7 +64,6 @@ const pagesConfig = {
 				name: "bookId",
 				field: "selectFetch",
 				label: tl("book"),
-				role: roles.owner,
 				rules: [
 					{
 						required: true,
