@@ -113,7 +113,7 @@ const pagesConfig = {
 				title: "active",
 				key: "active",
 				dataIndex: "active",
-				render: ActiveControllerCell,
+				render: (_, record) => <ActiveControllerCell data={record} />,
 			},
 			{
 				title: "link",

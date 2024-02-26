@@ -1,8 +1,8 @@
 import { message, Switch } from "antd";
 import React, { useState } from "react";
 import FetchResource from "api/crud";
-function ActiveControllerCell(init, data) {
-	const [checked, setChecked] = useState(init);
+function ActiveControllerCell({ data }) {
+	const [checked, setChecked] = useState(data.active);
 	const [loading, setLoading] = useState(false);
 	return (
 		<Switch
