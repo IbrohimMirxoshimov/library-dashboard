@@ -117,30 +117,11 @@ export function FormDrawerMicro({ messageId, data, onFormClose }) {
 			});
 	}
 
-	useEffect(() => {
-		function hotKeys(e) {
-			if (e.shiftKey && e.key === "S") {
-				form.submit();
-			}
-		}
+	if (!data.form) return "";
 
-		if (visible) {
-			window.addEventListener("keyup", hotKeys);
-		}
-
-		return () => {
-			window.removeEventListener("keyup", hotKeys);
-		};
-		// eslint-disable-next-line
-	}, [visible]);
-
-	if (!data.form) {
-		return "";
-	}
-
-	let config = pagesConfig[data.form];
+	const config = pagesConfig[data.form];
 	// console.log("data", data);
-	let Custom = config.view?.Custom;
+	const Custom = config.view?.Custom;
 	// console.log(config.view);
 	return (
 		<div>
