@@ -316,8 +316,8 @@ const pagesConfig = {
 							name: tl("ru"),
 						},
 						{
-							value: "uz",
-							name: tl("uz"),
+							value: "en",
+							name: tl("en"),
 						},
 						{
 							value: "tr",
