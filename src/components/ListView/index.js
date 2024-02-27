@@ -184,6 +184,8 @@ const ListView = ({ resource, columns, search, tableProps = {} }) => {
 	const onRefresh = () => {
 		fetch(filter);
 	};
+	window.refreshList = onRefresh;
+
 	const onReset = () => {
 		const q = {
 			...initialQuery,
@@ -229,7 +231,6 @@ const ListView = ({ resource, columns, search, tableProps = {} }) => {
 
 		window.addEventListener("keyup", hotKeys);
 		// temporary disable refresh list on form submit
-		window.refreshList = onRefresh;
 		return () => {
 			window.refreshList = undefined;
 			window.removeEventListener("keyup", hotKeys);
