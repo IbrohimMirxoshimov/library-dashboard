@@ -243,6 +243,12 @@ const pagesConfig = {
 				dataIndex: "pages",
 			},
 			{
+				title: tl("Creator"),
+				key: "creatorId",
+				dataIndex: "creatorId",
+				role: roles.owner,
+			},
+			{
 				title: tl("rentDuration"),
 				key: "rentDuration",
 				dataIndex: "rentDuration",
