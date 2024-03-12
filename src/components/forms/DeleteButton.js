@@ -2,6 +2,7 @@ import React from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import FetchResource from "api/crud";
 import { Button, message, Popconfirm } from "antd";
+import { showError } from "views/app-views/CreateRent/showError";
 
 function DeleteButton({ id, resource, setLoading, loading, onClose }) {
 	// console.log(id, resource);
@@ -15,21 +16,14 @@ function DeleteButton({ id, resource, setLoading, loading, onClose }) {
 
 				FetchResource.destroy(resource.endpoint, id)
 					.then((res) => {
-						setLoading(false)
+						setLoading(false);
 						onClose();
 						message.success("O'chirildi");
 					})
-					.catch((err) => {
-						message.error("O'chirishda xatolik");
-					});
+					.catch(showError);
 			}}
 		>
-			<Button
-				type="primary"
-				danger
-				loading={loading}
-				icon={<DeleteOutlined />}
-			>
+			<Button type="primary" danger loading={loading} icon={<DeleteOutlined />}>
 				O'chirish
 			</Button>
 		</Popconfirm>
