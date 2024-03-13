@@ -1,4 +1,4 @@
-import { message, Switch } from "antd";
+import { message, Switch, Tag } from "antd";
 import Rents from "api/routes/rents";
 import { getDateString } from "configs/route/utils";
 import React, { useState } from "react";
@@ -6,6 +6,15 @@ import React, { useState } from "react";
 function ChangeStatus({ record, value }) {
 	const [loading, setLoading] = useState(false);
 	const [checked, setChecked] = useState(!!value);
+
+	if (record.rejected) {
+		return (
+			<Tag color={"red"} className="mr-0">
+				Qaytmagan
+			</Tag>
+		);
+	}
+
 	return (
 		<Switch
 			title={getDateString(record.returnedAt)}

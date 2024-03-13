@@ -49,14 +49,6 @@ export const rents = {
 			width: 100,
 			sorter: false,
 			render: (_, record) => {
-				if (record.rejected) {
-					return (
-						<Tag color={"red"} className="mr-0">
-							Qaytarmagan
-						</Tag>
-					);
-				}
-
 				if (!record.returnedAt) {
 					const remainDays = getRamainedDays(record);
 					const leasingDays = getLeasedDays(record);
