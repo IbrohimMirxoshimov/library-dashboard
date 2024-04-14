@@ -48,6 +48,11 @@ const subTableColumns = [
 		key: "text",
 		dataIndex: "text"
 	},
+	{
+		title: "Error",
+		key: "error_reason",
+		dataIndex: "error_reason"
+	},
 ];
 const SubTable = React.memo(
 	({ item }) => {
