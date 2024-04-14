@@ -20,6 +20,7 @@ const subTableColumns = [
 		dataIndex: "id",
 		key: "id",
 		width: "20px",
+		width: 100
 	},
 	{
 		title: "Phone",
@@ -42,6 +43,11 @@ const subTableColumns = [
 					return <Tag color="blue">{status}</Tag>;
 			}
 		},
+	},
+	{
+		title: "Text",
+		key: "text",
+		dataIndex: "text"
 	},
 ];
 const SubTable = React.memo(
@@ -105,6 +111,9 @@ const SubTable = React.memo(
 					columns={subTableColumns}
 					dataSource={data}
 					pagination={false}
+					scroll={{
+						x: "100%"
+					}}
 				/>
 			</>
 		);
@@ -132,13 +141,15 @@ export const smsbulks = {
 			key: "id",
 			dataIndex: "id",
 			cellRenderer: "editOpener",
+			width: 100
 		},
 		{
 			title: "Text",
 			key: "text",
 			dataIndex: "text",
+			width: 150,
+			ellipsis: true,
 		},
-
 		...createdAtAndUpdatedAtColumns,
 		{
 			title: "Action",
