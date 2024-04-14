@@ -19,8 +19,7 @@ const subTableColumns = [
 		title: "ID",
 		dataIndex: "id",
 		key: "id",
-		width: "20px",
-		width: 100
+		width: "20px"
 	},
 	{
 		title: "Phone",
