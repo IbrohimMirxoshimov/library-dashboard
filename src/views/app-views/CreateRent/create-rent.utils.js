@@ -39,7 +39,7 @@ import { clearNullishKeysFromObject, isEmptyObject } from "utils/array";
 import VerifyPhoneAPI from "api/VerifyPhoneAPI";
 import Loading from "components/shared-components/Loading";
 import { showError } from "./showError";
-import { openOnce } from "./openOnce";
+import { openInNewTab } from "./openOnce";
 import { sendMessage } from "hooks/useSendMessage";
 import { PASSPORT_PATTERN } from "configs/route/utils";
 
@@ -62,9 +62,9 @@ function OpenUserHistory({ userId }) {
 			<Button
 				disabled={!userId}
 				onClick={() => {
-					openOnce(
-						`${window.location.origin}/app/rents/?size=20&page=1&q=u${userId}.`
-					);
+					openInNewTab(
+            `${window.location.origin}/app/rents/?size=20&page=1&q=u${userId}.`
+          );
 				}}
 				className="ml-1"
 				icon={<FileDoneOutlined />}
