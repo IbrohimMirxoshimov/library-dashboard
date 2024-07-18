@@ -40,6 +40,9 @@ function generateFields(fields, user, data, form) {
           </Col>
         );
       }
+      const DynamicFieldProps = field.getFieldProps
+        ? field.getFieldProps(data, user, form)
+        : {};
 
       return (
         <Col
@@ -62,6 +65,7 @@ function generateFields(fields, user, data, form) {
                 key={field.name + (data?.id || "f")}
                 disabled={field.disabledOnEdit && data.id ? true : false}
                 {...field.fieldProp}
+                {...DynamicFieldProps}
               />
             )}
           </Form.Item>

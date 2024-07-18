@@ -167,6 +167,13 @@ export const rents = {
           item &&
           `${item.firstName} ${item.lastName} - ${item.phone} - ${item.passportId}`,
       },
+      getFieldProps: (data, user) => {
+        if (user.owner && data && data.id) {
+          return {
+            disabled: false,
+          };
+        }
+      },
       colSpan: 24,
     },
     {
