@@ -5,10 +5,13 @@ import FetchResource from "api/crud";
 import { tl } from "i18n";
 
 const users_filter_types = {
-	all: "all",
-	active_reading: "active_reading",
-	rent_expired: "rent_expired",
+  all: "all",
+  active_reading: "active_reading",
+  rent_expired: "rent_expired",
+  top_librarians: "top_librarians",
+  by_json: "by_json",
 };
+
 const subTableColumns = [
 	{
 		title: "Index",
