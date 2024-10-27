@@ -51,12 +51,12 @@ function getRecieptContent({ user, book, rent }) {
 <body style="width: 200px;font-family: sans-serif;margin: 0px;font-size: 14px;">
 	<div>
 		${
-			isMainLibrary &&
-			`
+      isMainLibrary &&
+      `
 		<h2 style="text-align: center; margin: 10px 20px;">Mehr kutubxonasi</h2>
 		<h2 style="text-align: center; margin: 5px;">*********************</h2>
 		`
-		}
+    }
 	</div>
 	<div>
 		<div class="row">
@@ -70,8 +70,8 @@ function getRecieptContent({ user, book, rent }) {
 		<div class="row">
 			<div>Qaytarilishi kerak:</div>
 			<div class="bold"> ${new Date(rent.returningDate).toLocaleDateString(
-				"ru"
-			)}</div>
+        "ru"
+      )}</div>
 		</div>
 		<div class="row">
 			<div>Kitobxon:</div>
@@ -90,8 +90,8 @@ function getRecieptContent({ user, book, rent }) {
 		<b>* Kitobni o'qishingizni va vaqtida qaytarishingizni so'raymiz</b>
 	</div>
 ${
-	isMainLibrary &&
-	`
+  isMainLibrary &&
+  `
 	<div style="margin: 10px 0px;">
 		<b>* Siz ham kutubxonaga ehson qilib ko'pchilikning ilm olishga sababchi bo'lishingiz mumkin</b>
 	</div>
@@ -101,9 +101,10 @@ ${
 	</div>
 
 	<div>
-		<div>Telegram:<b>@mehr_kutubxonasi</b></div>
 		<div>Sayt: <b>mehrkutubxonasi.uz</b></div>
-		<div>Telefon: <b>+998909359034</b></div>
+		<div>Telefon: <b>+998 90 9359034</b></div>
+		<div>Insta: <b>@mehr_kutubxonasi</b></div>
+		<div>Telegram: <b>@mehr_kutubxonasi</b></div>
 	</div>`
 }
 	
