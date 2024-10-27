@@ -103,7 +103,7 @@ ${
 	<div>
 		<div>Sayt: <b>mehrkutubxonasi.uz</b></div>
 		<div>Telefon: <b>+998 90 9359034</b></div>
-		<div>Insta: <b>@mehr_kutubxonasi</b></div>
+		<div>Instagram: <b>@mehr_kutubxonasi</b></div>
 		<div>Telegram: <b>@mehr_kutubxonasi</b></div>
 	</div>`
 }
