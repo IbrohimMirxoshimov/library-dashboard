@@ -1,0 +1,13 @@
+{
+  "appName": "Library Admin",
+  "dashboard": "Dashboard",
+  "users": "Users",
+  "rents": "Rents",
+  "readers": "Book Readers",
+  "getToken": "Get token",
+  "signout": "Sign out",
+  "button": {
+    "edit": "Edit button"
+  },
+  "loading": "Loading"
+}

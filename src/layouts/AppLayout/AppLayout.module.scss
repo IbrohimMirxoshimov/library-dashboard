@@ -1,0 +1,91 @@
+@import '@assets/styles/helpers.scss';
+
+.appLayoutLogo {
+  height: 64px;
+  flex-shrink: 0;
+  @include flex(row, center, center);
+}
+
+.appLayoutSidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  height: 100vh;
+  overflow: auto;
+
+  .menu {
+    padding: 1rem 0;
+
+    &Item {
+      width: 100%;
+      border-radius: 0;
+      margin-inline: 0;
+    }
+  }
+}
+
+.appLayoutHeader {
+  padding: 1rem;
+  background: $white;
+  line-height: 1rem;
+
+  @include flex(row, center, space-between);
+
+  .menuButton {
+    font-size: 16px;
+
+    &:hover,
+    &:focus {
+      background: transparent !important;
+    }
+  }
+
+  .dropdown {
+    width: max-content;
+    max-width: 300px;
+    min-width: 200px;
+    cursor: pointer;
+
+    &Menu {
+      padding: 0 !important;
+    }
+  }
+
+  .profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    &Avatar {
+      color: #3e79f7;
+      background: #3e79f72e;
+      flex-shrink: 0;
+    }
+
+    &User {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    &UserName {
+    }
+
+    &UserRole {
+      max-width: 200px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+}
+
+.appLayoutContent {
+  min-height: 280px;
+  margin: 1.5rem 1rem;
+  padding: 1.5rem;
+  background: $white;
+  border-radius: 8px;
+}

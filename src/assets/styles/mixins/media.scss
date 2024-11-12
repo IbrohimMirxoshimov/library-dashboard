@@ -1,0 +1,14 @@
+@import '../variables/breakpoints.scss';
+
+// mobile first approach
+@mixin media($name) {
+  $width: map-get($breakpoints, $name);
+
+  @if $width {
+    @media screen and (min-width: #{$width}px) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
