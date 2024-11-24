@@ -1,4 +1,4 @@
-@import '../variables/fonts';
+@use '../variables/fonts';
 
 @mixin font($defaultFontFamily: $fontFamily, $fontSize: inherit, $fontWeight: inherit, $lineHeight: inherit) {
   font-family: $defaultFontFamily;

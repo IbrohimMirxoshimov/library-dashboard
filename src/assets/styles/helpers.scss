@@ -1,7 +1,6 @@
-@import './variables/breakpoints.scss';
-@import './variables/fonts.scss';
-@import './variables/colors.scss';
-@import './reset.scss';
-@import './mixins/media.scss';
-@import './mixins/font.scss';
-@import './mixins/flex.scss';
+@forward './variables/breakpoints.scss';
+@forward './variables/fonts.scss';
+@forward './variables/colors.scss';
+@forward './mixins/media.scss';
+@forward './mixins/font.scss';
+@forward './mixins/flex.scss';

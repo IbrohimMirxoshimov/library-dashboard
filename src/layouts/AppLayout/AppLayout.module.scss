@@ -1,4 +1,4 @@
-@import '@assets/styles/helpers.scss';
+@use '@assets/styles/helpers.scss' as *;
 
 .appLayoutLogo {
   height: 64px;

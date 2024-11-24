@@ -19,9 +19,18 @@ export default defineConfig({
       {find: '@localization', replacement: path.resolve(__dirname, 'src/localization')},
       {find: '@modules', replacement: path.resolve(__dirname, 'src/modules')},
       {find: '@pages', replacement: path.resolve(__dirname, 'src/pages')},
+      {find: '@routes', replacement: path.resolve(__dirname, 'src/routes')},
       {find: '@services', replacement: path.resolve(__dirname, 'src/services')},
+      {find: '@store', replacement: path.resolve(__dirname, 'src/store')},
       {find: '@types', replacement: path.resolve(__dirname, 'src/types')},
       {find: '@utilities', replacement: path.resolve(__dirname, 'src/utilities')},
     ],
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler',
+      },
+    },
   },
 });

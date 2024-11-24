@@ -1,4 +1,4 @@
-@import '../variables/breakpoints.scss';
+@use '../variables/breakpoints.scss';
 
 // mobile first approach
 @mixin media($name) {

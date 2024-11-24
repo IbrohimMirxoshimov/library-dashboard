@@ -44,7 +44,7 @@ const baseQueryWithRetry = retry(
     }
   },
   {
-    maxRetries: 1,
+    maxRetries: 0,
   },
 ) as BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>;
 
