@@ -46,8 +46,8 @@
     "vite": "^5.2.0"
   },
   "lint-staged": {
-    "*.{ts,tsx}": "eslint --cache --fix",
-    "*.{ts,tsx,md,json}": "prettier --write"
+    "*.{ts,tsx}": "npm run lint:fix",
+    "*.{ts,tsx,md,json}": "npm run format:fix"
   },
   "commitlint": {
     "extends": [
