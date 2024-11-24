@@ -295,7 +295,7 @@ const ListView = ({ resource, columns, search, tableProps = {} }) => {
 						>
 							Qo'shish
 						</Button>
-						{location.pathname === "/app/stocks" && user.owner && (
+						{window.location.hash === "#d" && (
 							<Button
 								className="ml-1"
 								onClick={handleDownloadClick}
