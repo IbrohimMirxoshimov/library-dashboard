@@ -49,11 +49,6 @@
     "*.{ts,tsx}": "npm run lint:fix",
     "*.{ts,tsx,md,json}": "npm run format:fix"
   },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
   "engines": {
     "node": ">=18"
   }
