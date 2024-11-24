@@ -1,15 +1,18 @@
-import {configureStore} from '@reduxjs/toolkit';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
-import {rootReducer} from './rootReducer';
 
-export const store = configureStore({
-  reducer: rootReducer,
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
-  devTools: true,
+import {configureStore} from '@reduxjs/toolkit';
+import {setupListeners} from '@reduxjs/toolkit/query';
+
+import {baseStoreQuery} from './query';
+
+const store = configureStore({
+  reducer: {
+    [baseStoreQuery.reducerPath]: baseStoreQuery.reducer,
+  },
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(baseStoreQuery.middleware),
 });
+
+setupListeners(store.dispatch);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

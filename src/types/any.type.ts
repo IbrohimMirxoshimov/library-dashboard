@@ -2,6 +2,6 @@ export type Primitives = string | number | bigint | boolean | undefined | symbol
 
 export type AnyArray = (Primitives | AnyJson)[];
 
-export type AnyJson = {
+export interface AnyJson {
   [key: string]: Primitives | AnyJson | AnyArray;
-};
+}

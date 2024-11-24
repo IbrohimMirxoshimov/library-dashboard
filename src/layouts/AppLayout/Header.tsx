@@ -1,8 +1,8 @@
 import {Layout, Dropdown, Button, Avatar} from 'antd';
 import {MenuFoldOutlined, MenuUnfoldOutlined, LogoutOutlined, CopyOutlined} from '@ant-design/icons';
 
-import {localization} from '@localization';
-import {AppRoutes} from '@constants/routes';
+import localization from '@localization';
+import {ROUTES} from '@constants/routes';
 
 import styles from './AppLayout.module.scss';
 
@@ -28,7 +28,7 @@ export default function AppLayoutHeader({collapsed, setCollapsed}: IProps) {
           items: [
             {key: 'get_token', label: localization.t('getToken'), icon: <CopyOutlined />},
             {
-              key: AppRoutes.SIGNIN,
+              key: ROUTES.SIGN_IN,
               label: localization.t('signout'),
               icon: <LogoutOutlined />,
             },

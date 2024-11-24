@@ -1,4 +1,4 @@
-export const AppRoutes = {
+export const ROUTES = {
   DASHBOARD: '/dashboard',
 
   USER_LIST: '/users',
@@ -7,6 +7,5 @@ export const AppRoutes = {
   RENT_ADD: '/rents/add',
 
   //auth
-  SIGNIN: '/auth/sign-in',
-  SIGNUP: '/auth/sign-up',
+  SIGN_IN: '/auth/sign-in',
 } as const;

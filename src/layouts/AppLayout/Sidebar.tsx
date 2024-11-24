@@ -12,7 +12,7 @@ interface IProps {
 
 export default function AppLayoutSidebar({collapsed}: IProps) {
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
   return (
     <Layout.Sider theme="light" trigger={null} collapsible collapsed={collapsed} className={styles.appLayoutSidebar}>
       <AppLayoutLogo collapsed={collapsed} />

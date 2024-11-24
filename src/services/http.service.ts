@@ -1,6 +1,6 @@
 import axios, {HttpStatusCode, type AxiosInstance, type AxiosRequestConfig} from 'axios';
 
-import {AnyJson} from '../types/any.type';
+import {AnyJson} from '@ts-types/any.type';
 
 export interface Headers {
   [header: string]: string | number;

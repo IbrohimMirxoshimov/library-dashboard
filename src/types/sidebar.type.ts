@@ -1,11 +1,11 @@
 import {ReactElement} from 'react';
 
-import {AppRoutes} from '@constants/routes';
-import {UserRole} from 'src/modules/user/types/user.type';
+import {ROUTES} from '@constants/routes';
+import {UserRole} from '@modules/user/types/user.type';
 
-export type SidebarMenuType = {
-  key: (typeof AppRoutes)[keyof typeof AppRoutes];
+export interface SidebarMenuType {
+  key: (typeof ROUTES)[keyof typeof ROUTES];
   icon: ReactElement;
   label: string;
   access: UserRole[];
-};
+}

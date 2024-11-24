@@ -1,20 +1,20 @@
 import React from 'react';
-import {UserRole} from 'src/modules/user/types/user.type';
+import {UserRole} from '@modules/user/types/user.type';
 
-export type ProtectedRouteType = {
+export interface ProtectedRouteType {
   path: string;
   component: React.ReactNode;
   access: UserRole[];
-};
+}
 
-export type PublicRouteType = {
+export interface PublicRouteType {
   path: string;
   component: React.ReactNode;
-};
+}
 
-export type UserRouteType = {
+export interface UserRouteType {
   owner: ProtectedRouteType[];
   moderator: ProtectedRouteType[];
   librarian: ProtectedRouteType[];
   default: PublicRouteType[];
-};
+}
