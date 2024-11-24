@@ -14,6 +14,7 @@ import { addNeeds } from "my-redux/actions/resource";
 import { debounce } from "utils/debounce";
 import { useLocation } from "react-router-dom";
 import qs from "qs";
+import { handleDownloadClick } from "./handleDownloadClick";
 // import { resources } from "api/resources";
 const { Search } = Input;
 
@@ -62,7 +63,11 @@ function customizeColumns(columns, resource, user) {
 			if (column.cellRenderer) {
 				let Component = cells[column.cellRenderer];
 				column.render = (text, record) => (
-					<Component record={record} value={text} resource={resource} />
+					<Component
+						record={record}
+						value={text}
+						resource={resource}
+					/>
 				);
 			} else if (column.resource) {
 				column.render = (value) => (
@@ -261,7 +266,9 @@ const ListView = ({ resource, columns, search, tableProps = {} }) => {
 							style={{ width: "100%", marginBottom: 3 }}
 							enterButton
 							value={filter.q}
-							onChange={(e) => setFilter({ ...filter, q: e.target.value })}
+							onChange={(e) =>
+								setFilter({ ...filter, q: e.target.value })
+							}
 						/>
 					</div>
 					<div className="d-flex">
@@ -288,6 +295,14 @@ const ListView = ({ resource, columns, search, tableProps = {} }) => {
 						>
 							Qo'shish
 						</Button>
+						{location.pathname === "/app/stocks" && user.owner && (
+							<Button
+								className="ml-1"
+								onClick={handleDownloadClick}
+							>
+								Kitoblar(CVS)
+							</Button>
+						)}
 					</div>
 				</Flex>
 				<div className="table-responsive">

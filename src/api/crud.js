@@ -1,8 +1,10 @@
-import mainCaller from "./main";
+import mainCaller, { mainUrl } from "./main";
 import qs from "qs";
 import { addNews } from "my-redux/actions/resource";
 import store from "my-redux/store";
 import { clearNullishKeysFromObject } from "utils/array";
+import axios from "axios";
+import { getTOKEN } from "my-redux/reducers/Auth";
 
 export default class FetchResource {
 	constructor(endpoint) {
@@ -75,7 +77,12 @@ export default class FetchResource {
 		return mainCaller(`/${endpoint}`, "POST", data);
 	}
 
-	static destroy(endpoint, id) {
-		return mainCaller(`/${endpoint}/` + id, "DELETE");
+	static download(endpoint) {
+		return axios.post(`${mainUrl()}/api/${endpoint}/download`, null, {
+			responseType: "blob",
+			headers: {
+				authorization: `Bearer ${getTOKEN()}`,
+			},
+		});
 	}
 }
