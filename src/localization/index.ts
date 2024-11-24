@@ -3,10 +3,14 @@ import {changeLanguage, use, t as i18nextTranslation} from 'i18next';
 
 import en from './en.json';
 import uz from './uz.json';
+import oz from './oz.json';
+import ru from './ru.json';
 
 export enum Languages {
   EN = 'en',
   UZ = 'uz',
+  OZ = 'oz',
+  RU = 'ru',
 }
 
 export type ResourceKey = string | {[key: string]: ResourceKey};
@@ -52,5 +56,7 @@ export const localization: Localization = new NextLocalization({
   resources: {
     [Languages.EN]: {translation: en},
     [Languages.UZ]: {translation: uz},
+    [Languages.OZ]: {translation: oz},
+    [Languages.RU]: {translation: ru},
   },
 });
