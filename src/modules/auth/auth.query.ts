@@ -7,7 +7,7 @@ export const authApi = baseStoreQuery.injectEndpoints({
   endpoints: builder => ({
     signIn: builder.mutation<ISignInResponse, LoginFormValues>({
       query: args => ({
-        url: `/auth/signin`,
+        url: `/auth/login`,
         method: 'POST',
         body: args,
       }),

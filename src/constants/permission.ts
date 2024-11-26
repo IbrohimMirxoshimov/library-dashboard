@@ -1,0 +1,87 @@
+// constants/permission.constant.ts
+export const permissions = {
+  // User permissions
+  USER_CREATE: 1,
+  USER_READ: 2,
+  USER_UPDATE: 3,
+  USER_DELETE: 4,
+
+  // Book permissions
+  BOOK_CREATE: 11,
+  BOOK_READ: 12,
+  BOOK_UPDATE: 13,
+  BOOK_DELETE: 14,
+
+  // Stock permissions
+  STOCK_CREATE: 21,
+  STOCK_READ: 22,
+  STOCK_UPDATE: 23,
+  STOCK_DELETE: 24,
+
+  // Rent permissions
+  RENT_CREATE: 31,
+  RENT_READ: 32,
+  RENT_UPDATE: 33,
+  RENT_CANCEL: 34,
+  RENT_REJECT: 35,
+  RENT_RETURN: 35,
+
+  // Author permissions
+  AUTHOR_CREATE: 41,
+  AUTHOR_READ: 42,
+  AUTHOR_UPDATE: 43,
+  AUTHOR_DELETE: 44,
+
+  // ROLE permissions
+  ROLE_CREATE: 51,
+  ROLE_READ: 52,
+  ROLE_UPDATE: 53,
+  ROLE_DELETE: 54,
+
+  // SMS permissions
+  SMS_CREATE: 61,
+  SMS_READ: 62,
+  SMS_UPDATE: 63,
+  SMS_DELETE: 64,
+
+  // LOCATION permissions
+  LOCATION_CREATE: 71,
+  LOCATION_READ: 72,
+  LOCATION_UPDATE: 73,
+  LOCATION_DELETE: 74,
+
+  // PUBLISHING permissions
+  PUBLISHING_CREATE: 81,
+  PUBLISHING_READ: 82,
+  PUBLISHING_UPDATE: 83,
+  PUBLISHING_DELETE: 84,
+
+  // COLLECTION permissions
+  COLLECTION_CREATE: 91,
+  COLLECTION_READ: 92,
+  COLLECTION_UPDATE: 93,
+  COLLECTION_DELETE: 94,
+
+  // LOG permissions
+  LOG_READ: 100,
+
+  // CUSTOMER permissions
+  CUSTOMER_CREATE: 101,
+  CUSTOMER_READ: 102,
+  CUSTOMER_UPDATE: 103,
+  CUSTOMER_DELETE: 104,
+
+  // COMMENT permissions
+  COMMENT_CREATE: 111,
+  COMMENT_READ: 112,
+  COMMENT_UPDATE: 113,
+  COMMENT_DELETE: 114,
+
+  // REGION permissions
+  REGION_CREATE: 121,
+  REGION_READ: 122,
+  REGION_UPDATE: 123,
+  REGION_DELETE: 124,
+
+  STATISTICS_READ: 131,
+} as const;

@@ -13,9 +13,9 @@ export default function AppLayout({children}: IProps) {
   const [collapsed, setCollapsed] = useState(false);
   return (
     <Layout>
-      <AppLayoutSidebar collapsed={collapsed} />
+      <AppLayoutHeader {...{collapsed, setCollapsed}} />
       <Layout>
-        <AppLayoutHeader {...{collapsed, setCollapsed}} />
+        <AppLayoutSidebar collapsed={collapsed} />
         <AppLayoutContent>{children}</AppLayoutContent>
       </Layout>
     </Layout>

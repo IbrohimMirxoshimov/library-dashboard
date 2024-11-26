@@ -8,5 +8,9 @@ interface IProps {
 }
 
 export default function AppLayoutContent({children}: IProps) {
-  return <Layout.Content className={styles.appLayoutContent}>{children}</Layout.Content>;
+  return (
+    <Layout.Content className={styles.appLayoutContentWrapper}>
+      <Layout className={styles.appLayoutContent}>{children}</Layout>
+    </Layout.Content>
+  );
 }

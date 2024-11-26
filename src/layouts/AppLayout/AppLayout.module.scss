@@ -1,19 +1,19 @@
 @use '@assets/styles/helpers.scss' as *;
 
 .appLayoutLogo {
+  width: 250px;
   height: 64px;
   flex-shrink: 0;
   @include flex(row, center, center);
+
+  &Collapsed {
+    width: 80px;
+  }
 }
 
 .appLayoutSidebar {
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-
-  height: 100vh;
-  overflow: auto;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
 
   .menu {
     padding: 1rem 0;
@@ -27,9 +27,11 @@
 }
 
 .appLayoutHeader {
-  padding: 1rem;
+  padding: 0;
+  height: 64px;
   background: $white;
   line-height: 1rem;
+  box-sizing: border-box;
 
   @include flex(row, center, space-between);
 
@@ -70,9 +72,6 @@
       gap: 5px;
     }
 
-    &UserName {
-    }
-
     &UserRole {
       max-width: 200px;
       white-space: nowrap;
@@ -84,8 +83,12 @@
 
 .appLayoutContent {
   min-height: 280px;
-  margin: 1.5rem 1rem;
-  padding: 1.5rem;
+  height: calc(100vh - 64px - 48px);
+  padding: 24px;
   background: $white;
   border-radius: 8px;
+
+  &Wrapper {
+    padding: 24px;
+  }
 }
