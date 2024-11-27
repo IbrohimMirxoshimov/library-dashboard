@@ -1,7 +1,5 @@
 ## ⚙️ Installation
 
----
-
 1. Clone the repository
 
 ```bash
@@ -42,8 +40,6 @@ yarn dev
 
 ## 🔧 Available Scripts
 
----
-
 - `dev`: start development server. Generate possibleTypes and available types, watches changes of types
 - `build`: build for production
 - `lint`: check lint validation
@@ -52,8 +48,6 @@ yarn dev
 - `format:fix`: run prettier, fix unformatted files
 
 ## 📁 Project Structure
-
----
 
 ```
 ├── public/          # Static assets
@@ -72,8 +66,8 @@ yarn dev
 
 ## 📚 Learn More
 
----
-
-- [Next.js Documentation](https://nextjs.org/docs)
-- [FaustJS Documentation](https://faustjs.org/docs)
+- [React](https://18.react.dev/)
+- [React Router Dom](https://reactrouter.com/6.28.0/home)
+- [Redux Toolkit Query](https://redux-toolkit.js.org/rtk-query/overview)
+- [Ant Design](https://ant.design/components/overview/)
 - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
