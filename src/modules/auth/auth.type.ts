@@ -1,4 +1,4 @@
-import {IUserResponse} from '@modules/user/types/user.type';
+import {IUserResponse} from '@modules/user/user.type';
 
 export interface ISignInResponse {
   token: string;

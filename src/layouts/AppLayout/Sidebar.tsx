@@ -1,7 +1,9 @@
 import {Layout, Menu} from 'antd';
 import {useLocation, useNavigate} from 'react-router-dom';
 
-import {sidebarMenu} from '@constants/sidebar';
+import {useAppSelector} from '@store';
+import {protectedRoutes} from '@routes';
+import {selectAuthenticatedUser} from '@modules/auth/auth.slice';
 
 import styles from './AppLayout.module.scss';
 
@@ -12,6 +14,13 @@ interface IProps {
 export default function AppLayoutSidebar({collapsed}: IProps) {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const user = useAppSelector(selectAuthenticatedUser);
+
+  const userPermissions = user?.role?.permissions || [];
+
+  const userSidebarMenu = protectedRoutes.filter(el => el.isSidebarMenu).filter(route => userPermissions.includes(route.permission));
+
   return (
     <Layout.Sider theme="light" width={250} collapsible collapsed={collapsed} className={styles.appLayoutSidebar}>
       <Menu
@@ -20,7 +29,7 @@ export default function AppLayoutSidebar({collapsed}: IProps) {
         className={styles.menu}
         defaultSelectedKeys={[location.pathname]}
         onSelect={e => navigate(e.key)}
-        items={sidebarMenu.map(el => ({...el, className: styles.menuItem}))}
+        items={userSidebarMenu.map(el => ({key: el.path, label: el.label, icon: el.icon, className: styles.menuItem}))}
       />
     </Layout.Sider>
   );

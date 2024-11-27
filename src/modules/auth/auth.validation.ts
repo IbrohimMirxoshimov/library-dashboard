@@ -6,9 +6,9 @@ import {validationConstraints} from '@constants/validation.constraints';
 const constraints = validationConstraints.login;
 
 export const loginSchema = z.object({
-  username: z
+  phone: z
     .string({
-      required_error: i18n.t('username_required'),
+      required_error: i18n.t('phone_required'),
     })
     .trim()
     .min(constraints.email.min, i18n.t('username_min_length', {min: constraints.email.min})),

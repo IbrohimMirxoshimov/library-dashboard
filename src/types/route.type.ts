@@ -1,20 +1,16 @@
-import React from 'react';
-import {UserRole} from '@modules/user/types/user.type';
+import {ReactNode} from 'react';
 
-export interface ProtectedRouteType {
-  path: string;
-  component: React.ReactNode;
-  access: UserRole[];
+import {ROUTES} from '@constants/routes';
+export interface IProtectedRoute {
+  path: (typeof ROUTES)[keyof typeof ROUTES];
+  icon?: ReactNode;
+  label?: string;
+  component: ReactNode;
+  permission: number;
+  isSidebarMenu: boolean;
 }
 
-export interface PublicRouteType {
+export interface IPublicRoute {
   path: string;
-  component: React.ReactNode;
-}
-
-export interface UserRouteType {
-  owner: ProtectedRouteType[];
-  moderator: ProtectedRouteType[];
-  librarian: ProtectedRouteType[];
-  default: PublicRouteType[];
+  component: ReactNode;
 }

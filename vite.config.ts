@@ -1,13 +1,20 @@
-/** @format */
-
 import path from 'path';
 
 import {defineConfig} from 'vite';
 import react from '@vitejs/plugin-react-swc';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  server: {
+    port: 3000,
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler',
+      },
+    },
+  },
   resolve: {
     alias: [
       {find: '@assets', replacement: path.resolve(__dirname, 'src/assets')},
@@ -25,12 +32,5 @@ export default defineConfig({
       {find: '@types', replacement: path.resolve(__dirname, 'src/types')},
       {find: '@utilities', replacement: path.resolve(__dirname, 'src/utilities')},
     ],
-  },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        api: 'modern-compiler',
-      },
-    },
   },
 });

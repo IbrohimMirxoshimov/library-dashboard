@@ -1,5 +1,7 @@
 // constants/permission.constant.ts
 export const permissions = {
+  DASHBOARD: 0,
+
   // User permissions
   USER_CREATE: 1,
   USER_READ: 2,

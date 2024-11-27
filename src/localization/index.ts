@@ -52,7 +52,7 @@ export class NextLocalization implements Localization {
 }
 
 const localization: Localization = new NextLocalization({
-  fallbackLng: Languages.EN,
+  fallbackLng: Languages.UZ,
   resources: {
     [Languages.EN]: {translation: en},
     [Languages.UZ]: {translation: uz},

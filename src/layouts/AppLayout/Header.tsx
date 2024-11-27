@@ -34,7 +34,7 @@ export default function AppLayoutHeader({collapsed, setCollapsed}: IProps) {
             items: [
               {
                 key: 'get_token',
-                label: t('getToken'),
+                label: t('get_token'),
                 icon: <CopyOutlined />,
                 onClick: () => {
                   navigator.clipboard
@@ -44,7 +44,7 @@ export default function AppLayoutHeader({collapsed, setCollapsed}: IProps) {
               },
               {
                 key: ROUTES.SIGN_IN,
-                label: t('signout'),
+                label: t('sign_out'),
                 icon: <LogoutOutlined />,
               },
             ],

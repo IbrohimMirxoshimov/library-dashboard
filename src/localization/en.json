@@ -1,13 +1,16 @@
 {
-  "appName": "Library Admin",
+  "app_name": "Library Admin",
   "dashboard": "Dashboard",
   "users": "Users",
   "rents": "Rents",
   "readers": "Book Readers",
-  "getToken": "Get token",
-  "signout": "Sign out",
-  "button": {
-    "edit": "Edit button"
-  },
-  "loading": "Loading"
+  "get_token": "Get Token",
+  "sign_out": "Sign out",
+  "edit": "Edit",
+  "loading": "Loading",
+  "phone": "Phone",
+  "password": "Password",
+  "phone_placeholder": "Enter phone...",
+  "password_placeholder": "Enter password...",
+  "token_copied": "Token has been copied to clipboard!"
 }

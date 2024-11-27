@@ -13,6 +13,7 @@ const baseQueryWithRetry = retry(
       baseUrl: appConfig.BASE_URL,
       prepareHeaders: headers => {
         headers.set('Content-Type', 'application/json;charset=utf-8');
+        headers.set('Access-Control-Allow-Origin', 'http://localhost:3000');
 
         const accessToken = storage.get(appConfig.storage.ACCESS_TOKEN);
         if (accessToken) {

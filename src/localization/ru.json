@@ -1,1 +1,11 @@
-{}
+{
+  "app_name": "Library Admin",
+  "dashboard": "Dashboard",
+  "users": "Foydalanuvchilar",
+  "rents": "Ijaralar",
+  "readers": "Book Readers",
+  "get_token": "Tokenni olish",
+  "sign_out": "Chiqish",
+  "edit": "Edit button",
+  "loading": "Загрузка"
+}

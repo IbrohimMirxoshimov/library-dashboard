@@ -26,7 +26,7 @@ export default function AuthView() {
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      username: '',
+      phone: '',
       password: '',
     },
   });
@@ -34,6 +34,12 @@ export default function AuthView() {
   const onSubmit = async (data: LoginFormValues) => {
     try {
       const response = await signIn(data).unwrap();
+      // await fetch('https://lib.manapolya.uz/api/auth/login', {
+      //   method: 'POST',
+      //   body: JSON.stringify(data),
+      //   headers: {'Content-Type': 'application/json'},
+      //   mode: 'no-cors',
+      // });
       localstorage.set(appConfig.storage.ACCESS_TOKEN, response.token);
       navigate(ROUTES.DASHBOARD);
     } catch (error) {
@@ -48,11 +54,11 @@ export default function AuthView() {
           <img src={AppLogo} alt={`app logo`} />
         </Flex>
         <Form onFinish={handleSubmit(onSubmit)} layout="vertical" style={{maxWidth: 600}}>
-          <Form.Item label={t('username')} validateStatus={errors.username ? 'error' : ''} help={errors.username?.message}>
+          <Form.Item label={t('phone')} validateStatus={errors.phone ? 'error' : ''} help={errors.phone?.message}>
             <Controller
-              name="username"
+              name="phone"
               control={control}
-              render={({field}) => <Input {...field} prefix={<UserOutlined />} placeholder={t('username_paceholder')} size="large" />}
+              render={({field}) => <Input {...field} prefix={<UserOutlined />} placeholder={t('phone_placeholder')} size="large" />}
             />
           </Form.Item>
 
@@ -60,14 +66,14 @@ export default function AuthView() {
             <Controller
               name="password"
               control={control}
-              render={({field}) => <Input.Password {...field} prefix={<LockOutlined />} placeholder={t('password_paceholder')} size="large" />}
+              render={({field}) => <Input.Password {...field} prefix={<LockOutlined />} placeholder={t('password_placeholder')} size="large" />}
             />
           </Form.Item>
 
           <Form.Item>
             <Space direction="vertical" size="large" align="start">
               <Button type="primary" htmlType="submit" size="large" block loading={isSubmitting}>
-                {t('signin')}
+                {t('sign_in')}
               </Button>
             </Space>
           </Form.Item>

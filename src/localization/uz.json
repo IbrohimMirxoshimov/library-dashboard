@@ -1,1 +1,17 @@
-{}
+{
+  "app_name": "Library Admin",
+  "dashboard": "Dashboard",
+  "users": "Foydalanuvchilar",
+  "rents": "Ijaralar",
+  "readers": "Book Readers",
+  "get_token": "Tokenni olish",
+  "sign_in": "Kirish",
+  "sign_out": "Chiqish",
+  "edit": "Tahrirlash",
+  "loading": "Yuklanmoqda",
+  "phone": "Telefon",
+  "password": "Parol",
+  "phone_placeholder": "Telefon nomer kiriting...",
+  "password_placeholder": "Parol kiriting...",
+  "token_copied": "Tokendan nusxa olindi!"
+}
