@@ -77,6 +77,10 @@ export default class FetchResource {
 		return mainCaller(`/${endpoint}`, "POST", data);
 	}
 
+	static destroy(endpoint, id) {
+		return mainCaller(`/${endpoint}/` + id, "DELETE");
+	}
+
 	static download(endpoint) {
 		return axios.post(`${mainUrl()}/api/${endpoint}/download`, null, {
 			responseType: "blob",
