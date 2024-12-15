@@ -1,9 +1,9 @@
-import {AnyJson, Primitives} from '@ts-types/any.type';
+import {AnyArray, AnyJson, Primitives} from '@ts-types/any.type';
 
 const localstorage = {
   get: (key: string) => (window.localStorage && window.localStorage.getItem(key)) || null,
 
-  set: (key: string, value: AnyJson | Primitives) => {
+  set: (key: string, value: AnyJson | Primitives | AnyArray) => {
     if (!value || (Array.isArray(value) && value.length === 0)) {
       return;
     } else if (typeof value === 'object' && Object.keys(value).length === 0) {

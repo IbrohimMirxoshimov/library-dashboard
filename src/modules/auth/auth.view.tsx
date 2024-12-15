@@ -5,8 +5,7 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
 
-import localstorage from '@utilities/localstorage';
-import {appConfig, ROUTES} from '@constants';
+import {ROUTES} from '@constants';
 import {errorHandler} from '@helpers';
 import AppLogo from '@assets/images/logo.png';
 
@@ -33,14 +32,7 @@ export default function AuthView() {
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
-      const response = await signIn(data).unwrap();
-      // await fetch('https://lib.manapolya.uz/api/auth/login', {
-      //   method: 'POST',
-      //   body: JSON.stringify(data),
-      //   headers: {'Content-Type': 'application/json'},
-      //   mode: 'no-cors',
-      // });
-      localstorage.set(appConfig.storage.ACCESS_TOKEN, response.token);
+      await signIn(data).unwrap();
       navigate(ROUTES.DASHBOARD);
     } catch (error) {
       notification.error({message: errorHandler(error)});

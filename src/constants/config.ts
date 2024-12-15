@@ -6,10 +6,10 @@ export const config = {
   APP_NAME: localization.t('app_name'),
   BASE_URL: VITE_BASE_URL,
   storage: {
-    LANGUAGE: 'M-LANG',
-    THEME: 'M-THEME',
-    ACCESS_TOKEN: 'M-ACCESS-TOKEN',
-    REFRESH_TOKEN: 'M-REFRESH-TOKEN',
-    USER_ROLE: 'M-ROLE',
+    LANGUAGE: 'M-LNG',
+    THEME: 'M-THM',
+    ACCESS_TOKEN: 'M-ACT',
+    REFRESH_TOKEN: 'M-RFT',
+    PERMISSION: 'M-PRN',
   },
 };

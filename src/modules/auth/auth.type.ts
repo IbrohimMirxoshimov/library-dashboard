@@ -1,6 +1,10 @@
 import {IUserResponse} from '@modules/user/user.type';
 
 export interface ISignInResponse {
-  token: string;
+  access_token: string;
   user: IUserResponse | null;
+}
+
+export interface IAuthState extends ISignInResponse {
+  permissions: number[];
 }

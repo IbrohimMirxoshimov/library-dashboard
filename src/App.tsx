@@ -2,25 +2,19 @@ import {Suspense} from 'react';
 import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import {Spin} from 'antd';
 
-import {appConfig, ROUTES} from '@constants';
-import {useAppSelector} from '@store';
+import {ROUTES} from '@constants';
 import {protectedRoutes, publicRoutes} from '@routes';
 import {AppLayout, AuthLayout} from '@layouts';
-import localstorage from '@utilities/localstorage';
 import type {IProtectedRoute} from '@ts-types/route.type';
-import {selectAuthenticatedUser, selectUserToken} from '@modules/auth/auth.slice';
+import {useAppSelector} from '@store';
+import {selectUserToken, selectUserPermissions} from '@modules/auth/auth.slice';
 
 export default function App() {
-  const user = useAppSelector(selectAuthenticatedUser);
   const userToken = useAppSelector(selectUserToken);
+  const userPermissions = useAppSelector(selectUserPermissions);
 
-  const isAuthenticated = userToken !== '' || localstorage.get(appConfig.storage.ACCESS_TOKEN);
-
-  const userPermissions = user?.role?.permissions || [];
-
+  const isAuthenticated = userToken !== '';
   const userRoutes = protectedRoutes.filter(route => userPermissions.includes(route.permission));
-
-  // console.log({userRoutes});
 
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
