@@ -19,21 +19,19 @@ export default function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
-        {isAuthenticated ? (
+        {isAuthenticated && userRoutes && userRoutes.length > 0 ? (
           <Route>
-            {userRoutes &&
-              userRoutes.length > 0 &&
-              userRoutes.map((route: IProtectedRoute, idx: number) => (
-                <Route
-                  key={route.path + idx}
-                  path={route.path}
-                  element={
-                    <Suspense fallback={<Spin spinning={true} size="large" fullscreen />}>
-                      <AppLayout>{route.component}</AppLayout>
-                    </Suspense>
-                  }
-                />
-              ))}
+            {userRoutes.map((route: IProtectedRoute, idx: number) => (
+              <Route
+                key={route.path + idx}
+                path={route.path}
+                element={
+                  <Suspense fallback={<Spin spinning={true} size="large" fullscreen />}>
+                    <AppLayout>{route.component}</AppLayout>
+                  </Suspense>
+                }
+              />
+            ))}
             <Route path="*" element={<Navigate to={ROUTES.DASHBOARD} replace />} />
           </Route>
         ) : (
