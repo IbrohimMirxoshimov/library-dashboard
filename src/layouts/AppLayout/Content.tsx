@@ -1,7 +1,7 @@
 import React from 'react';
 import {Layout} from 'antd';
 
-import styles from './AppLayout.module.scss';
+import cn from '@utilities/classNames';
 
 interface IProps {
   children: React.ReactNode;
@@ -9,8 +9,8 @@ interface IProps {
 
 export default function AppLayoutContent({children}: IProps) {
   return (
-    <Layout.Content className={styles.appLayoutContentWrapper}>
-      <Layout className={styles.appLayoutContent}>{children}</Layout>
+    <Layout.Content className={cn('p-4')}>
+      <Layout className={cn('min-h-72 h-[calc(100vh-64px-48px)] p-4 bg-white rounded-lg')}>{children}</Layout>
     </Layout.Content>
   );
 }

@@ -7,10 +7,10 @@ import {useNavigate} from 'react-router-dom';
 
 import {ROUTES} from '@constants';
 import {errorHandler} from '@helpers';
+import cn from '@utilities/classNames';
 import AppLogo from '@assets/images/logo.png';
 
 import {loginSchema, LoginFormValues} from './auth.validation';
-import styles from './auth.module.scss';
 import {useSignInMutation} from './auth.query';
 
 export default function AuthView() {
@@ -40,12 +40,12 @@ export default function AuthView() {
   };
 
   return (
-    <Flex align="center" justify="center" className={styles.container}>
-      <Card className={styles.card}>
-        <Flex align="center" justify="center" className={styles.logo}>
+    <Flex align="center" justify="center" className={cn('min-h-screen bg-[#fafafb]')}>
+      <Card className={cn('w-full max-w-100')}>
+        <Flex align="center" justify="center" className={cn('h-16 flex-shrink-0')}>
           <img src={AppLogo} alt={`app logo`} />
         </Flex>
-        <Form onFinish={handleSubmit(onSubmit)} layout="vertical" style={{maxWidth: 600}}>
+        <Form onFinish={handleSubmit(onSubmit)} layout="vertical" className={cn('max-w-150')}>
           <Form.Item label={t('phone')} validateStatus={errors.phone ? 'error' : ''} help={errors.phone?.message}>
             <Controller
               name="phone"

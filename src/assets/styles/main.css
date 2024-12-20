@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', 'Helvetica', 'Tahoma', 'Verdana', 'Geneva', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Segoe UI', 'Calibri',
+    'Open Sans', 'Noto Sans', 'Roboto', sans-serif;
+}
+
+ol,
+ul {
+  list-style: none;
+}

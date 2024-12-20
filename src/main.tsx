@@ -5,7 +5,7 @@ import {Provider} from 'react-redux';
 import {config} from '@constants/config';
 import {Http} from '@services/http.service';
 import appStore from '@store/index';
-import '@assets/styles/main.scss';
+import '@assets/styles/main.css';
 
 import App from './App.tsx';
 

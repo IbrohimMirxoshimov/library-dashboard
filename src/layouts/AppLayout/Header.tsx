@@ -4,10 +4,10 @@ import {MenuFoldOutlined, MenuUnfoldOutlined, LogoutOutlined, CopyOutlined} from
 
 import {appConfig} from '@constants';
 import {ROUTES} from '@constants/routes';
+import cn from '@utilities/classNames';
 import localstorage from '@utilities/localstorage';
 
 import AppLayoutLogo from './Logo';
-import styles from './AppLayout.module.scss';
 
 interface IProps {
   collapsed: boolean;
@@ -17,7 +17,7 @@ interface IProps {
 export default function AppLayoutHeader({collapsed, setCollapsed}: IProps) {
   const {t} = useTranslation();
   return (
-    <Layout.Header className={styles.appLayoutHeader}>
+    <Layout.Header className={cn('flex items-center justify-between p-0 h-16 bg-white leading-4')}>
       <AppLayoutLogo collapsed={collapsed} />
       <Flex align="center" justify="space-between" style={{width: '100%'}}>
         <Button
@@ -25,7 +25,7 @@ export default function AppLayoutHeader({collapsed, setCollapsed}: IProps) {
           title="Menu button"
           icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           onClick={() => setCollapsed(!collapsed)}
-          className={styles.menuButton}
+          className={cn('text-base hover:!bg-transparent focus:!bg-transparent')}
         />
         <Dropdown
           trigger={['click']}
@@ -48,16 +48,16 @@ export default function AppLayoutHeader({collapsed, setCollapsed}: IProps) {
                 icon: <LogoutOutlined />,
               },
             ],
-            rootClassName: styles.dropdownMenu,
+            rootClassName: cn('!p-0'),
           }}
-          className={styles.dropdown}>
-          <div className={styles.profile}>
-            <Avatar size={36} className={styles.profileAvatar}>
+          className={cn('w-max max-w-[300px] min-w-[200px] cursor-pointer')}>
+          <div className={cn('flex items-center gap-3')}>
+            <Avatar size={36} className={cn('bg-[#3e79f72e] text-[#3e79f7] flex-shrink-0')}>
               K
             </Avatar>
-            <div className={styles.profileUser}>
-              <h4 className={styles.profileUserName}>Hello</h4>
-              <span className={styles.profileUserRole}>Ku</span>
+            <div className={cn('flex flex-col gap-1.5')}>
+              <h4>Hello</h4>
+              <span className={cn('max-w-[200px] whitespace-nowrap overflow-hidden overflow-ellipsis')}>Ku</span>
             </div>
           </div>
         </Dropdown>

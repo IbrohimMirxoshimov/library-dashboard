@@ -1,10 +1,7 @@
-import clsx from 'clsx';
-
 import {config} from '@constants/config';
+import cn from '@utilities/classNames';
 import AppLogo from '@assets/images/logo.png';
 import AppLogoSM from '@assets/images/logo-sm.png';
-
-import styles from './AppLayout.module.scss';
 
 interface IProps {
   collapsed: boolean;
@@ -12,7 +9,7 @@ interface IProps {
 
 export default function AppLayoutLogo({collapsed}: IProps) {
   return (
-    <div className={clsx(styles.appLayoutLogo, collapsed && styles.appLayoutLogoCollapsed)}>
+    <div className={cn('w-[250px] h-16 flex-shrink-0 flex items-center justify-center', collapsed && 'w-20')}>
       <img src={collapsed ? AppLogoSM : AppLogo} alt={`${config.APP_NAME} logo`} />
     </div>
   );
