@@ -176,8 +176,8 @@ function LeaseRent({ incramentReturning, onSelectUserId }) {
     setLoading(true);
     Rents.return(modal.rent.id)
       .then((r) => {
-        if (r.is_user_blocked) {
-          message.warning("Kitobxon bloklandi");
+        if (r.user_blocked_reason) {
+          message.warning("Kitobxon bloklangan. " + r.user_blocked_reason);
         }
 
         success(modal.rent.id);
