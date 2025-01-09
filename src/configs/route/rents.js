@@ -1,18 +1,19 @@
+import { CheckCircleTwoTone } from "@ant-design/icons";
 import { message, Tag } from "antd";
 import { resources } from "api/resources";
-import { CheckCircleTwoTone } from "@ant-design/icons";
+import StockCell from "components/ListView/cells/StockCell";
+import PrintReciept from "components/shared-components/PrintReciept";
+import RejectRent from "components/shared-components/RejectRent";
+import { roles } from "configs/NavigationConfig";
+import { tl } from "i18n";
+import Comments from "./components/Comments";
+import SubForm from "./components/SubForm";
 import {
   createdAtAndUpdatedAtColumns,
   getDateString,
   getLeasedDays,
   getRamainedDays,
 } from "./utils";
-import Comments from "./components/Comments";
-import { tl } from "i18n";
-import RejectRent from "components/shared-components/RejectRent";
-import SubForm from "./components/SubForm";
-import StockCell from "components/ListView/cells/StockCell";
-import { roles } from "configs/NavigationConfig";
 // import ScanBarcode from "components/shared-components/ScanBarcode";
 
 export const rents = {
@@ -54,10 +55,7 @@ export const rents = {
           const leasingDays = getLeasedDays(record);
           return (
             <div className="days-cell">
-              <Tag
-                color={getRemainedDaysColor(remainDays)}
-                className="mr-0"
-              >
+              <Tag color={getRemainedDaysColor(remainDays)} className="mr-0">
                 {remainDays}
               </Tag>
               <Tag>{leasingDays}</Tag>
@@ -125,10 +123,7 @@ export const rents = {
     Custom(props) {
       return (
         <div>
-          <Comments
-            resourceId={props.id}
-            resourceFilterName="rentId"
-          />
+          <Comments resourceId={props.id} resourceFilterName="rentId" />
           {<RejectRent {...props} />}
         </div>
       );
@@ -143,6 +138,7 @@ export const rents = {
         }}
         buttonText={"Foydalanuvchi +"}
       />,
+      <PrintReciept rent={data.record} />,
       // 			<ScanBarcode
       // 				onScan={(barcode) => {
       // 					console.log(barcode);
