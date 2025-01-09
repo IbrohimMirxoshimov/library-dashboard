@@ -1,3 +1,20 @@
+/**
+ * Opens a new window with the receipt content and triggers the print dialog.
+ *
+ * @param {Object} data - The data to be included in the receipt.
+ * @param {Object} data.user - The user information.
+ * @param {number} data.user.locationId - The location ID of the user.
+ * @param {string} data.user.firstName - The first name of the user.
+ * @param {string} data.user.lastName - The last name of the user.
+ * @param {Object} data.book - The book information.
+ * @param {string} data.book.name - The name of the book.
+ * @param {Object} data.rent - The rent information.
+ * @param {number} data.rent.id - The ID of the rent.
+ * @param {Date} data.rent.leasedAt - The date when the book was leased.
+ * @param {Date} data.rent.returningDate - The date when the book should be returned.
+ * @param {number} data.rent.userId - The ID of the user who rented the book.
+ * @param {number} data.rent.stockId - The stock ID of the rented book.
+ */
 export default function printReciept(data) {
 	const winUrl = URL.createObjectURL(
 		new Blob([getRecieptContent(data)], { type: "text/html" })
