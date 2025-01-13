@@ -138,7 +138,7 @@ export const rents = {
         }}
         buttonText={"Foydalanuvchi +"}
       />,
-      data.record.id && <PrintReciept rent={data.record} />,
+      data.record?.id && <PrintReciept rent={data.record} />,
       // 			<ScanBarcode
       // 				onScan={(barcode) => {
       // 					console.log(barcode);
