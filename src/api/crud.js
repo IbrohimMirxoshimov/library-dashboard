@@ -1,6 +1,6 @@
 import mainCaller, { mainUrl } from "./main";
 import qs from "qs";
-import { addNews } from "my-redux/actions/resource";
+import { addNews, deleteResource } from "my-redux/actions/resource";
 import store from "my-redux/store";
 import { clearNullishKeysFromObject } from "utils/array";
 import axios from "axios";
@@ -59,6 +59,7 @@ export default class FetchResource {
 	}
 
 	static update(endpoint, id, data) {
+		deleteResource(endpoint, id)
 		return mainCaller(
 			`/${endpoint}/` + id,
 			"PUT",

@@ -5,7 +5,7 @@ import {
   notIncludeId,
   removeDuplicates,
 } from "utils/array";
-import { ADD_NEEDS, ADD_NEWS } from "../constants/resource";
+import { ADD_NEEDS, ADD_NEWS, DELETE_RESOURCE } from "../constants/resource";
 import store from "my-redux/store";
 import FetchResource from "api/crud";
 import { debounce } from "utils/debounce";
@@ -16,6 +16,14 @@ export const addNews = (resource, items) => {
     resource: resource,
     items: items,
   };
+};
+
+export const deleteResource = (resource, id = undefined) => {
+  store.dispatch({
+    type: DELETE_RESOURCE,
+    resource: resource,
+    id: id,
+  });
 };
 
 export const addNeeds = async (resource, ids, sizeNeedItems) => {

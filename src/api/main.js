@@ -2,8 +2,6 @@ import axios from "axios";
 import { getTOKEN } from "my-redux/reducers/Auth";
 import { signOutDirectly } from "my-redux/store";
 export const mainUrl = () =>
-	localStorage.getItem("_mainUrl") ||
-	process.env.REACT_APP_API_URL ||
 	"https://library.softly.uz";
 
 export default function mainCaller(path, method, data, headers) {

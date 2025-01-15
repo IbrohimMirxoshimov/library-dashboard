@@ -2,7 +2,7 @@ import { resources } from "api/resources";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { mergeArraysToUniqueList } from "utils/array";
-import { ADD_NEEDS, ADD_NEWS } from "../constants/resource";
+import { ADD_NEEDS, ADD_NEWS, DELETE_RESOURCE } from "../constants/resource";
 
 const resourcesList = Object.keys(resources);
 
@@ -22,6 +22,16 @@ const getResourceReduser =
         case ADD_NEWS:
           return {
             items: mergeArraysToUniqueList(state.items, action.items),
+          };
+        case DELETE_RESOURCE:
+          if (action.id) {
+            return {
+              items: state.items.filter((r) => r.id !== action.id),
+            };
+          }
+
+          return {
+            items: [],
           };
         default:
           return state;
