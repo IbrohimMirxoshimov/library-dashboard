@@ -1,6 +1,4 @@
 import { resources } from "api/resources";
-import { persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
 import { mergeArraysToUniqueList } from "utils/array";
 import { ADD_NEEDS, ADD_NEWS, DELETE_RESOURCE } from "../constants/resource";
 
@@ -44,14 +42,15 @@ const getResourceReduser =
 const resourceRedusers = resourcesList.reduce((pv, resource) => {
   return {
     ...pv,
-    [resource]: persistReducer(
-      {
-        key: resource,
-        storage: storage,
-        keyPrefix: "l-",
-      },
-      getResourceReduser(resource)
-    ),
+    [resource]: getResourceReduser(resource),
+    // [resource]: persistReducer(
+    //   {
+    //     key: resource,
+    //     storage: storage,
+    //     keyPrefix: "l-",
+    //   },
+    //   getResourceReduser(resource)
+    // ),
   };
 }, {});
 
