@@ -1,4 +1,4 @@
-import {config} from '@constants/config';
+import {config} from '@constants/config.constants';
 import cn from '@utilities/classNames';
 import AppLogo from '@assets/images/logo.png';
 import AppLogoSM from '@assets/images/logo-sm.png';

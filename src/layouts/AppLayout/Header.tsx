@@ -3,7 +3,7 @@ import {Layout, Dropdown, Button, Avatar, Flex, notification} from 'antd';
 import {MenuFoldOutlined, MenuUnfoldOutlined, LogoutOutlined, CopyOutlined} from '@ant-design/icons';
 
 import {appConfig} from '@constants';
-import {ROUTES} from '@constants/routes';
+import {ROUTES} from '@constants/routes.constants';
 import cn from '@utilities/classNames';
 import localstorage from '@utilities/localstorage';
 

@@ -4,6 +4,7 @@ import {appConfig, ROUTES} from '@constants';
 import storage from '@utilities/localstorage';
 import i18n from '@localization';
 import {HttpStatus} from '@helpers';
+import {ENTITY} from '@modules/entity/entity.type';
 
 import {isFetchBaseQueryError} from './error.handler';
 
@@ -52,5 +53,6 @@ const baseQueryWithRetry = retry(
 export const baseStoreQuery = createApi({
   reducerPath: 'baseQuery',
   baseQuery: baseQueryWithRetry,
+  tagTypes: Object.values(ENTITY),
   endpoints: () => ({}),
 });

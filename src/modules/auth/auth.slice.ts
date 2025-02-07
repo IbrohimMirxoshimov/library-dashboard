@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import type {RootState} from '@store/index';
 
 import {permissions} from '@constants';
-import {config} from '@constants/config';
+import {config} from '@constants/config.constants';
 import storage from '@utilities/localstorage';
 
 import {authApi} from './auth.query';

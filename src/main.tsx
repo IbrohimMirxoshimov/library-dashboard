@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {Provider} from 'react-redux';
 
-import {config} from '@constants/config';
+import {config} from '@constants/config.constants.ts';
 import {Http} from '@services/http.service';
 import appStore from '@store/index';
 import '@assets/styles/main.css';

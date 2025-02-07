@@ -1,6 +1,6 @@
 import {ReactNode} from 'react';
 
-import {ROUTES} from '@constants/routes';
+import {ROUTES} from '@constants/routes.constants';
 export interface IProtectedRoute {
   path: (typeof ROUTES)[keyof typeof ROUTES];
   icon?: ReactNode;

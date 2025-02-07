@@ -12,4 +12,6 @@ export const config = {
     REFRESH_TOKEN: 'M-RFT',
     PERMISSION: 'M-PRN',
   },
+  defaultPageSize: 10,
+  pageSizeOptions: ['10', '50', '100'],
 };

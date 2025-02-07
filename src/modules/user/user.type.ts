@@ -1,8 +1,7 @@
 import {IRoleListItem} from '@modules/role/role.type';
-import {IPagination} from '@ts-types/global.type';
+import {IPagination, IResponseBase} from '@ts-types/global.type';
 
-export interface IUserResponse {
-  id: number;
+export interface IUserResponse extends IResponseBase {
   first_name: string;
   last_name: string;
   phone: string;
@@ -13,9 +12,6 @@ export interface IUserResponse {
   telegram_id: number;
   passport_id: number;
   passport_image: string;
-  created_at: string;
-  updated_at: string;
-  deleted_at: string;
   extra_phone: string;
   extra_phone_second: string;
   passport_pin: string;

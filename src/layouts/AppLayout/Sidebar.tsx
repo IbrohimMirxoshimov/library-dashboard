@@ -13,7 +13,7 @@ export default function AppLayoutSidebar({collapsed}: IProps) {
   const location = useLocation();
 
   return (
-    <Layout.Sider theme="light" width={250} collapsible collapsed={collapsed} className={cn('h-[calc(100vh - 64px)] overflow-y-auto')}>
+    <Layout.Sider theme="light" width={250} collapsible collapsed={collapsed} className={cn('h-[calc(100vh - 64px)] overflow-y-auto')} trigger={null}>
       <Menu
         theme="light"
         mode="inline"

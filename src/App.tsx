@@ -8,6 +8,7 @@ import {AppLayout, AuthLayout} from '@layouts';
 import type {IProtectedRoute} from '@ts-types/route.type';
 import {useAppSelector} from '@store';
 import {selectUserToken, selectUserPermissions} from '@modules/auth/auth.slice';
+import EntityDrawer from '@modules/entity/drawer/entity.drawer';
 
 export default function App() {
   const userToken = useAppSelector(selectUserToken);
@@ -27,7 +28,10 @@ export default function App() {
                 path={route.path}
                 element={
                   <Suspense fallback={<Spin spinning={true} size="large" fullscreen />}>
-                    <AppLayout>{route.component}</AppLayout>
+                    <AppLayout>
+                      {route.component}
+                      <EntityDrawer />
+                    </AppLayout>
                   </Suspense>
                 }
               />

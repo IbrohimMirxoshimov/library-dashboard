@@ -8,5 +8,9 @@
   "sign_out": "Чиқиш",
   "edit": "Таҳрирлаш",
   "loading": "Юкланмоқда",
-  "phone": ""
+  "phone": "",
+  "name": "",
+  "created_at": "",
+  "updated_at": "",
+  "deleted_at": ""
 }

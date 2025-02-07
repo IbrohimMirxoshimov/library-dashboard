@@ -4,6 +4,8 @@ import PAGES from '@pages';
 import localization from '@localization';
 import {ROUTES, permissions} from '@constants';
 import type {IProtectedRoute} from '@ts-types/route.type';
+import EntityView from '@modules/entity/entity.view';
+import {ENTITY} from '@modules/entity/entity.type';
 
 export const protectedRoutes: IProtectedRoute[] = [
   {
@@ -14,30 +16,28 @@ export const protectedRoutes: IProtectedRoute[] = [
     label: localization.t('dashboard'),
     permission: permissions.DASHBOARD,
   },
-
-  // ----- READER ROUTES -----
   {
     isSidebarMenu: true,
-    path: ROUTES.READER_LIST,
-    component: <PAGES.Reader.List />,
+    path: ROUTES.USER_LIST,
+    component: <EntityView name={ENTITY.USER} />,
     icon: <ReadOutlined />,
     label: localization.t('readers'),
-    permission: permissions.CUSTOMER_READ,
+    permission: permissions.USER_READ,
   },
-  {
-    isSidebarMenu: false,
-    path: ROUTES.READER_UPDATE,
-    component: <PAGES.Reader.Create />,
-    permission: permissions.CUSTOMER_CREATE,
-  },
-
-  // ----- RENT ROUTES -----
   {
     isSidebarMenu: true,
     path: ROUTES.RENT_LIST,
-    component: <PAGES.Rent.List />,
+    component: <EntityView name={ENTITY.RENT} />,
     icon: <FileDoneOutlined />,
     label: localization.t('rents'),
     permission: permissions.RENT_READ,
+  },
+  {
+    isSidebarMenu: true,
+    path: ROUTES.AUTHOR_LIST,
+    component: <EntityView name={ENTITY.AUTHOR} />,
+    icon: <FileDoneOutlined />,
+    label: localization.t('authors'),
+    permission: permissions.AUTHOR_READ,
   },
 ];

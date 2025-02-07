@@ -4,6 +4,7 @@ import {configureStore} from '@reduxjs/toolkit';
 import {setupListeners} from '@reduxjs/toolkit/query';
 
 import auth from '@modules/auth/auth.slice';
+import entity from '@modules/entity/store/entity.slice';
 
 import {baseStoreQuery} from './query';
 
@@ -11,6 +12,7 @@ const store = configureStore({
   reducer: {
     [baseStoreQuery.reducerPath]: baseStoreQuery.reducer,
     auth,
+    entity,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(baseStoreQuery.middleware),
 });
