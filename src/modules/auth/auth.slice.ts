@@ -18,7 +18,11 @@ const slice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logout: () => initialState,
+    logout: () => {
+      storage.remove(config.storage.ACCESS_TOKEN);
+      storage.remove(config.storage.PERMISSION);
+      return initialState;
+    },
   },
   extraReducers: builder => {
     builder.addMatcher(authApi.endpoints.signIn.matchFulfilled, (state, {payload}) => {

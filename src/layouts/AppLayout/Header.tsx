@@ -1,13 +1,18 @@
 import {useTranslation} from 'react-i18next';
+import {useNavigate} from 'react-router-dom';
 import {Layout, Dropdown, Button, Avatar, Flex, notification} from 'antd';
 import {MenuFoldOutlined, MenuUnfoldOutlined, LogoutOutlined, CopyOutlined} from '@ant-design/icons';
 
+import {useAppDispatch, useAppSelector} from '@store';
 import {appConfig} from '@constants';
 import {ROUTES} from '@constants/routes.constants';
 import cn from '@utilities/classNames';
 import localstorage from '@utilities/localstorage';
+import {logout, selectUser} from '@modules/auth/auth.slice';
 
-import AppLayoutLogo from './Logo';
+import {config} from '@constants/config.constants';
+import AppLogo from '@assets/images/logo.png';
+import AppLogoSM from '@assets/images/logo-sm.png';
 
 interface IProps {
   collapsed: boolean;
@@ -16,9 +21,23 @@ interface IProps {
 
 export default function AppLayoutHeader({collapsed, setCollapsed}: IProps) {
   const {t} = useTranslation();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const user = useAppSelector(selectUser);
+
+  // console.log({user});
+
+  const handleLogout = () => {
+    dispatch(logout());
+
+    navigate(ROUTES.SIGN_IN);
+  };
+
   return (
     <Layout.Header className={cn('flex items-center justify-between p-0 h-16 bg-white leading-4')}>
-      <AppLayoutLogo collapsed={collapsed} />
+      <div className={cn('w-[250px] h-16 flex-shrink-0 flex items-center justify-center', collapsed && 'w-20')}>
+        <img src={collapsed ? AppLogoSM : AppLogo} alt={`${config.APP_NAME} logo`} />
+      </div>
       <Flex align="center" justify="space-between" style={{width: '100%'}}>
         <Button
           type="text"
@@ -46,6 +65,7 @@ export default function AppLayoutHeader({collapsed, setCollapsed}: IProps) {
                 key: ROUTES.SIGN_IN,
                 label: t('sign_out'),
                 icon: <LogoutOutlined />,
+                onClick: handleLogout,
               },
             ],
             rootClassName: cn('!p-0'),
@@ -53,11 +73,11 @@ export default function AppLayoutHeader({collapsed, setCollapsed}: IProps) {
           className={cn('w-max max-w-[300px] min-w-[200px] cursor-pointer')}>
           <div className={cn('flex items-center gap-3')}>
             <Avatar size={36} className={cn('bg-[#3e79f72e] text-[#3e79f7] flex-shrink-0')}>
-              K
+              {(user && user?.first_name[0]) || 'U'}
             </Avatar>
             <div className={cn('flex flex-col gap-1.5')}>
-              <h4>Hello</h4>
-              <span className={cn('max-w-[200px] whitespace-nowrap overflow-hidden overflow-ellipsis')}>Ku</span>
+              <h4>{(user && user?.first_name) || 'Undefined'}</h4>
+              <span className={cn('max-w-[200px] whitespace-nowrap overflow-hidden overflow-ellipsis')}>{user && user?.last_name}</span>
             </div>
           </div>
         </Dropdown>
