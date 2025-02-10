@@ -63,19 +63,7 @@ export const rents = {
           );
         }
 
-        return (
-          <CheckCircleTwoTone
-            twoToneColor="#52c41a"
-            className="pl-2"
-            style={{ cursor: "pointer" }}
-            onClick={() =>
-              message.info(
-                "Qaytarilgan: " + getDateString(record.returnedAt),
-                3
-              )
-            }
-          />
-        );
+        return getDateString(record.returnedAt);
       },
     },
     {
