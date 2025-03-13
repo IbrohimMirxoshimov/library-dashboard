@@ -37,9 +37,9 @@ const subTableColumns = [
 			switch (status) {
 				case "error":
 					return <Tag color="#f50">{status}</Tag>;
-				case "done":
+				case "delivered":
 					return <Tag color="green">{status}</Tag>;
-				case "pending":
+				case "sent":
 					return <Tag color="orange">{status}</Tag>;
 				default:
 					return <Tag color="blue">{status}</Tag>;
@@ -88,11 +88,11 @@ const SubTable = React.memo(
 									case "error":
 										pv.error = pv.error + 1;
 										break;
-									case "done":
-										pv.done = pv.done + 1;
+									case "delivered":
+										pv.delivered = pv.delivered + 1;
 										break;
-									case "pending":
-										pv.pending = pv.pending + 1;
+									case "sent":
+										pv.sent = pv.sent + 1;
 										break;
 									default:
 										pv.draft = pv.draft + 1;
@@ -102,8 +102,8 @@ const SubTable = React.memo(
 							},
 							{
 								error: 0,
-								done: 0,
-								pending: 0,
+								delivered: 0,
+								sent: 0,
 								draft: 0,
 							}
 						)
