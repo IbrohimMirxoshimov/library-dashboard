@@ -270,13 +270,15 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-container">
-      <h1 style={{ fontWeight: 700, fontSize: 24, margin: 0 }}>
-        {user.library.name}{" "}
-        {user.library.name.toLowerCase().includes("kutubxona")
-          ? ""
-          : " kutubxonasi"}{" "}
-        statistikasi
-      </h1>
+      {user.library && (
+        <h1 style={{ fontWeight: 700, fontSize: 24, margin: 0 }}>
+          {user.library.name}{" "}
+          {user.library.name.toLowerCase().includes("kutubxona")
+            ? ""
+            : " kutubxonasi"}{" "}
+          statistikasi
+        </h1>
+      )}
 
       <Row gutter={[8, 8]} style={{ marginBottom: 0 }}>
         {statCards.map((card, i) => (
