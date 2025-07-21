@@ -1,4 +1,4 @@
-import { Card, Row, Col, Tooltip, Button } from "antd";
+import { Card, Row, Col, Tooltip, Button, Skeleton, message } from "antd";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { StatsAPI } from "api/stats";
@@ -28,15 +28,71 @@ export default function Dashboard() {
 
   useEffect(() => {
     setLoading(true);
-    StatsAPI.getStats().then((res) => {
-      setStats(res);
-      setLoading(false);
-    });
+    StatsAPI.getStats()
+      .then((res) => {
+        setStats(res);
+      })
+      .catch(() => {
+        message.error("Statistika yuklanmadi");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   if (loading || !stats) {
     return (
-      <div style={{ textAlign: "center", marginTop: 60 }}>Yuklanmoqda...</div>
+      <div style={{ maxWidth: 1200, margin: "10px auto", padding: 16 }}>
+        <Skeleton.Input
+          active
+          size="large"
+          style={{ width: 320, marginBottom: 24, borderRadius: 8 }}
+        />
+        <div
+          style={{
+            display: "flex",
+            gap: 16,
+            flexWrap: "wrap",
+            marginBottom: 24,
+          }}
+        >
+          {[...Array(4)].map((_, i) => (
+            <Skeleton.Button
+              key={i}
+              active
+              style={{ width: 220, height: 80, borderRadius: 12 }}
+            />
+          ))}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            gap: 16,
+            flexWrap: "wrap",
+            marginBottom: 24,
+          }}
+        >
+          <Skeleton.Input
+            active
+            style={{ width: 400, height: 260, borderRadius: 12 }}
+          />
+          <Skeleton.Input
+            active
+            style={{ width: 400, height: 260, borderRadius: 12 }}
+          />
+        </div>
+        <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+          {[...Array(3)].map((_, i) => (
+            <Skeleton
+              active
+              paragraph={{ rows: 6 }}
+              title={false}
+              key={i}
+              style={{ width: 340, borderRadius: 12 }}
+            />
+          ))}
+        </div>
+      </div>
     );
   }
 
@@ -127,7 +183,11 @@ export default function Dashboard() {
   return (
     <div className="dashboard-container">
       <h1 style={{ fontWeight: 700, fontSize: 24, margin: 0 }}>
-        {user.library.name} {user.library.name.toLowerCase().includes("kutubxona") ? "" : " kutubxonasi"} statistikasi
+        {user.library.name}{" "}
+        {user.library.name.toLowerCase().includes("kutubxona")
+          ? ""
+          : " kutubxonasi"}{" "}
+        statistikasi
       </h1>
 
       <Row gutter={[8, 8]} style={{ marginBottom: 0 }}>
