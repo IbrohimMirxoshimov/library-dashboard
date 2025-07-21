@@ -1,5 +1,4 @@
-import { CheckCircleTwoTone } from "@ant-design/icons";
-import { message, Tag } from "antd";
+import { Tag } from "antd";
 import { resources } from "api/resources";
 import StockCell from "components/ListView/cells/StockCell";
 import PrintReciept from "components/shared-components/PrintReciept";
