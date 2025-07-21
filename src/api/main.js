@@ -1,8 +1,14 @@
 import axios from "axios";
 import { getTOKEN } from "my-redux/reducers/Auth";
 import { signOutDirectly } from "my-redux/store";
-export const mainUrl = () =>
-	"https://library.softly.uz";
+import { isDevelopment } from "utils/methods";
+export const mainUrl = () => {
+	if (isDevelopment()) {
+		return "http://localhost:3258";
+	}
+
+	return "https://library.softly.uz";
+};
 
 export default function mainCaller(path, method, data, headers) {
 	const _headers = {
