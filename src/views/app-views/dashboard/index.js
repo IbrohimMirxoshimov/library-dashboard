@@ -282,7 +282,7 @@ export default function Dashboard() {
 
       <Row gutter={[8, 8]} style={{ marginBottom: 0 }}>
         {statCards.map((card, i) => (
-          <Col xs={24} sm={12} md={8} lg={6} xl={6} key={i}>
+          <Col xs={12} md={6} key={i}>
             <Card
               bordered
               style={{ borderRadius: 12, marginBottom: 0, height: "100%" }}
