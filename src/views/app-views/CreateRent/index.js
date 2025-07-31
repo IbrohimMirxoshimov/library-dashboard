@@ -139,6 +139,7 @@ function CreateRent() {
               (changedValues.stockId || changedValues.userId) &&
               allValues.userId &&
               allValues.leasedAt &&
+              changedValues.stockId &&
               allValues.returningDate
             ) {
               checkToAdd(allValues);
