@@ -74,30 +74,36 @@ function OpenUserHistory({ userId }) {
 }
 
 function OpenUserEditForm({ userId }) {
-  const user = useSelector((state) => {
-    if (userId) {
-      return state.users.items.find((user) => user.id === userId);
-    }
-
-    return;
-  });
+  const [loading, setLoading] = useState(false);
 
   return (
     <Tooltip title="Kitobxon ma'lumotlarini o'zgartirish">
       <Button
-        disabled={!Boolean(user)}
+        loading={loading}
+        disabled={!Boolean(userId)}
         className="ml-1"
         onClick={() => {
-          sendMessage(
-            {
-              edit: true,
-              id: user.id,
-              resource: resources.users,
-              record: user,
-              form: resources.users,
-            },
-            "f_d"
-          );
+          setLoading(true);
+
+          FetchResource.getOne(resources.users, userId)
+            .then((user) => {
+              sendMessage(
+                {
+                  edit: true,
+                  id: user.id,
+                  resource: resources.users,
+                  record: user,
+                  form: resources.users,
+                },
+                "f_d"
+              );
+            })
+            .catch((err) => {
+              showError(err);
+            })
+            .finally(() => {
+              setLoading(false);
+            });
         }}
         icon={<EditOutlined />}
       />
