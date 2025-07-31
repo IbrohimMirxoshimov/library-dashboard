@@ -1,20 +1,20 @@
-import { Button, Col, Form, Row, Tag } from "antd";
+import { Button, Col, Form, Row, Skeleton, Tag } from "antd";
+import Popconfirm from "antd/es/popconfirm";
+import FetchResource from "api/crud";
 import { resources } from "api/resources";
 import CustomDate from "components/forms/CustomDate";
 import StockSelect from "components/forms/StockSelect";
-import React, { useEffect, useState } from "react";
-import FetchResource from "api/crud";
+import { getResourcesByIds } from "my-redux/actions/resource";
+import { newRent, openShift } from "my-redux/actions/ShiftActions";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import printReciept from "utils/printReciept";
-import { newRent, openShift } from "my-redux/actions/ShiftActions";
-import { showError } from "./showError";
 import {
   openNotification,
-  SelectUserAndUserHistory,
   RightTools,
+  SelectUserAndUserHistory,
 } from "./create-rent.utils";
-import Popconfirm from "antd/es/popconfirm";
-import { getResourcesByIds } from "my-redux/actions/resource";
+import { showError } from "./showError";
 
 const RENT_DAYS = [5, 10, 15, 20, 30];
 
@@ -26,7 +26,8 @@ function CreateRent() {
   const [choosenStock, setChoosenStock] = useState();
   const store = useStore();
   const [latestUsersId, setLatestUsersId] = useState([]);
-
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const setDate = (d) => {
     const now = new Date().toISOString();
     const returnDate = new Date(
@@ -65,6 +66,7 @@ function CreateRent() {
   }
 
   const onFinish = (values) => {
+    setLoading(true);
     FetchResource.create("rents", values)
       .then((data) => {
         dispatch(newRent());
@@ -79,7 +81,10 @@ function CreateRent() {
         setDate(10);
         addLatestChoosenUser(values.userId);
       })
-      .catch(showError);
+      .catch(showError)
+      .finally(() => {
+        setLoading(false);
+      });
   };
   if (!shift.openedAt) {
     return (
@@ -100,6 +105,23 @@ function CreateRent() {
     );
   }
 
+  function checkToAdd(values) {
+    setError(null);
+    setLoading(true);
+    FetchResource.create("rents/check-to-add", values)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+
+        setError(err.response.data?.message || "");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
+
   return (
     <Row
       style={{ background: "#f8f8f8" }}
@@ -112,6 +134,16 @@ function CreateRent() {
           name="basic"
           layout="vertical"
           className="p-3"
+          onValuesChange={(changedValues, allValues) => {
+            if (
+              (changedValues.stockId || changedValues.userId) &&
+              allValues.userId &&
+              allValues.leasedAt &&
+              allValues.returningDate
+            ) {
+              checkToAdd(allValues);
+            }
+          }}
           onFinish={onFinish}
         >
           <Form.Item
@@ -141,7 +173,47 @@ function CreateRent() {
             })}
           </div>
 
-          <Form.Item name="stockId" rules={[{ required: true }]} label="Kitob">
+          <Form.Item
+            name="stockId"
+            rules={[{ required: true }]}
+            label="Kitob"
+            extra={
+              <div
+                style={{
+                  position: "absolute",
+                }}
+              >
+                {loading ? (
+                  <Skeleton.Button
+                    active
+                    style={{
+                      marginTop: 5,
+                      height: 15,
+                      width: 100,
+                    }}
+                  />
+                ) : (
+                  error && (
+                    <span
+                      className="text-danger"
+                      style={{
+                        // ellipses
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        maxWidth: "100%",
+                        display: "block",
+                        width: "100%",
+                        textAlign: "left",
+                      }}
+                    >
+                      {error}
+                    </span>
+                  )
+                )}
+              </div>
+            }
+          >
             <StockSelect
               placeholder={"Kitob nomi"}
               resource={resources.stocks}
@@ -227,7 +299,12 @@ function CreateRent() {
                 form.submit();
               }}
             >
-              <Button className="big" htmlType="submit" type="primary">
+              <Button
+                loading={loading}
+                className="big"
+                htmlType="submit"
+                type="primary"
+              >
                 Saqlash
               </Button>
             </Popconfirm>
