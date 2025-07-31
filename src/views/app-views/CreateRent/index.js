@@ -178,11 +178,7 @@ function CreateRent() {
             rules={[{ required: true }]}
             label="Kitob"
             extra={
-              <div
-                style={{
-                  position: "absolute",
-                }}
-              >
+              <>
                 {loading ? (
                   <Skeleton.Button
                     active
@@ -211,7 +207,7 @@ function CreateRent() {
                     </span>
                   )
                 )}
-              </div>
+              </>
             }
           >
             <StockSelect
