@@ -329,6 +329,10 @@ const pagesConfig = {
 							value: "tr",
 							name: tl("tr"),
 						},
+						{
+							value: "qk",
+							name: tl("qk"),
+						},
 					],
 				},
 			},
