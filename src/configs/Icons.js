@@ -1,15 +1,16 @@
 import {
-	FolderOpenOutlined,
-	EnvironmentOutlined,
-	ContainerOutlined,
-	PrinterOutlined,
-	EditOutlined,
-	BookOutlined,
-	UserOutlined,
-	FileDoneOutlined,
-	PlusCircleOutlined,
-	BankOutlined,
-	BarChartOutlined,
+  FolderOpenOutlined,
+  EnvironmentOutlined,
+  ContainerOutlined,
+  PrinterOutlined,
+  EditOutlined,
+  BookOutlined,
+  UserOutlined,
+  FileDoneOutlined,
+  PlusCircleOutlined,
+  BankOutlined,
+  BarChartOutlined,
+  MessageOutlined,
 } from "@ant-design/icons";
 
 const Icons = {
@@ -24,6 +25,7 @@ const Icons = {
   FileDoneOutlined,
   PlusCircleOutlined,
   BarChartOutlined,
+  MessageOutlined,
 };
 
 export default Icons;

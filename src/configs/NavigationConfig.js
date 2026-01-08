@@ -99,6 +99,14 @@ const dashBoardNavTree = {
       submenu: [],
     },
     {
+      key: "messages",
+      path: `${APP_PREFIX_PATH}/messages`,
+      title: tl("messages"),
+      icon: "MessageOutlined",
+      role: roles.librarian,
+      submenu: [],
+    },
+    {
       key: "locations",
       path: `${APP_PREFIX_PATH}/locations`,
       title: "Kutubxonalar",
