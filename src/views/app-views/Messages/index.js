@@ -17,6 +17,7 @@ const Messages = () => {
     size: 100,
     q: "",
     filters: {},
+    order: "DESC",
     sort: "updatedAt",
   });
 
