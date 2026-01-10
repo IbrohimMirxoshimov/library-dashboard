@@ -1,12 +1,90 @@
 import React, { useState, useEffect } from "react";
-import { Card, Table, Tag, Input, Button, Select, Space, message } from "antd";
-import { SearchOutlined, ReloadOutlined } from "@ant-design/icons";
+import {
+  Card,
+  Table,
+  Tag,
+  Input,
+  Button,
+  Select,
+  Space,
+  message,
+  Popover,
+} from "antd";
+import {
+  SearchOutlined,
+  ReloadOutlined,
+  MessageOutlined,
+} from "@ant-design/icons";
 import { tl } from "i18n";
 import FetchResource from "api/crud";
 import Flex from "components/shared-components/Flex";
 import moment from "moment";
 
 const { Option } = Select;
+const { TextArea } = Input;
+
+const MessageReply = ({ phone }) => {
+  const [visible, setVisible] = useState(false);
+  const [text, setText] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSend = async () => {
+    if (!text) {
+      return message.warning("Iltimos, xabar matnini kiriting");
+    }
+    setLoading(true);
+    try {
+      await FetchResource.create("sms/send-single", { phone, text });
+      message.success("Xabar muvaffaqiyatli yuborildi");
+      setVisible(false);
+      setText("");
+    } catch (error) {
+      message.error(error.message || "Xabarni yuborishda xatolik yuz berdi");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const content = (
+    <div style={{ width: 300 }}>
+      <TextArea
+        rows={4}
+        placeholder="Xabar matnini kiriting..."
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        disabled={loading}
+      />
+      <div className="mt-2 text-right">
+        <Button
+          type="primary"
+          onClick={handleSend}
+          loading={loading}
+          size="small"
+        >
+          Yuborish
+        </Button>
+      </div>
+    </div>
+  );
+
+  return (
+    <Popover
+      content={content}
+      title={`Reply to ${phone}`}
+      trigger="click"
+      visible={visible}
+      onVisibleChange={(v) => setVisible(v)}
+      placement="left"
+    >
+      <Button
+        icon={<MessageOutlined />}
+        size="small"
+        type="link"
+        title="Reply"
+      />
+    </Popover>
+  );
+};
 
 const Messages = () => {
   const [loading, setLoading] = useState(false);
@@ -94,7 +172,21 @@ const Messages = () => {
       title: "Xabar matni",
       dataIndex: "text",
       key: "text",
-      ellipsis: true,
+      render: (text, record) => (
+        <Flex alignItems="center" justifyContent="between">
+          <span
+            style={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              marginRight: "8px",
+            }}
+          >
+            {text}
+          </span>
+          {record.receivedAt && <MessageReply phone={record.phone} />}
+        </Flex>
+      ),
     },
     {
       title: "Status",
@@ -155,6 +247,7 @@ const Messages = () => {
             >
               <Option value="pending">Pending</Option>
               <Option value="sent">Sent</Option>
+              <Option value="draft">Draft</Option>
               <Option value="delivered">Delivered</Option>
               <Option value="error">Error</Option>
             </Select>
