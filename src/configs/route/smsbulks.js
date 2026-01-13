@@ -41,8 +41,10 @@ const subTableColumns = [
 					return <Tag color="green">{status}</Tag>;
 				case "sent":
 					return <Tag color="orange">{status}</Tag>;
-				default:
+				case "pending":
 					return <Tag color="blue">{status}</Tag>;
+				default:
+					return <Tag >{status}</Tag>;
 			}
 		},
 	},
@@ -84,32 +86,14 @@ const SubTable = React.memo(
 					{Object.entries(
 						data.reduce(
 							(pv, cv) => {
-								switch (cv.status) {
-									case "error":
-										pv.error = pv.error + 1;
-										break;
-									case "delivered":
-										pv.delivered = pv.delivered + 1;
-										break;
-									case "sent":
-										pv.sent = pv.sent + 1;
-										break;
-									default:
-										pv.draft = pv.draft + 1;
-								}
-
+								pv[cv.status] = (pv[cv.status] || 0) + 1;
 								return pv;
 							},
-							{
-								error: 0,
-								delivered: 0,
-								sent: 0,
-								draft: 0,
-							}
+							{}
 						)
 					).map(([key, value]) => (
 						<Tag color="blue">
-							{key}:{value}
+							{key}: {value}
 						</Tag>
 					))}
 				</div>
