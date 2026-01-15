@@ -207,7 +207,11 @@ export const users = {
 			label: tl("extraPhone"),
 			field: "phoneNumber",
 		},
-		{ name: "passportImage", label: tl("passportImage") },
+		{
+			name: "extraPhone2",
+			label: tl("extraPhone"),
+			field: "phoneNumber",
+		},
 		// {
 		// 	colSpan: 24,
 		// 	Component: Tokenization,
@@ -284,6 +288,7 @@ export const users = {
 			name: "pinfl",
 			label: tl("pinfl"),
 		},
+		{ name: "passportImage", label: tl("passportImage") },
 		{ name: "username", role: roles.owner },
 		{ name: "password", role: roles.owner },
 		{

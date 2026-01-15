@@ -501,7 +501,7 @@ function UserForm({ onFormClose }) {
               </Form.Item>
             </Col>
 
-            <Col span={12}>
+            <Col span={8}>
               <Form.Item
                 label={tl("phone")}
                 name="phone"
@@ -510,12 +510,17 @@ function UserForm({ onFormClose }) {
                 <PhoneNumber />
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col span={8}>
               <Form.Item
                 label={tl("extraPhone")}
                 name="extraPhone"
                 rules={rules.required}
               >
+                <PhoneNumber />
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item label={tl("extraPhone")} name="extraPhone2">
                 <PhoneNumber />
               </Form.Item>
             </Col>
