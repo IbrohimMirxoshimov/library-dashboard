@@ -5,8 +5,10 @@ import {
   SendOutlined,
   CheckOutlined,
   ClockCircleOutlined,
+  CloseCircleOutlined,
 } from "@ant-design/icons";
 import FetchResource from "api/crud";
+import mainCaller from "api/main";
 import moment from "moment";
 import "./Messages.css";
 
@@ -27,6 +29,7 @@ const Messages = () => {
   const [hasMoreMsg, setHasMoreMsg] = useState(true);
   const [inputText, setInputText] = useState("");
   const [sending, setSending] = useState(false);
+  const [cancellingMsgId, setCancellingMsgId] = useState(null);
 
   const convListRef = useRef(null);
   const msgListRef = useRef(null);
@@ -171,6 +174,28 @@ const Messages = () => {
       message.error("Xabar yuborishda xatolik");
     } finally {
       setSending(false);
+    }
+  };
+
+  // Cancel Draft Message
+  const handleCancelDraft = async (msgId) => {
+    if (cancellingMsgId || !msgId) return;
+    setCancellingMsgId(msgId);
+    try {
+      await mainCaller("/sms/messages", "PUT", [{ id: msgId, status: "error" }]);
+      // Update local state
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === msgId ? { ...msg, status: "error" } : msg
+        )
+      );
+      message.success("Qoralama bekor qilindi");
+      // Refresh conversations to update snippet
+      fetchConversations(1, searchQuery, true);
+    } catch (error) {
+      message.error("Bekor qilishda xatolik");
+    } finally {
+      setCancellingMsgId(null);
     }
   };
 
@@ -420,6 +445,9 @@ const Messages = () => {
                             ? "flex-start"
                             : "flex-end",
                           marginTop: 4,
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 4,
                         }}
                       >
                         <span
@@ -432,6 +460,28 @@ const Messages = () => {
                           {formatMessageDate(msg.updatedAt)}
                         </span>
                         {!isReceived && renderStatus(msg)}
+                        {!isReceived && msg.status === "draft" && (
+                          <Tooltip title="Bekor qilish">
+                            <Button
+                              type="text"
+                              size="small"
+                              danger
+                              icon={<CloseCircleOutlined />}
+                              onClick={() => handleCancelDraft(msg.id)}
+                              loading={cancellingMsgId === msg.id}
+                              style={{
+                                padding: 0,
+                                height: 16,
+                                width: 16,
+                                minWidth: 16,
+                                fontSize: 10,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            />
+                          </Tooltip>
+                        )}
                       </div>
                     </div>
                   </div>
