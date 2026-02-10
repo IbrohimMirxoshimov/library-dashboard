@@ -33,6 +33,10 @@ export default function printReciept(data) {
 	}, 100);
 }
 
+function replaceRestrictedPartsOfString(str) {
+	return str.replace(/ulloh/gi, "****").replace(/alloh/gi, "****");
+}
+
 function getRentIdForBarcode(id) {
 	let zeros = "0";
 	let id_str = String(id);
@@ -92,11 +96,11 @@ function getRecieptContent({ user, book, rent }) {
 		</div>
 		<div class="row">
 			<div>Kitobxon:</div>
-			<div class="bold">${user.firstName + " " + user.lastName} #${rent.userId}</div>
+			<div class="bold">${replaceRestrictedPartsOfString(user.firstName + " " + user.lastName)} #${rent.userId}</div>
 		</div>
 		<div class="row">
 			<div>Kitob:</div>
-			<div class="bold"> ${book.name} #${rent.stockId}</div>
+			<div class="bold"> ${replaceRestrictedPartsOfString(book.name)} #${rent.stockId}</div>
 		</div>
 	</div>
 
