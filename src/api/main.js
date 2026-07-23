@@ -14,7 +14,7 @@ export const mainUrl = () => {
     return "http://localhost:3258";
   }
 
-  return "https://library.softly.uz";
+  return "https://library.osonprava.uz";
 };
 
 export default function mainCaller(path, method, data, headers) {
