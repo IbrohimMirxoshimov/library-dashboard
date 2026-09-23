@@ -120,6 +120,12 @@ const pagesConfig = {
 				render: (_, record) => <ActiveControllerCell data={record} />,
 			},
 			{
+				title: "Zarur kitob tekshiruvi",
+				key: "requiredBookGuard",
+				dataIndex: "requiredBookGuard",
+				render: (value) => (value ? "✅" : "❌"),
+			},
+			{
 				title: "link",
 				key: "link",
 				dataIndex: "link",
@@ -155,6 +161,12 @@ const pagesConfig = {
 			},
 			{
 				name: "active",
+				field: "switch",
+				propName: "checked",
+			},
+			{
+				name: "requiredBookGuard",
+				label: "Zarur kitob bilan boshqa kitob bermaslik",
 				field: "switch",
 				propName: "checked",
 			},
