@@ -1,7 +1,6 @@
 import axios from "axios";
 import { getTOKEN } from "my-redux/reducers/Auth";
 import { signOutDirectly } from "my-redux/store";
-import { isDevelopment } from "utils/methods";
 
 export const mainUrl = () => {
   const stored_base_url = localStorage.getItem("bu");
@@ -10,11 +9,7 @@ export const mainUrl = () => {
     return stored_base_url;
   }
 
-  if (isDevelopment()) {
-    return "http://localhost:3258";
-  }
-
-  return "https://library.osonprava.uz";
+  return process.env.REACT_APP_API_URL || "https://library.osonprava.uz";
 };
 
 export default function mainCaller(path, method, data, headers) {
