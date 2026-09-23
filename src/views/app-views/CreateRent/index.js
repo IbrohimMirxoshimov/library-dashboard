@@ -15,6 +15,7 @@ import {
   SelectUserAndUserHistory,
 } from "./create-rent.utils";
 import { showError } from "./showError";
+import { UserActiveRents } from "./UserActiveRents";
 
 const RENT_DAYS = [5, 10, 15, 20, 30];
 
@@ -28,6 +29,7 @@ function CreateRent() {
   const [latestUsersId, setLatestUsersId] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const selectedUserId = Form.useWatch("userId", form);
   const setDate = (d) => {
     const now = new Date().toISOString();
     const returnDate = new Date(
@@ -306,6 +308,7 @@ function CreateRent() {
               </Button>
             </Popconfirm>
           </Form.Item>
+          <UserActiveRents userId={selectedUserId} />
         </Form>
       </Col>
       <Col md={24} lg={6}>

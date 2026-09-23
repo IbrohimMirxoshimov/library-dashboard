@@ -116,6 +116,7 @@ export function SelectUserAndUserHistory({ onChange, value }) {
     <div className="d-flex">
       <SelectFetch
         placeholder={"Kitobxon ism, familiya yoki telefon raqam"}
+        allowClear
         resource={resources.users}
         fetchable={true}
         onChange={onChange}
