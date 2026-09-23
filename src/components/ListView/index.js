@@ -70,10 +70,10 @@ function customizeColumns(columns, resource, user) {
 					/>
 				);
 			} else if (column.resource) {
-				column.render = (value) => (
+				column.render = (value, record) => (
 					<ResourceRender
 						resource={column.resource}
-						id={value}
+						id={column.idGetter ? column.idGetter(record) : value}
 						resourceKey={column.resourceKey}
 						valueGetter={column.valueGetter}
 					/>
@@ -89,7 +89,9 @@ function columnsResourcesAddNeeds(columns, page) {
 		if (column.resource) {
 			addNeeds(
 				column.resource,
-				page.items.map((item) => item[column.dataIndex])
+				page.items.map((item) =>
+					column.idGetter ? column.idGetter(item) : item[column.dataIndex]
+				)
 			);
 		}
 	});
