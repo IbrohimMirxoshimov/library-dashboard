@@ -1,5 +1,6 @@
 import { resources } from "api/resources";
 import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
+import { Image } from "antd";
 import { rents } from "./rents";
 import { createdAtAndUpdatedAtColumns } from "./utils";
 import { tl } from "i18n";
@@ -245,11 +246,15 @@ const pagesConfig = {
 				title: tl("image"),
 				key: "image",
 				dataIndex: "image",
+				sorter: false,
 				render: (image) =>
 					image ? (
-						<a href={image} rel="noreferrer" target={"_blank"}>
-							Ochish
-						</a>
+						<Image
+							src={image}
+							width={40}
+							height={40}
+							style={{ objectFit: "cover", borderRadius: 4 }}
+						/>
 					) : (
 						"-"
 					),
