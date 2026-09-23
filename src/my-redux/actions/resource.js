@@ -4,6 +4,7 @@ import {
   convertToNumber,
   notIncludeId,
   removeDuplicates,
+  toMatrix,
 } from "utils/array";
 import { ADD_NEEDS, ADD_NEWS, DELETE_RESOURCE } from "../constants/resource";
 import store from "my-redux/store";
@@ -44,16 +45,22 @@ export const addNeeds = async (resource, ids, sizeNeedItems) => {
     let needIds = ids.filter((id) => notIncludeId(id, items));
 
     if (!needIds.length) return [];
-    // fetch items
-    fetchedResource = await FetchResource.getList(resource, {
-      id: needIds,
-    }).catch((err) => {
-      message.warning("Fetching resource error\n" + err.message);
+    // fetch items in chunks: the API query parser turns arrays longer than 20 into objects
+    const pages = await Promise.all(
+      toMatrix(needIds, 20).map((chunk) =>
+        FetchResource.getList(resource, {
+          id: chunk,
+        }).catch((err) => {
+          message.warning("Fetching resource error\n" + err.message);
 
-      return {
-        items: [],
-      };
-    });
+          return {
+            items: [],
+          };
+        })
+      )
+    );
+
+    fetchedResource = { items: pages.flatMap((page) => page.items || []) };
   } else {
     fetchedResource = await FetchResource.getList(resource, {
       size: sizeNeedItems,
@@ -77,6 +84,7 @@ export function addNeedsWithDebounce(resource, ids) {
   }
   debauncedTasksData[resource] = data;
   debounce(() => {
+    delete debauncedTasksData[resource];
     addNeeds(resource, data);
   }, "an-" + resource);
 }

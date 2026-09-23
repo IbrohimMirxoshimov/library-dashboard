@@ -97,6 +97,11 @@ const pagesConfig = {
 		view: { canDelete: (record) => true },
 		columns: [
 			{
+				title: "ID",
+				key: "id",
+				dataIndex: "id",
+			},
+			{
 				title: "name",
 				key: "name",
 				dataIndex: "name",
