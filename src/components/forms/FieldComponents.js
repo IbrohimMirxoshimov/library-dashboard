@@ -1,5 +1,6 @@
 import { Switch, Checkbox, Input } from "antd";
 import Choice from "./Choice";
+import ImageUpload from "./ImageUpload";
 import CustomDate from "./CustomDate";
 import Passport from "./Passport";
 import PhoneNumber from "./PhoneNumber";
@@ -10,7 +11,7 @@ import UserAutoComplate from "./UserAutoComplate";
 const FieldComponents = {
 	input: Input,
 	textarea: Input.TextArea,
-	imageUpload: Input,
+	imageUpload: ImageUpload,
 	checkbox: Checkbox,
 	switch: Switch,
 	choice: Choice,
