@@ -118,7 +118,14 @@ export function FormDrawerMicro({ messageId, data, onFormClose }) {
 
   function onFinish(values) {
     setLoading(true);
-    if (isEmptyObject(values.address)) {
+    if (
+      values.address &&
+      Object.values(values.address).every(
+        (v) => v === undefined || v === null || v === ""
+      )
+    ) {
+      values.address = undefined;
+    } else if (isEmptyObject(values.address)) {
       values.address = undefined;
     }
     fetch(values)

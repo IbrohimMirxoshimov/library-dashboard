@@ -6,6 +6,8 @@ import { addNeedsWithDebounce } from "my-redux/actions/resource";
 import { message } from "antd";
 import { CopyTwoTone } from "@ant-design/icons";
 import { getRamainedDays } from "configs/route/utils";
+import FetchResource from "api/crud";
+import { showError } from "views/app-views/CreateRent/showError";
 
 function getText(book, rent, user) {
 	let remained = getRamainedDays(rent);
@@ -56,16 +58,22 @@ function UserFullName({ record }) {
 				href="/"
 				onClick={(e) => {
 					e.preventDefault();
-					sendMessage(
-						{
-							edit: true,
-							id: user.id,
-							resource: resources.users,
-							record: user,
-							form: resources.users,
-						},
-						"f_d"
-					);
+					FetchResource.getOne(resources.users, user.id)
+						.then((fullUser) => {
+							sendMessage(
+								{
+									edit: true,
+									id: fullUser.id,
+									resource: resources.users,
+									record: fullUser,
+									form: resources.users,
+								},
+								"f_d"
+							);
+						})
+						.catch((err) => {
+							showError(err);
+						});
 				}}
 			>{` ${user.firstName} ${user.lastName}`}</a>
 			<a href={"tel:" + user.phone}> tel</a>

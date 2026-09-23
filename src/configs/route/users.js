@@ -217,27 +217,25 @@ export const users = {
 		// 	Component: Tokenization,
 		// },
 		{
-			name: ["address", "region"],
+			name: ["address", "regionId"],
 			field: "selectFetch",
 			label: "Viloyat",
 			role: roles.librarian,
 			fieldProp: {
 				resource: resources.regions,
-				defaultOptionValueGetter(item) {
-					return item.name;
-				},
+				withoutId: true,
+				allowClear: true,
 			},
 		},
 		{
-			name: ["address", "town"],
+			name: ["address", "townId"],
 			field: "selectFetch",
 			label: "Tuman",
 			role: roles.librarian,
 			fieldProp: {
 				resource: resources.towns,
-				defaultOptionValueGetter(item) {
-					return item.name;
-				},
+				withoutId: true,
+				allowClear: true,
 			},
 		},
 		{

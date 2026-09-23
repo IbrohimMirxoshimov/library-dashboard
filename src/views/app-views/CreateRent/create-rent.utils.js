@@ -423,6 +423,9 @@ function UserForm({ onFormClose }) {
     if (values.address?.addressLine?.length === 0) {
       delete values.address.addressLine;
     }
+    if (values.address) {
+      values.address = clearNullishKeysFromObject(values.address);
+    }
     values.address = isEmptyObject(values.address) ? undefined : values.address;
 
     FetchResource.create(resources.users, values)
@@ -573,21 +576,19 @@ function UserForm({ onFormClose }) {
               </Form.Item>
             </Col>
             <Col span={6}>
-              <Form.Item label={tl("region")} name={["address", "region"]}>
+              <Form.Item label={tl("region")} name={["address", "regionId"]}>
                 <SelectFetch
                   allowClear
                   withoutId
-                  optionValueGetter={(item) => item.name}
                   resource={resources.regions}
                 />
               </Form.Item>
             </Col>
             <Col span={6}>
-              <Form.Item label={tl("town")} name={["address", "town"]}>
+              <Form.Item label={tl("town")} name={["address", "townId"]}>
                 <SelectFetch
                   allowClear
                   withoutId
-                  optionValueGetter={(item) => item.name}
                   resource={resources.towns}
                 />
               </Form.Item>

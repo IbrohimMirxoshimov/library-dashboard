@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { message, Select, Spin } from "antd";
 import { addNews } from "my-redux/actions/resource";
 import { debounce } from "utils/debounce";
@@ -24,7 +24,8 @@ function SelectFetch({
 	...props
 }) {
 	const [loading, setLoading] = useState(false);
-	const items = useResource(resource, [props.value]);
+	const neededIds = useMemo(() => [value], [value]);
+	const items = useResource(resource, neededIds);
 
 	function fetch(name) {
 		if (!fetchable) return;
