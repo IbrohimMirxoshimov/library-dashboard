@@ -127,6 +127,12 @@ const pagesConfig = {
 				render: (value) => (value ? "✅" : "❌"),
 			},
 			{
+				title: "SMS tasdiqlash",
+				key: "smsVerification",
+				dataIndex: "smsVerification",
+				render: (value) => (value ? "✅" : "❌"),
+			},
+			{
 				title: "link",
 				key: "link",
 				dataIndex: "link",
@@ -168,6 +174,12 @@ const pagesConfig = {
 			{
 				name: "requiredBookGuard",
 				label: "Zarur kitob bilan boshqa kitob bermaslik",
+				field: "switch",
+				propName: "checked",
+			},
+			{
+				name: "smsVerification",
+				label: "Ijara qo'shishda raqamni SMS bilan tasdiqlash",
 				field: "switch",
 				propName: "checked",
 			},

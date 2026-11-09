@@ -55,7 +55,10 @@ function generateFields(fields, user, data, form) {
             name={!field.sub && field.name}
             valuePropName={field.propName || "value"}
             label={field.label || field.name}
-            hidden={!data.edit && field.hidden}
+            hidden={
+              (!data.edit && field.hidden) ||
+              (field.hiddenOnEdit && Boolean(data.record?.id))
+            }
             rules={field.rules}
           >
             {field.sub ? (

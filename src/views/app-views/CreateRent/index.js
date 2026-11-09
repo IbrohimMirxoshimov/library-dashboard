@@ -1,4 +1,4 @@
-import { Button, Col, Form, Row, Skeleton, Tag } from "antd";
+import { Alert, Button, Col, Form, Row, Skeleton, Switch, Tag } from "antd";
 import Popconfirm from "antd/es/popconfirm";
 import FetchResource from "api/crud";
 import { resources } from "api/resources";
@@ -16,8 +16,17 @@ import {
 } from "./create-rent.utils";
 import { showError } from "./showError";
 import { UserActiveRents } from "./UserActiveRents";
+import {
+  VerifyPhoneModal,
+  verifyUserPhone,
+} from "components/PhoneVerification";
 
 const RENT_DAYS = [5, 10, 15, 20, 30];
+
+const PHONE_VERIFICATION_REASONS = {
+  not_verified: "Kitobxonning asosiy raqami tasdiqlanmagan",
+  expired: "Kitobxon raqami tasdiqlanganiga 3 oydan oshdi",
+};
 
 function CreateRent() {
   const [form] = Form.useForm();
@@ -30,6 +39,11 @@ function CreateRent() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const selectedUserId = Form.useWatch("userId", form);
+  // check-to-add javobidagi { required, phone, reason }
+  const [phoneVerification, setPhoneVerification] = useState(null);
+  const [smsVerification, setSmsVerification] = useState(true);
+  const [verifyModalValues, setVerifyModalValues] = useState(null);
+  const phoneVerificationRequired = Boolean(phoneVerification?.required);
   const setDate = (d) => {
     const now = new Date().toISOString();
     const returnDate = new Date(
@@ -68,8 +82,21 @@ function CreateRent() {
   }
 
   const onFinish = (values) => {
+    if (phoneVerificationRequired && smsVerification) {
+      setVerifyModalValues(values);
+      return;
+    }
+    createRent(values);
+  };
+
+  const createRent = (values) => {
     setLoading(true);
-    FetchResource.create("rents", values)
+    FetchResource.create("rents", {
+      ...values,
+      ...(phoneVerificationRequired && !smsVerification
+        ? { smsVerification: false }
+        : {}),
+    })
       .then((data) => {
         dispatch(newRent());
         const users = store.getState().users.items;
@@ -81,6 +108,8 @@ function CreateRent() {
         setChoosenStock(undefined);
         form.resetFields();
         setDate(10);
+        setPhoneVerification(null);
+        setSmsVerification(true);
         addLatestChoosenUser(values.userId);
       })
       .catch(showError)
@@ -112,9 +141,10 @@ function CreateRent() {
     setLoading(true);
     FetchResource.create("rents/check-to-add", values)
       .then((data) => {
-        console.log(data);
+        setPhoneVerification(data.phoneVerification || null);
       })
       .catch((err) => {
+        setPhoneVerification(null);
         console.log(err.response.data);
 
         setError(err.response.data?.message || "");
@@ -137,6 +167,10 @@ function CreateRent() {
           layout="vertical"
           className="p-3"
           onValuesChange={(changedValues, allValues) => {
+            if ("userId" in changedValues) {
+              setPhoneVerification(null);
+              setSmsVerification(true);
+            }
             if (
               (changedValues.stockId || changedValues.userId) &&
               allValues.userId &&
@@ -282,6 +316,34 @@ function CreateRent() {
               </Form.Item>
             </Col>
           </Row>
+          {phoneVerificationRequired && (
+            <Alert
+              className="mb-3"
+              type={smsVerification ? "warning" : "error"}
+              showIcon
+              message={
+                PHONE_VERIFICATION_REASONS[phoneVerification.reason] ||
+                PHONE_VERIFICATION_REASONS.not_verified
+              }
+              description={
+                <div>
+                  <div className="mb-2">
+                    {smsVerification
+                      ? `Saqlashda +998 ${phoneVerification.phone} raqamiga SMS kod yuboriladi.`
+                      : "Ijara raqam tasdiqlanmasdan qo'shiladi."}
+                  </div>
+                  <Switch
+                    checked={smsVerification}
+                    onChange={setSmsVerification}
+                    className="mr-2"
+                  />
+                  {smsVerification
+                    ? "SMS bilan tasdiqlash"
+                    : "Tasdiqlashsiz beriladi"}
+                </div>
+              }
+            />
+          )}
           <Form.Item>
             <Popconfirm
               title={<h2>Kitobxon va kitob to'g'rimi?</h2>}
@@ -310,6 +372,20 @@ function CreateRent() {
           </Form.Item>
           <UserActiveRents userId={selectedUserId} />
         </Form>
+        {verifyModalValues && (
+          <VerifyPhoneModal
+            phone={phoneVerification?.phone}
+            onCode={(code) =>
+              verifyUserPhone(verifyModalValues.userId, code).then(() => {
+                const values = verifyModalValues;
+                setVerifyModalValues(null);
+                setPhoneVerification(null);
+                createRent(values);
+              })
+            }
+            onClose={() => setVerifyModalValues(null)}
+          />
+        )}
       </Col>
       <Col md={24} lg={6}>
         <RightTools

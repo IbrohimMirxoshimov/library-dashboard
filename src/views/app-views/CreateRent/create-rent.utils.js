@@ -36,8 +36,7 @@ import Passport from "components/forms/Passport";
 import { tl } from "i18n";
 import PhoneNumber from "components/forms/PhoneNumber";
 import { clearNullishKeysFromObject, isEmptyObject } from "utils/array";
-import VerifyPhoneAPI from "api/VerifyPhoneAPI";
-import Loading from "components/shared-components/Loading";
+import { clearPhone, VerifyPhoneModal } from "components/PhoneVerification";
 import { showError } from "./showError";
 import { openInNewTab } from "./openOnce";
 import { sendMessage } from "hooks/useSendMessage";
@@ -410,16 +409,17 @@ function UserForm({ onFormClose }) {
   }
 
   function onSubmit(values) {
-    // if (verifyPhone) {
-    // 	setVerifing(true);
-    // } else {
-    // }
-    onFinish(values);
+    if (verifyPhone.verify) {
+      setVerifing(true);
+    } else {
+      onFinish(values).catch(showError);
+    }
   }
 
   const [form] = Form.useForm();
   function onFinish(values) {
     setLoading(true);
+    values.phone = clearPhone(values.phone);
 
     if (values.address?.addressLine?.length === 0) {
       delete values.address.addressLine;
@@ -429,30 +429,26 @@ function UserForm({ onFormClose }) {
     }
     values.address = isEmptyObject(values.address) ? undefined : values.address;
 
-    FetchResource.create(resources.users, values)
+    return FetchResource.create(resources.users, values)
       .then((user) => {
         setLoading(false);
+        setVerifing(false);
         onFormClose(user);
         message.success("Foydalanuvchi qo'shildi");
       })
       .catch((err) => {
         setLoading(false);
-        showError(err);
+        throw err;
       });
   }
 
   return (
     <Fragment>
       {verifyPhone.verify && verifyPhone.verifing && (
-        <VerifyPhone
-          phone={form.getFieldValue("phone")}
-          setCodeFinish={(code) => {
-            if (code) {
-              onFinish({ code: code, ...form.getFieldsValue() });
-            }
-
-            setVerifing(false);
-          }}
+        <VerifyPhoneModal
+          phone={clearPhone(form.getFieldValue("phone"))}
+          onCode={(code) => onFinish({ ...form.getFieldsValue(), code })}
+          onClose={() => setVerifing(false)}
         />
       )}
       <Modal
@@ -606,51 +602,6 @@ function UserForm({ onFormClose }) {
         </Form>
       </Modal>
     </Fragment>
-  );
-}
-function VerifyPhone({ phone, setCodeFinish }) {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    VerifyPhoneAPI(phone)
-      .then((r) => {
-        setLoading(false);
-      })
-      .catch(showError);
-
-    // eslint-disable-next-line
-  }, []);
-
-  return (
-    <Modal
-      okButtonProps={{ htmlType: "submit", form: "verify-phone" }}
-      open={true}
-      destroyOnClose
-      onCancel={() => setCodeFinish(0)}
-    >
-      <h3>Tasdiqlash kodi {phone} ga yuborildi.</h3>
-      {loading ? (
-        <Loading />
-      ) : (
-        <Form
-          className="c-rent color-bordered"
-          id="verify-phone"
-          style={{ fontSize: "30px !important" }}
-          layout="vertical"
-          onFinish={({ code }) => {
-            setCodeFinish(code);
-          }}
-        >
-          <Form.Item
-            rules={[{ required: true }]}
-            label={"Kodni kriting"}
-            name="code"
-          >
-            <InputNumber style={{ width: "100%" }} />
-          </Form.Item>
-        </Form>
-      )}
-    </Modal>
   );
 }
 function StockForm({ onFormClose }) {

@@ -7,6 +7,10 @@ import {
 } from "./utils";
 import { tl } from "i18n";
 import { Input, Radio, Tag } from "antd";
+import {
+	PhoneVerificationTag,
+	UserPhoneControl,
+} from "components/PhoneVerification";
 
 const UserStatusOpposite = {
 	1: "active",
@@ -114,6 +118,12 @@ export const users = {
 			dataIndex: "phone",
 		},
 		{
+			title: "Raqam tasdiqlangan",
+			key: "phoneVerified",
+			dataIndex: "phoneVerified",
+			render: (_, record) => <PhoneVerificationTag user={record} />,
+		},
+		{
 			title: "Qo'shimcha t.",
 			key: "extraPhone",
 			dataIndex: "extraPhone",
@@ -182,6 +192,12 @@ export const users = {
 			],
 			label: tl("phone"),
 			field: "phoneNumber",
+			// tahrirlashda asosiy raqam faqat alohida modal orqali o'zgaradi
+			hiddenOnEdit: true,
+		},
+		{
+			colSpan: 24,
+			Component: UserPhoneControl,
 		},
 		{
 			name: "gender",
