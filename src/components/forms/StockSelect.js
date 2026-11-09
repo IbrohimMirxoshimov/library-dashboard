@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { message, Select, Spin } from "antd";
-import { debounce } from "utils/debounce";
+import { cancelDebounce, debounce, uniqueDebounceKey } from "utils/debounce";
+import { matchesSearch } from "utils/search";
 import FetchResource from "api/crud";
 import { addNews } from "my-redux/actions/resource";
 import { resources } from "api/resources";
@@ -18,27 +19,47 @@ function StockSelect({
 }) {
 	const [loading, setLoading] = useState(false);
 	const [items, setItems] = useState([]);
+	// items qaysi qidiruv so'rovi natijasi (backend normallashtirib topgan - client filtrda yashirinmasin)
+	const [itemsQuery, setItemsQuery] = useState("");
+	const [debounceKey] = useState(() => uniqueDebounceKey("stock-select"));
+	// eskirgan javoblar yangisini bosib ketmasligi uchun
+	const requestRef = useRef(0);
 	const dispatch = useDispatch();
+
+	useEffect(
+		() => () => {
+			cancelDebounce(debounceKey);
+			requestRef.current += 1;
+		},
+		[debounceKey]
+	);
+
+	function load(query, forQuery) {
+		const requestId = ++requestRef.current;
+		setLoading(true);
+		FetchResource.getList(resource, query)
+			.then((page) => {
+				if (requestId !== requestRef.current) return;
+				dispatch(addNews(resources.stocks, page.items));
+				setItems(page.items);
+				setItemsQuery(forQuery);
+				setLoading(false);
+			})
+			.catch((e) => {
+				if (requestId !== requestRef.current) return;
+				message.error(e.message);
+				console.error(e);
+				setLoading(false);
+			});
+	}
+
 	function fetch(name) {
 		if (!fetchable) return;
 		if (!name) return;
 
 		debounce(
-			() => {
-				setLoading(true);
-
-				FetchResource.getList(resource, { q: name, filters: { busy: false } })
-					.then((page) => {
-						dispatch(addNews(resources.stocks, page.items));
-						setItems(page.items);
-						setLoading(false);
-					})
-					.catch((e) => {
-						message.error(e.message);
-						console.error(e);
-					});
-			},
-			"multiple-select-form-item",
+			() => load({ q: name, filters: { busy: false } }, name),
+			debounceKey,
 			500
 		);
 	}
@@ -47,24 +68,8 @@ function StockSelect({
 		if (!id || isNaN(parseInt(id))) return;
 
 		debounce(
-			() => {
-				setLoading(true);
-				FetchResource.getList(resource, {
-					id: [parseInt(id)],
-					filters: { busy: false },
-				})
-					.then((page) => {
-						dispatch(addNews(resources.stocks, page.items));
-						setItems(page.items);
-						setLoading(false);
-					})
-					.catch((e) => {
-						message.error(e.message);
-						console.error(e);
-						setLoading(false);
-					});
-			},
-			"multiple-select-form-item",
+			() => load({ id: [parseInt(id)], filters: { busy: false } }, null),
+			debounceKey,
 			500
 		);
 	}
@@ -84,9 +89,9 @@ function StockSelect({
 				loading={loading}
 				notFoundContent={loading && <Spin size="small" />}
 				onSearch={fetch}
-				filterOption={(input, option) => {
-					return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
-				}}
+				filterOption={(input, option) =>
+					itemsQuery === input || matchesSearch(option.label, input)
+				}
 				showSearch
 				onChange={onChangeInner}
 				value={value}

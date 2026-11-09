@@ -1,7 +1,8 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { message, Select, Spin } from "antd";
 import { addNews } from "my-redux/actions/resource";
-import { debounce } from "utils/debounce";
+import { cancelDebounce, debounce, uniqueDebounceKey } from "utils/debounce";
+import { matchesSearch } from "utils/search";
 import FetchResource from "api/crud";
 import { useResource } from "hooks/useResource";
 import store from "my-redux/store";
@@ -24,51 +25,58 @@ function SelectFetch({
 	...props
 }) {
 	const [loading, setLoading] = useState(false);
+	// oxirgi qidiruv so'rovi va backend topgan qiymatlar (backend normallashtirib,
+	// telefon/id bo'yicha ham topadi - ular client filtrda yashirinmasin)
+	const [found, setFound] = useState({ q: "", values: [] });
+	const [debounceKey] = useState(() => uniqueDebounceKey("select-fetch"));
+	// eskirgan javoblar yangisini bosib ketmasligi uchun
+	const requestRef = useRef(0);
 	const neededIds = useMemo(() => [value], [value]);
 	const items = useResource(resource, neededIds);
+
+	useEffect(
+		() => () => {
+			cancelDebounce(debounceKey);
+			requestRef.current += 1;
+		},
+		[debounceKey]
+	);
+
+	function load(query, onLoaded) {
+		const requestId = ++requestRef.current;
+		setLoading(true);
+		FetchResource.getList(resource, query)
+			.then((page) => {
+				if (requestId !== requestRef.current) return;
+				dispatch(addNews(resource, page.items));
+				onLoaded && onLoaded(page.items);
+				setLoading(false);
+			})
+			.catch((e) => {
+				if (requestId !== requestRef.current) return;
+				message.error(e.message);
+				console.error(e);
+				setLoading(false);
+			});
+	}
 
 	function fetch(name) {
 		if (!fetchable) return;
 		if (!name) return;
 
 		debounce(
-			() => {
-				setLoading(true);
-				FetchResource.getList(resource, { q: name, s: column, search: true })
-					.then((page) => {
-						dispatch(addNews(resource, page.items));
-						setLoading(false);
-					})
-					.catch((e) => {
-						message.error(e.message);
-						console.error(e);
-						setLoading(false);
-					});
-			},
-			"multiple-select-form-item",
+			() =>
+				load({ q: name, s: column, search: true }, (foundItems) =>
+					setFound({ q: name, values: foundItems.map(optionValueGetter) })
+				),
+			debounceKey,
 			500
 		);
 	}
 	function searchById(id) {
 		if (!id || isNaN(parseInt(id))) return;
 
-		debounce(
-			() => {
-				setLoading(true);
-				FetchResource.getList(resource, { id: [parseInt(id)] })
-					.then((page) => {
-						dispatch(addNews(resource, page.items));
-						setLoading(false);
-					})
-					.catch((e) => {
-						message.error(e.message);
-						console.error(e);
-						setLoading(false);
-					});
-			},
-			"multiple-select-form-item",
-			500
-		);
+		debounce(() => load({ id: [parseInt(id)] }), debounceKey, 500);
 	}
 	return (
 		<div className="d-flex w-100">
@@ -81,7 +89,8 @@ function SelectFetch({
 				notFoundContent={loading && <Spin size="small" />}
 				onSearch={fetch}
 				filterOption={(input, option) =>
-					option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+					(found.q === input && found.values.includes(option.value)) ||
+					matchesSearch(option.children, input)
 				}
 				showSearch
 				onChange={props.onChange}

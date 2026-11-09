@@ -1,4 +1,5 @@
 const tasks = {};
+let keySequence = 0;
 
 export function debounce(callBack, nameTask, duration = 1000) {
 	// get task
@@ -9,4 +10,15 @@ export function debounce(callBack, nameTask, duration = 1000) {
 
 	// set new task or update
 	tasks[nameTask] = setTimeout(callBack, duration);
+}
+
+export function cancelDebounce(nameTask) {
+	tasks[nameTask] && clearTimeout(tasks[nameTask]);
+	delete tasks[nameTask];
+}
+
+// Har bir komponent nusxasi uchun alohida kalit (bir-birining qidiruvini bekor qilmasin)
+export function uniqueDebounceKey(prefix) {
+	keySequence += 1;
+	return `${prefix}-${keySequence}`;
 }
