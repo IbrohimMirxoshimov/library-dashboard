@@ -1,4 +1,4 @@
-import { Alert, Button, Col, Form, Row, Skeleton, Switch, Tag } from "antd";
+import { Alert, Button, Col, Form, Row, Skeleton, Tag } from "antd";
 import Popconfirm from "antd/es/popconfirm";
 import FetchResource from "api/crud";
 import { resources } from "api/resources";
@@ -16,6 +16,7 @@ import {
 } from "./create-rent.utils";
 import { showError } from "./showError";
 import { UserActiveRents } from "./UserActiveRents";
+import { RentSettings, useMyLibrary } from "./RentSettings";
 import {
   VerifyPhoneModal,
   verifyUserPhone,
@@ -41,7 +42,9 @@ function CreateRent() {
   const selectedUserId = Form.useWatch("userId", form);
   // check-to-add javobidagi { required, phone, reason }
   const [phoneVerification, setPhoneVerification] = useState(null);
+  // sozlamalardagi switch. har bir ijaradan keyin yana yoqiladi
   const [smsVerification, setSmsVerification] = useState(true);
+  const library = useMyLibrary();
   const [verifyModalValues, setVerifyModalValues] = useState(null);
   const phoneVerificationRequired = Boolean(phoneVerification?.required);
   const setDate = (d) => {
@@ -91,12 +94,8 @@ function CreateRent() {
 
   const createRent = (values) => {
     setLoading(true);
-    FetchResource.create("rents", {
-      ...values,
-      ...(phoneVerificationRequired && !smsVerification
-        ? { smsVerification: false }
-        : {}),
-    })
+    // switch qiymati doim yuboriladi: false bo'lsa backend raqamni tekshirmaydi
+    FetchResource.create("rents", { ...values, smsVerification })
       .then((data) => {
         dispatch(newRent());
         const users = store.getState().users.items;
@@ -147,7 +146,7 @@ function CreateRent() {
         setPhoneVerification(null);
         console.log(err.response.data);
 
-        setError(err.response.data?.message || "");
+        setError(String(err.response?.data?.message || "").trim());
       })
       .finally(() => {
         setLoading(false);
@@ -169,7 +168,6 @@ function CreateRent() {
           onValuesChange={(changedValues, allValues) => {
             if ("userId" in changedValues) {
               setPhoneVerification(null);
-              setSmsVerification(true);
             }
             if (
               (changedValues.stockId || changedValues.userId) &&
@@ -189,7 +187,15 @@ function CreateRent() {
             name="userId"
             className="mb-1"
           >
-            <SelectUserAndUserHistory />
+            <SelectUserAndUserHistory
+              extra={
+                <RentSettings
+                  library={library}
+                  smsVerification={smsVerification}
+                  setSmsVerification={setSmsVerification}
+                />
+              }
+            />
           </Form.Item>
 
           <div className="mb-3 mt-2">
@@ -230,13 +236,10 @@ function CreateRent() {
                     <span
                       className="text-danger"
                       style={{
-                        // ellipses
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                        maxWidth: "100%",
                         display: "block",
-                        width: "100%",
+                        marginTop: 4,
+                        whiteSpace: "pre-line",
+                        wordBreak: "break-word",
                         textAlign: "left",
                       }}
                     >
@@ -316,34 +319,6 @@ function CreateRent() {
               </Form.Item>
             </Col>
           </Row>
-          {phoneVerificationRequired && (
-            <Alert
-              className="mb-3"
-              type={smsVerification ? "warning" : "error"}
-              showIcon
-              message={
-                PHONE_VERIFICATION_REASONS[phoneVerification.reason] ||
-                PHONE_VERIFICATION_REASONS.not_verified
-              }
-              description={
-                <div>
-                  <div className="mb-2">
-                    {smsVerification
-                      ? `Saqlashda +998 ${phoneVerification.phone} raqamiga SMS kod yuboriladi.`
-                      : "Ijara raqam tasdiqlanmasdan qo'shiladi."}
-                  </div>
-                  <Switch
-                    checked={smsVerification}
-                    onChange={setSmsVerification}
-                    className="mr-2"
-                  />
-                  {smsVerification
-                    ? "SMS bilan tasdiqlash"
-                    : "Tasdiqlashsiz beriladi"}
-                </div>
-              }
-            />
-          )}
           <Form.Item>
             <Popconfirm
               title={<h2>Kitobxon va kitob to'g'rimi?</h2>}
@@ -370,6 +345,18 @@ function CreateRent() {
               </Button>
             </Popconfirm>
           </Form.Item>
+          {phoneVerificationRequired && smsVerification && (
+            <Alert
+              className="mb-3"
+              type="warning"
+              showIcon
+              message={
+                PHONE_VERIFICATION_REASONS[phoneVerification.reason] ||
+                PHONE_VERIFICATION_REASONS.not_verified
+              }
+              description={`Saqlashda +998 ${phoneVerification.phone} raqamiga SMS kod yuboriladi.`}
+            />
+          )}
           <UserActiveRents userId={selectedUserId} />
         </Form>
         {verifyModalValues && (

@@ -110,7 +110,7 @@ function OpenUserEditForm({ userId }) {
   );
 }
 
-export function SelectUserAndUserHistory({ onChange, value }) {
+export function SelectUserAndUserHistory({ onChange, value, extra }) {
   return (
     <div className="d-flex">
       <SelectFetch
@@ -128,6 +128,7 @@ export function SelectUserAndUserHistory({ onChange, value }) {
       />
       <OpenUserHistory userId={value} />
       <OpenUserEditForm userId={value} />
+      {extra}
     </div>
   );
 }

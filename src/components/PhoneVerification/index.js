@@ -2,7 +2,7 @@ import { Button, Form, Input, Modal, Switch, Tag, message } from "antd";
 import mainCaller from "api/main";
 import VerifyPhoneAPI from "api/VerifyPhoneAPI";
 import PhoneNumber from "components/forms/PhoneNumber";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { showError } from "views/app-views/CreateRent/showError";
 
 // backend bilan bir xil: kitob olishda raqam shuncha oyda qayta tasdiqlanadi
@@ -12,6 +12,107 @@ export function clearPhone(phone) {
   return String(phone || "")
     .replace(/\D/g, "")
     .slice(-9);
+}
+
+// 998843566 -> "99 884 35 66"
+export function formatPhone(phone) {
+  const p = clearPhone(phone);
+  if (p.length !== 9) return phone || "";
+
+  return `${p.slice(0, 2)} ${p.slice(2, 5)} ${p.slice(5, 7)} ${p.slice(7)}`;
+}
+
+const CODE_LENGTH = 4;
+
+// 4 ta alohida katak. to'lganda onComplete chaqiriladi
+function CodeInput({ onChange, onComplete }) {
+  const refs = useRef([]);
+  // o'rtadagi bo'sh katak o'rni saqlanishi uchun massiv alohida turadi
+  const [digits, setDigitsState] = useState(() => Array(CODE_LENGTH).fill(""));
+
+  function focus(i) {
+    const input = refs.current[Math.max(0, Math.min(CODE_LENGTH - 1, i))];
+    if (!input) return;
+    input.focus();
+    input.select && input.select();
+  }
+
+  function setDigits(next, focusIndex) {
+    setDigitsState(next);
+    const code = next.join("");
+    onChange && onChange(code);
+    if (focusIndex !== undefined) focus(focusIndex);
+    if (!next.includes("")) {
+      onComplete && onComplete(code);
+    }
+  }
+
+  function onInput(i, raw) {
+    let typed = raw.replace(/\D/g, "");
+    if (!typed) return;
+    // to'la katakka yozilsa eski raqam o'rniga yangisi qo'yiladi
+    if (digits[i] && typed.length === 2) {
+      typed = typed[0] === digits[i] ? typed[1] : typed[0];
+    }
+
+    const next = [...digits];
+    // bir nechta raqam (paste yoki autofill) bo'lsa keyingi kataklarga yoyiladi
+    typed
+      .slice(0, CODE_LENGTH - i)
+      .split("")
+      .forEach((d, j) => (next[i + j] = d));
+    setDigits(next, i + typed.length);
+  }
+
+  function onKeyDown(i, e) {
+    if (e.key === "Backspace") {
+      e.preventDefault();
+      const next = [...digits];
+      if (next[i]) {
+        next[i] = "";
+        setDigits(next, i);
+      } else if (i > 0) {
+        next[i - 1] = "";
+        setDigits(next, i - 1);
+      }
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      focus(i - 1);
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      focus(i + 1);
+    }
+  }
+
+  return (
+    <div className="d-flex justify-content-center" style={{ gap: 12 }}>
+      {digits.map((digit, i) => (
+        <Input
+          key={i}
+          ref={(el) => (refs.current[i] = el)}
+          autoFocus={i === 0}
+          value={digit}
+          inputMode="numeric"
+          autoComplete={i === 0 ? "one-time-code" : "off"}
+          onChange={(e) => onInput(i, e.target.value)}
+          onKeyDown={(e) => onKeyDown(i, e)}
+          onFocus={(e) => e.target.select()}
+          onPaste={(e) => {
+            e.preventDefault();
+            onInput(i, e.clipboardData.getData("text"));
+          }}
+          style={{
+            width: 56,
+            height: 64,
+            fontSize: 28,
+            fontWeight: 600,
+            textAlign: "center",
+            borderRadius: 8,
+          }}
+        />
+      ))}
+    </div>
+  );
 }
 
 export function getPhoneVerificationInfo(user) {
@@ -40,6 +141,7 @@ export function PhoneVerificationTag({ user }) {
  * `onCode` promise qaytarsa, tugaguncha OK tugmasi loading bo'ladi.
  */
 export function VerifyPhoneModal({ phone, title, onCode, onClose }) {
+  const [form] = Form.useForm();
   const [sending, setSending] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
@@ -56,6 +158,7 @@ export function VerifyPhoneModal({ phone, title, onCode, onClose }) {
   }, []);
 
   function onFinish({ code }) {
+    if (submitting) return;
     setSubmitting(true);
     Promise.resolve(onCode(code))
       .catch(showError)
@@ -77,24 +180,30 @@ export function VerifyPhoneModal({ phone, title, onCode, onClose }) {
       }}
       onCancel={onClose}
     >
-      <h3>Tasdiqlash kodi +998 {phone} ga yuborildi.</h3>
-      <Form id="verify-phone" layout="vertical" onFinish={onFinish}>
+      <p className="text-center mb-4" style={{ fontSize: 16 }}>
+        Tasdiqlash kodi <b>+998 {formatPhone(phone)}</b> raqamiga yuborildi
+      </p>
+      <Form form={form} id="verify-phone" onFinish={onFinish}>
         <Form.Item
-          rules={[{ required: true, pattern: /^\d{4}$/, message: "4 xonali kod" }]}
-          label="Kodni kiriting"
           name="code"
+          className="mb-2"
+          rules={[
+            {
+              required: true,
+              pattern: /^\d{4}$/,
+              message: "4 xonali kodni kiriting",
+            },
+          ]}
+          style={{ textAlign: "center" }}
         >
-          <Input
-            autoFocus
-            inputMode="numeric"
-            maxLength={4}
-            style={{ fontSize: 24, letterSpacing: 8 }}
-          />
+          <CodeInput onComplete={() => form.submit()} />
         </Form.Item>
       </Form>
-      <Button type="link" className="p-0" loading={sending} onClick={send}>
-        Kodni qayta yuborish
-      </Button>
+      <div className="text-center">
+        <Button type="link" loading={sending} onClick={send}>
+          Kodni qayta yuborish
+        </Button>
+      </div>
     </Modal>
   );
 }
@@ -149,7 +258,7 @@ export function ChangePhoneModal({ user, onDone, onClose }) {
         onCancel={onClose}
       >
         <p>
-          Hozirgi raqam: <b>+998 {user.phone}</b>
+          Hozirgi raqam: <b>+998 {formatPhone(user.phone)}</b>
         </p>
         <Form
           form={form}
@@ -213,7 +322,7 @@ export function UserPhoneControl({ data }) {
     <div className="mb-3">
       <div className="mb-1">Asosiy raqam</div>
       <div className="d-flex align-items-center flex-wrap" style={{ gap: 8 }}>
-        <b>+998 {user.phone}</b>
+        <b>+998 {formatPhone(user.phone)}</b>
         <PhoneVerificationTag user={user} />
         <Button size="small" onClick={() => setModal("change")}>
           O'zgartirish
