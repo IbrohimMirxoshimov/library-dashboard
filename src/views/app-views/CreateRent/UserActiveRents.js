@@ -1,8 +1,8 @@
-import { Card, Skeleton, Tag } from "antd";
+import { Alert, Card, Skeleton, Tag } from "antd";
 import FetchResource from "api/crud";
 import { resources } from "api/resources";
 import { useResourceObject } from "hooks/useResource";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 // kitobxonning hozir qo'lidagi kitoblari
@@ -41,12 +41,30 @@ export function UserActiveRents({ userId }) {
 
   if (!userId) return null;
 
+  // boshqa kutubxonalardagi bloklar - faqat ogohlantirish, ijara berish mumkin
+  const otherBlocks = user?.otherLibraryBlocks || [];
+
   const title = rents.length
     ? `${fullName} qo'lidagi kitoblar, jami ${rents.length} ta`
     : `${fullName} qo'lidagi kitoblar`;
 
   return (
-    <Card size="small" title={title} className="mb-3">
+    <Fragment>
+      {otherBlocks.length > 0 && (
+        <Alert
+          className="mb-3"
+          type="warning"
+          showIcon
+          message="Kitobxon boshqa kutubxonada bloklangan"
+          description={otherBlocks.map((block) => (
+            <div key={block.locationId}>
+              <b>{block.name}</b>
+              {block.blockingReason ? `: ${block.blockingReason}` : ""}
+            </div>
+          ))}
+        />
+      )}
+      <Card size="small" title={title} className="mb-3">
       {loading && !rents.length ? (
         <Skeleton active paragraph={{ rows: 1 }} title={false} />
       ) : !rents.length ? (
@@ -63,6 +81,7 @@ export function UserActiveRents({ userId }) {
           </div>
         ))
       )}
-    </Card>
+      </Card>
+    </Fragment>
   );
 }
