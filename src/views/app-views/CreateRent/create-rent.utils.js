@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Col,
   Form,
@@ -41,6 +42,8 @@ import { showError } from "./showError";
 import { openInNewTab } from "./openOnce";
 import { sendMessage } from "hooks/useSendMessage";
 import { PASSPORT_PATTERN } from "configs/route/utils";
+import mainCaller from "api/main";
+import moment from "moment";
 
 export const openNotification = (userName, bookName) => {
   notification.success({
@@ -338,9 +341,10 @@ export function RightTools({ form, onSelectUser }) {
   const [activeForm, setActiveForm] = useState();
   const dispatch = useDispatch();
 
-  const onUserFormClose = (user) => {
+  // isNew=false - kutubxonada allaqachon bor kitobxon tanlandi
+  const onUserFormClose = (user, { isNew = true } = {}) => {
     if (user) {
-      dispatch(newUser());
+      if (isNew) dispatch(newUser());
       dispatch(addNews(resources.users, [user]));
       form.setFieldsValue({ userId: user.id });
     }
@@ -395,6 +399,125 @@ export function RightTools({ form, onSelectUser }) {
 const rules = {
   required: [{ required: true }],
 };
+
+function lookupUser(passportId, birthDate) {
+  const query = new URLSearchParams({ passportId, birthDate }).toString();
+  return mainCaller(`/users/lookup?${query}`, "GET");
+}
+
+function linkUser(user_id, data) {
+  return mainCaller(`/users/${user_id}/link`, "POST", data);
+}
+
+// passport + tug'ilgan sana to'liq kiritilganda bazadan qidiradi
+function useExistingUser(form) {
+  const passportId = Form.useWatch("passportId", form);
+  const birthDate = Form.useWatch("birthDate", form);
+  const [state, setState] = useState(null);
+
+  useEffect(() => {
+    setState(null);
+    const passport = (passportId || "").toUpperCase();
+    if (!PASSPORT_PATTERN.test(passport) || !birthDate) return;
+
+    const params = {
+      passportId: passport,
+      birthDate: moment(birthDate).format("YYYY-MM-DD"),
+    };
+    let stale = false;
+    lookupUser(params.passportId, params.birthDate)
+      .then((result) => !stale && setState({ ...result, params }))
+      .catch(console.error);
+
+    return () => {
+      stale = true;
+    };
+  }, [passportId, birthDate]);
+
+  return state;
+}
+
+function ExistingUserAlert({ existing, onFormClose }) {
+  const [loading, setLoading] = useState(false);
+
+  if (!existing) return null;
+
+  if (!existing.found) {
+    if (!existing.passportExists) return null;
+
+    return (
+      <Alert
+        className="mb-3"
+        type="error"
+        showIcon
+        message="Bu passport bazada boshqa tug'ilgan sana bilan mavjud"
+        description="Passport seriyasi va tug'ilgan sanani tekshiring"
+      />
+    );
+  }
+
+  const { user, libraries, linked } = existing;
+  const fullName = `${user.firstName} ${user.lastName || ""}`.trim();
+
+  function onLink() {
+    setLoading(true);
+    linkUser(user.id, existing.params)
+      .then((linkedUser) => {
+        message.success(`${fullName} kutubxonangizga ulandi`);
+        onFormClose(linkedUser);
+      })
+      .catch((err) => {
+        setLoading(false);
+        showError(err);
+      });
+  }
+
+  function onSelect() {
+    setLoading(true);
+    FetchResource.getOne(resources.users, user.id)
+      .then((record) => onFormClose(record, { isNew: false }))
+      .catch((err) => {
+        setLoading(false);
+        showError(err);
+      });
+  }
+
+  return (
+    <Alert
+      className="mb-3"
+      type={linked ? "info" : "warning"}
+      showIcon
+      message={
+        linked
+          ? "Bu kitobxon allaqachon kutubxonangizda bor"
+          : "Bu kitobxon bazada mavjud"
+      }
+      description={
+        <Fragment>
+          <div>
+            <b>{fullName}</b>
+          </div>
+          <div>
+            Kutubxonalar: {libraries.map((l) => l.name).join(", ") || "-"}
+          </div>
+          {!linked && <div>Sizning kutubxonangizga ham qo'shilsinmi?</div>}
+        </Fragment>
+      }
+      action={
+        linked ? (
+          <Button loading={loading} onClick={onSelect}>
+            Tanlash
+          </Button>
+        ) : (
+          <Button type="primary" loading={loading} onClick={onLink}>
+            Ulash
+          </Button>
+        )
+      }
+    />
+  );
+}
+
 function UserForm({ onFormClose }) {
   const [loading, setLoading] = useState(false);
   const [verifyPhone, setVerifyPhone] = useState({
@@ -418,6 +541,11 @@ function UserForm({ onFormClose }) {
   }
 
   const [form] = Form.useForm();
+  const existing = useExistingUser(form);
+  const blockedByExisting = Boolean(
+    existing?.found || existing?.passportExists
+  );
+
   function onFinish(values) {
     setLoading(true);
     values.phone = clearPhone(values.phone);
@@ -464,7 +592,7 @@ function UserForm({ onFormClose }) {
             </Button>
             <Button
               className="big"
-              disabled={loading}
+              disabled={loading || blockedByExisting}
               loading={loading}
               htmlType="submit"
               type="primary"
@@ -475,6 +603,7 @@ function UserForm({ onFormClose }) {
           </div>
         }
       >
+        <ExistingUserAlert existing={existing} onFormClose={onFormClose} />
         <Form
           form={form}
           className="c-rent"
