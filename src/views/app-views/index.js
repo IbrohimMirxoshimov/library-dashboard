@@ -10,6 +10,7 @@ import pagesConfig from "configs/route/pagesConfig";
 import Dashboard from "./dashboard";
 import CreateRent from "./CreateRent";
 import Messages from "./Messages";
+import Donations from "./Donations";
 
 export const AppViews = () => {
   const user = useSelector((state) => state.auth.user);
@@ -20,6 +21,9 @@ export const AppViews = () => {
         <Route path={`${APP_PREFIX_PATH}/dashboard`} component={Dashboard} />
         <Route path={`${APP_PREFIX_PATH}/create-rent`} component={CreateRent} />
         <Route path={`${APP_PREFIX_PATH}/messages`} component={Messages} />
+        {user.owner && (
+          <Route path={`${APP_PREFIX_PATH}/donations`} component={Donations} />
+        )}
         {navigationConfig[0].submenu
           .filter((config) => !config.role || user[config.role])
           .map((config, key) => {

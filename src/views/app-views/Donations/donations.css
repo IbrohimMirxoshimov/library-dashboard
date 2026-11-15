@@ -1,0 +1,50 @@
+.don-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.don-location {
+  min-width: 200px;
+}
+
+.don-table {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.don-table__filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.don-table__amount {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.don-table__amount .ant-input-number {
+  width: 140px;
+}
+
+.don-amount--in {
+  color: #1f9d6b;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.don-amount--out {
+  color: #d64545;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+@media (max-width: 576px) {
+  .don-location {
+    width: 100%;
+  }
+  .don-table__amount .ant-input-number {
+    width: 120px;
+  }
+}

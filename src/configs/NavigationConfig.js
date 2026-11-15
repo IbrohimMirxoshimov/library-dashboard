@@ -123,6 +123,14 @@ const dashBoardNavTree = {
       submenu: [],
     },
     {
+      key: "donations",
+      path: `${APP_PREFIX_PATH}/donations`,
+      title: "Hissalar",
+      icon: "WalletOutlined",
+      role: roles.owner,
+      submenu: [],
+    },
+    {
       key: "regions",
       path: `${APP_PREFIX_PATH}/regions`,
       title: "Hududlar",

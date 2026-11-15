@@ -11,6 +11,7 @@ import {
   BankOutlined,
   BarChartOutlined,
   MessageOutlined,
+  WalletOutlined,
 } from "@ant-design/icons";
 
 const Icons = {
@@ -26,6 +27,7 @@ const Icons = {
   PlusCircleOutlined,
   BarChartOutlined,
   MessageOutlined,
+  WalletOutlined,
 };
 
 export default Icons;
