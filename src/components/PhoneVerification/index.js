@@ -3,6 +3,7 @@ import mainCaller from "api/main";
 import VerifyPhoneAPI from "api/VerifyPhoneAPI";
 import PhoneNumber from "components/forms/PhoneNumber";
 import { useEffect, useRef, useState } from "react";
+import { useMyLibrary } from "views/app-views/CreateRent/RentSettings";
 import { showError } from "views/app-views/CreateRent/showError";
 
 // backend bilan bir xil: kitob olishda raqam shuncha oyda qayta tasdiqlanadi
@@ -216,8 +217,9 @@ function changeUserPhone(user_id, data) {
   return mainCaller(`/users/${user_id}/phone`, "PUT", data);
 }
 
-// Asosiy raqam faqat shu modal orqali o'zgaradi
-export function ChangePhoneModal({ user, onDone, onClose }) {
+// Asosiy raqam faqat shu modal orqali o'zgaradi.
+// SMS tasdiqlash faqat kutubxonada (locations.smsVerification) yoqilgan bo'lsa chiqadi
+export function ChangePhoneModal({ user, smsEnabled, onDone, onClose }) {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [codePhone, setCodePhone] = useState(null);
@@ -240,7 +242,7 @@ export function ChangePhoneModal({ user, onDone, onClose }) {
     if (cleared === user.phone) {
       return message.warning("Raqam o'zgarmagan");
     }
-    if (smsVerification) {
+    if (smsEnabled && smsVerification) {
       return setCodePhone(cleared);
     }
     save(cleared).catch(showError);
@@ -282,14 +284,16 @@ export function ChangePhoneModal({ user, onDone, onClose }) {
           >
             <PhoneNumber autoFocus />
           </Form.Item>
-          <Form.Item
-            name="smsVerification"
-            label="SMS bilan tasdiqlash"
-            valuePropName="checked"
-            extra="O'chirilsa yangi raqam tasdiqlanmagan holda saqlanadi"
-          >
-            <Switch />
-          </Form.Item>
+          {smsEnabled && (
+            <Form.Item
+              name="smsVerification"
+              label="SMS bilan tasdiqlash"
+              valuePropName="checked"
+              extra="O'chirilsa yangi raqam tasdiqlanmagan holda saqlanadi"
+            >
+              <Switch />
+            </Form.Item>
+          )}
         </Form>
       </Modal>
       {codePhone && (
@@ -307,6 +311,8 @@ export function ChangePhoneModal({ user, onDone, onClose }) {
 export function UserPhoneControl({ data }) {
   const [user, setUser] = useState(data.record);
   const [modal, setModal] = useState(null);
+  const library = useMyLibrary();
+  const smsEnabled = !!library?.smsVerification;
 
   useEffect(() => setUser(data.record), [data.record]);
 
@@ -327,7 +333,7 @@ export function UserPhoneControl({ data }) {
         <Button size="small" onClick={() => setModal("change")}>
           O'zgartirish
         </Button>
-        {user.phone && !getPhoneVerificationInfo(user).verified && (
+        {smsEnabled && user.phone && !getPhoneVerificationInfo(user).verified && (
           <Button size="small" type="primary" onClick={() => setModal("verify")}>
             Tasdiqlash
           </Button>
@@ -336,6 +342,7 @@ export function UserPhoneControl({ data }) {
       {modal === "change" && (
         <ChangePhoneModal
           user={user}
+          smsEnabled={smsEnabled}
           onDone={onUpdated}
           onClose={() => setModal(null)}
         />
